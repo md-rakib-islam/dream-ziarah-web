@@ -1,16 +1,27 @@
 const Social = () => {
   return (
     <>
-      <a href="https://facebok.com/" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://facebok.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+      >
         <i className={`icon-facebook text-14`} />
       </a>
-      <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://twitter.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Twitter"
+      >
         <i className={`icon-twitter text-14`} />
       </a>
       <a
         href="https://instagram.com/"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Instagram"
       >
         <i className={`icon-instagram text-14`} />
       </a>
@@ -19,6 +30,7 @@ const Social = () => {
         target="_blank"
         rel="noopener noreferrer"
         style={{ marginTop: "-4.9px" }}
+        aria-label="Whatsapp"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -75,7 +75,11 @@ const Participants = ({
               textOverflow: "ellipsis",
             }}
           >
+            <label htmlFor="participantCount" className="visually-hidden">
+              Number of Participants
+            </label>
             <input
+              id="participantCount"
               type="text"
               className="form-control border-0 bg-transparent text-end fw-bold"
               style={{

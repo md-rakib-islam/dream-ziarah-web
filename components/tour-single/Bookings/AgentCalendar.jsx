@@ -491,7 +491,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         }}
       >
         <small className="text-muted">From</small>
-        <h4 className="mb-0 fw-bold">
+        <h3 className="mb-0 fw-bold">
           {currentCurrency?.symbol}
           {currentPriceOption && tourData ? (
             <>
@@ -509,7 +509,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
           ) : (
             "0.00"
           )}
-        </h4>
+        </h3>
         {currentPriceOption && tourData && (
           <small className="text-muted">
             {tourData.price_by_vehicle
@@ -523,7 +523,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
 
       {/* Booking Form */}
       <div className="p-3 bg-blue-6">
-        <h5 className="text-white mb-3 fw-bold">Select date & participants</h5>
+        <h4 className="text-white mb-3 fw-bold">Select date & participants</h4>
 
         {/* Tour Type Selection */}
         <TourType
