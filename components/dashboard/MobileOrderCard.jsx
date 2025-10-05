@@ -10,7 +10,28 @@ const CancelButtonOrStatus = ({
 }) => {
   const statusInfo = getCancellationRequestStatus(order);
 
-  if (statusInfo.showStatus) {
+  // Check if date change was approved - show replacement text instead
+  if (
+    order.date_change_request === false &&
+    order.date_change_request_status &&
+    order.date_change_request_status.toLowerCase() === "approved"
+  ) {
+    return (
+      <div className="text-center">
+        <span
+          className="text-success fw-semibold"
+          style={{ fontSize: "11px", cursor: "help" }}
+          title="Your tour date has been successfully changed. The new date is now confirmed and cancellation is no longer available for this booking."
+        >
+          <i className="icon-check-circle me-1"></i>
+          Date Updated
+        </span>
+      </div>
+    );
+  }
+
+  // Show active cancellation request status
+  if (statusInfo.showStatus && order.cancellation_request === true) {
     return (
       <div className="d-flex align-items-center justify-content-center">
         <div className="d-flex flex-column align-items-center">
@@ -30,19 +51,31 @@ const CancelButtonOrStatus = ({
   }
 
   if (canCancelOrder(order) && !isOrderDisabled(order)) {
+    const isDenied =
+      order.cancellation_status &&
+      order.cancellation_status.toLowerCase() === "denied";
+
     return (
-      <button
-        className="btn btn-outline-danger btn-sm"
-        onClick={(e) => onCancelClick(order, e)}
-        title="Cancel booking"
-        style={{
-          fontSize: "12px",
-          padding: "6px 12px",
-        }}
-      >
-        <i className="icon-x me-1"></i>
-        Cancel
-      </button>
+      <div className="d-flex flex-column align-items-center">
+        <button
+          className="btn btn-outline-danger btn-sm"
+          onClick={(e) => onCancelClick(order, e)}
+          title="Cancel booking"
+          style={{
+            fontSize: "12px",
+            padding: "6px 12px",
+          }}
+        >
+          <i className="icon-x me-1"></i>
+          Cancel
+        </button>
+        {isDenied && (
+          <small className="text-danger mt-1" style={{ fontSize: "9px" }}>
+            <i className="icon-x-circle me-1"></i>
+            Request was denied
+          </small>
+        )}
+      </div>
     );
   }
 
@@ -81,6 +114,25 @@ const ChangeDateButtonOrStatus = ({
           <small className="text-muted" style={{ fontSize: "9px" }}>
             {statusInfo.text}
           </small>
+
+          {/* Show button for denied requests */}
+          {statusInfo.showButton &&
+            statusInfo.status === "denied" &&
+            canChangeDate(order) &&
+            !isOrderDisabled(order) && (
+              <button
+                className="btn btn-outline-primary btn-sm bg-yellow-4 mt-1"
+                onClick={(e) => onDateChangeClick(order, e)}
+                title={statusInfo.tooltip}
+                style={{
+                  fontSize: "10px",
+                  padding: "2px 6px",
+                }}
+              >
+                <i className="icon-calendar me-1"></i>
+                Try Again
+              </button>
+            )}
         </div>
       </div>
     );

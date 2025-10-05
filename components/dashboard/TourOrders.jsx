@@ -189,6 +189,10 @@ export default function TourOrders({
     ) {
       return false;
     }
+    // Check if cancellation is eligible
+    if (!order.cancellation_eligible) {
+      return false;
+    }
     return order.status === "paid" || order.status === "pending";
   };
 
@@ -307,6 +311,14 @@ export default function TourOrders({
   // Event handlers
   const handleCancelClick = (order, e) => {
     e.stopPropagation();
+    console.log(
+      "Cancel clicked:",
+      order.booking_id,
+      "isDisabled:",
+      isOrderDisabled(order),
+      "canCancel:",
+      canCancelOrder(order)
+    );
     if (isOrderDisabled(order)) return;
     setSelectedOrderForCancel(order);
   };
@@ -360,7 +372,8 @@ export default function TourOrders({
       );
     }
 
-    if (statusInfo.showStatus) {
+    // Show active cancellation request status
+    if (statusInfo.showStatus && order.cancellation_request === true) {
       return (
         <div
           className={`text-center ${
@@ -384,19 +397,31 @@ export default function TourOrders({
     }
 
     if (canCancelOrder(order) && !isOrderDisabled(order)) {
+      const isDenied =
+        order.cancellation_status &&
+        order.cancellation_status.toLowerCase() === "denied";
+
       return (
-        <button
-          className="btn btn-outline-danger btn-sm"
-          onClick={(e) => handleCancelClick(order, e)}
-          title="Cancel booking"
-          style={{
-            fontSize: isDesktop ? "11px" : "12px",
-            padding: isDesktop ? "4px 8px" : "6px 12px",
-          }}
-        >
-          <i className="icon-x me-1"></i>
-          Cancel
-        </button>
+        <div className="d-flex flex-column align-items-center">
+          <button
+            className="btn btn-outline-danger btn-sm"
+            onClick={(e) => handleCancelClick(order, e)}
+            title="Cancel booking"
+            style={{
+              fontSize: isDesktop ? "11px" : "12px",
+              padding: isDesktop ? "4px 8px" : "6px 12px",
+            }}
+          >
+            <i className="icon-x me-1"></i>
+            Cancel
+          </button>
+          {isDenied && (
+            <small className="text-danger mt-1" style={{ fontSize: "9px" }}>
+              <i className="icon-x-circle me-1"></i>
+              Request was denied
+            </small>
+          )}
+        </div>
       );
     }
 
@@ -826,15 +851,13 @@ export default function TourOrders({
       </div>
 
       {/* Modals */}
-      {selectedOrderForCancel &&
-        !hasActiveCancellationRequest(selectedOrderForCancel) &&
-        !isOrderDisabled(selectedOrderForCancel) && (
-          <CancellationModal
-            order={selectedOrderForCancel}
-            onClose={() => setSelectedOrderForCancel(null)}
-            onCancel={handleCancelSubmit}
-          />
-        )}
+      {selectedOrderForCancel && (
+        <CancellationModal
+          order={selectedOrderForCancel}
+          onClose={() => setSelectedOrderForCancel(null)}
+          onCancel={handleCancelSubmit}
+        />
+      )}
 
       {selectedOrderForDateChange &&
         !hasActiveDateChangeRequest(selectedOrderForDateChange) &&

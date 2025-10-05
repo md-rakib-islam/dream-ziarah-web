@@ -259,7 +259,8 @@ export default function CancellationModal({ order, onClose }) {
           type: "danger",
           icon: "x-circle",
           title: "Cancellation Denied",
-          message: "According to our policies, you cannot cancel this booking.",
+          message:
+            "According to our policies, your Cancellation Request for this booking was denied.",
         };
       default:
         return null;
