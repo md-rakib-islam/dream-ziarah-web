@@ -28,20 +28,6 @@ const CheckoutPage = () => {
 
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
-  const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      try {
-        return JSON.parse(decodeURIComponent(parts.pop().split(";").shift()));
-      } catch (error) {
-        console.error("Error parsing cookie:", error);
-        return null;
-      }
-    }
-    return null;
-  };
-
   const validateField = (name, value) => {
     switch (name) {
       case "firstName":
@@ -112,14 +98,18 @@ const CheckoutPage = () => {
   useEffect(() => {
     const loadBookingData = () => {
       try {
-        const bookingInfo = getCookie("booking_info");
-        if (bookingInfo) {
+        // Get booking info from sessionStorage instead of cookies
+        const bookingInfoStr = sessionStorage.getItem("booking_info");
+        console.log("Booking Info from sessionStorage:", bookingInfoStr);
+
+        if (bookingInfoStr) {
+          const bookingInfo = JSON.parse(bookingInfoStr);
           setBookingData({
             ...bookingInfo,
             selectedDate: new Date(bookingInfo.selectedDate),
           });
         } else {
-          console.error("No booking data found in cookies");
+          console.error("No booking data found in sessionStorage");
         }
       } catch (error) {
         console.error("Error loading booking data:", error);
@@ -187,10 +177,9 @@ const CheckoutPage = () => {
   const getTimeRange = () => {
     if (!bookingData) return "";
 
-    const startTimeStr = bookingData.selectedTime; // e.g. "08:30 am"
-    const durationStr = bookingData.duration; // e.g. "4 hours"
+    const startTimeStr = bookingData.selectedTime;
+    const durationStr = bookingData.duration;
 
-    // Handle cases where selectedTime is null, undefined, or empty
     if (
       !startTimeStr ||
       typeof startTimeStr !== "string" ||
@@ -199,40 +188,36 @@ const CheckoutPage = () => {
       return "Time not selected";
     }
 
-    // Handle cases where duration is null, undefined, or empty
     if (
       !durationStr ||
       typeof durationStr !== "string" ||
       durationStr.trim() === ""
     ) {
-      return startTimeStr; // Just return the start time if no duration
+      return startTimeStr;
     }
 
     try {
-      // Parse duration number
       const durationMatch = durationStr.match(/(\d+)/);
       if (!durationMatch) {
-        return startTimeStr; // Just return start time if duration can't be parsed
+        return startTimeStr;
       }
       const hoursToAdd = parseInt(durationMatch[1]);
 
-      // Parse start time
       const timeParts = startTimeStr.split(" ");
       if (timeParts.length < 2) {
-        return startTimeStr; // Return as-is if format is unexpected
+        return startTimeStr;
       }
 
-      const [time, modifier] = timeParts; // ["08:30", "am"]
+      const [time, modifier] = timeParts;
       const timeSplit = time.split(":");
       if (timeSplit.length < 2) {
-        return startTimeStr; // Return as-is if time format is unexpected
+        return startTimeStr;
       }
 
       let [hours, minutes] = timeSplit.map(Number);
 
-      // Validate parsed numbers
       if (isNaN(hours) || isNaN(minutes)) {
-        return startTimeStr; // Return as-is if parsing failed
+        return startTimeStr;
       }
 
       if (modifier.toLowerCase() === "pm" && hours !== 12) hours += 12;
@@ -241,12 +226,10 @@ const CheckoutPage = () => {
       const startDate = new Date();
       startDate.setHours(hours, minutes);
 
-      // Add duration
       const endDate = new Date(
         startDate.getTime() + hoursToAdd * 60 * 60 * 1000
       );
 
-      // Format back to hh:mm am/pm
       const endHours = endDate.getHours();
       const endMinutes = endDate.getMinutes().toString().padStart(2, "0");
       const endModifier = endHours >= 12 ? "pm" : "am";
@@ -257,7 +240,7 @@ const CheckoutPage = () => {
       return `${startTimeStr} - ${endTimeStr}`;
     } catch (error) {
       console.error("Error calculating time range:", error);
-      return startTimeStr || "Time not available"; // Fallback
+      return startTimeStr || "Time not available";
     }
   };
 
@@ -365,46 +348,34 @@ const CheckoutPage = () => {
       if (response.ok) {
         const result = await response.json();
 
-        // Check if there's a checkout_url in the response
         if (result.checkout_url) {
-          // Open checkout URL in a new tab/window
           const checkoutWindow = window.open(result.checkout_url, "_blank");
 
-          // For mobile devices (iPhone Safari), ensure the URL opens properly
           if (
             !checkoutWindow ||
             checkoutWindow.closed ||
             typeof checkoutWindow.closed == "undefined"
           ) {
-            // Fallback: redirect current window if popup was blocked
             window.location.href = result.checkout_url;
             return;
           }
 
-          // Clear cookies after opening checkout
-          document.cookie =
-            "booking_info=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-          document.cookie =
-            "channel_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          // Clear sessionStorage after opening checkout
+          sessionStorage.removeItem("booking_info");
+          sessionStorage.removeItem("channel_id");
 
-          // Redirect current page to home after a short delay
           setTimeout(() => {
-            window.location.href = "/"; // Redirect to home page
+            window.location.href = "/";
           }, 1000);
 
-          // Show success message
           alert("Redirecting to payment gateway...");
         } else {
-          // Fallback for responses without checkout_url
           alert("Payment successful! Booking confirmed.");
 
-          // Clear cookies after successful payment
-          document.cookie =
-            "booking_info=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-          document.cookie =
-            "channel_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          // Clear sessionStorage after successful payment
+          sessionStorage.removeItem("booking_info");
+          sessionStorage.removeItem("channel_id");
 
-          // Redirect to home
           window.location.href = "/";
         }
       } else {
@@ -801,7 +772,6 @@ const CheckoutPage = () => {
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <span></span>
                     <h5 className="mb-0">
-                      {/* ${bookingData.totalPrice.toFixed(2)} */}
                       {`${currentCurrency?.symbol}${convertCurrency(
                         parseFloat(bookingData.totalPrice),
                         "USD",
@@ -809,16 +779,6 @@ const CheckoutPage = () => {
                       )}`}
                     </h5>
                   </div>
-                  {/* 
-                  <div className="mb-3">
-                    <a
-                      href="#"
-                      className="text-primary text-decoration-none"
-                      style={{ fontSize: "14px" }}
-                    >
-                      Enter gift or promo code
-                    </a>
-                  </div> */}
 
                   <div className="border-top pt-3">
                     <div className="d-flex justify-content-between align-items-center">

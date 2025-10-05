@@ -36,19 +36,11 @@ const BookingPreview = ({
   //currency
   const { currentCurrency } = useSelector((state) => state.currency);
 
-  const setCookie = (name, value, days = 1) => {
-    const expires = new Date();
-    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${encodeURIComponent(
-      JSON.stringify(value)
-    )};expires=${expires.toUTCString()};path=/`;
-  };
-
   const handleBookNow = async () => {
     setIsBooking(true);
 
     try {
-      // Store all booking information in cookies
+      // Store all booking information in sessionStorage
       const bookingInfo = {
         tourId,
         tourName,
@@ -67,9 +59,9 @@ const BookingPreview = ({
         url,
       };
 
-      // Set cookies with booking information
-      setCookie("booking_info", bookingInfo, 1); // Expires in 1 day
-      setCookie("channel_id", "12130", 1);
+      // Use sessionStorage instead of cookies (no size limit issues)
+      sessionStorage.setItem("booking_info", JSON.stringify(bookingInfo));
+      sessionStorage.setItem("channel_id", "12130");
 
       router.push("/checkout");
     } catch (error) {
@@ -131,19 +123,6 @@ const BookingPreview = ({
           </p>
         </div>
 
-        {/* Customisation Section */}
-        {/* <div className="mb-3">
-          <p className="mb-1 text-muted" style={{ fontSize: "14px" }}>
-            Customisation
-          </p>
-          <p
-            className="mb-1 fw-bold"
-            style={{ color: "#333", fontSize: "16px" }}
-          >
-            {getTimeRange()}
-          </p>
-        </div> */}
-
         {/* Duration */}
         <div className="mb-4">
           <p className="mb-1 text-muted" style={{ fontSize: "14px" }}>
@@ -183,10 +162,9 @@ const BookingPreview = ({
         <div
           className="d-flex justify-content-between align-items-center pt-3 border-top"
           style={{
-            backgroundColor: "#e6f0ff", // light blue
+            backgroundColor: "#e6f0ff",
             padding: "12px 16px",
             height: "auto",
-            borderTop: "1px solid #e9ecef",
             borderTop: "3px solid #007bff",
           }}
         >
