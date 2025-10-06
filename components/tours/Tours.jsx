@@ -37,9 +37,7 @@ const Tours = ({ filterLocation }) => {
 
     if (dayTourPriceList && dayTourPriceList.length > 0) {
       // Always pick the "With Guide" option
-      const priceOption = dayTourPriceList.find(
-        (item) => item.guide === "With Guide"
-      );
+      const priceOption = dayTourPriceList[0];
 
       if (!priceOption) return "0.00";
 

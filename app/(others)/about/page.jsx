@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import Brand from "@/components/brand/Brand";
 import Counter from "@/components/counter/Counter";
 import Counter2 from "@/components/counter/Counter2";
+import { getAlternates } from "@/utils/canonical";
 
 const WhyChoose = dynamic(() => import("@/components/home/home-3/WhyChoose"));
 const Testimonial = dynamic(() =>
@@ -13,6 +14,7 @@ export const metadata = {
   title: "About Dream Ziarah | Your Trusted Partner in Spiritual Journeys",
   description:
     "Learn about Dream Ziarah, your premier guide for Ziyarat, Umrah, and Hajj in Saudi Arabia. Discover our passion for facilitating unforgettable spiritual journeys and how we ensure a deeply enriching pilgrimage experience.",
+  alternates: getAlternates('/about'),
 };
 
 const About = () => {

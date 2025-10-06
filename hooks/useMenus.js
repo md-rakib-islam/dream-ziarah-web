@@ -7,9 +7,9 @@ const useMenus = () => {
     if (
       item.name === "About" ||
       item.name === "Contact" ||
-      item.name === "Tour" ||
-      item.name === "Blog"
-      // item.name === "Tours"
+      // item.name === "Tour" ||
+      item.name === "Blog" ||
+      item.name === "Tours"
     ) {
       return false;
     }

@@ -1,11 +1,13 @@
 import Address from "@/components/block/Address";
 import ContactForm from "@/components/common/ContactForm";
 import Social from "@/components/common/social/Social";
+import { getAlternates } from "@/utils/canonical";
 
 export const metadata = {
   title: "Contact Dream Ziarah | Get in Touch for Your Spiritual Journey",
   description:
-    "Ready to plan your spiritual journey? Contact Dream Ziarah today. Whether you’re interested in Ziyarat, Umrah, or Hajj packages, our team is here to provide guidance and support every step of the way.",
+    "Ready to plan your spiritual journey? Contact Dream Ziarah today. Whether you're interested in Ziyarat, Umrah, or Hajj packages, our team is here to provide guidance and support every step of the way.",
+  alternates: getAlternates('/contact'),
 };
 
 const Contact = () => {
@@ -21,7 +23,7 @@ const Contact = () => {
       <div className="map-outer">
         <div className="map-canvas">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3714.3610585104984!2d39.81982877439845!3d21.415048774400667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c205018b9a80af%3A0xd9d4563a691a241b!2sHotel%20Mohammed%20Abdullah%20Al-Ghammas!5e0!3m2!1sen!2sbd!4v1700576126933!5m2!1sen!2sbd"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1882868.0430391028!2d38.62291738575171!3d22.82184846549868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4d4909afc35ab625%3A0xa40e2eb57095cae9!2sDream%20Ziarah!5e0!3m2!1sen!2sbd!4v1759732167798!5m2!1sen!2sbd"
             loading="eager"
           ></iframe>
         </div>
