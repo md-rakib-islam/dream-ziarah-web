@@ -1,8 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUserThunk } from "@/features/auth/authSlice";
+import { useAuth } from "@/context/AuthContext";
 import { useGetLogoUrlQuery } from "@/features/site-setting/siteSettingApi";
 import Image from "next/image";
 import Link from "next/link";
@@ -32,10 +31,9 @@ export default function LoginPage() {
   });
 
   const router = useRouter();
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { login, isAuthenticated, loading: authLoading } = useAuth();
 
-  // Logo query
+  // Logo query (keeping Redux for this)
   const {
     data: logoData,
     isSuccess: logoSuccess,
@@ -47,11 +45,13 @@ export default function LoginPage() {
     logoUrl = `${logoData?.general_settings[0].cloudflare_favicon}`;
   }
 
-  if (isAuthenticated) {
-    router.push("/dashboard");
-    router.refresh();
-    return null;
-  }
+  // Redirect if authenticated (but not during initial loading)
+  useEffect(() => {
+    if (isAuthenticated && !isLoading) {
+      router.push("/dashboard");
+      router.refresh();
+    }
+  }, [isAuthenticated, isLoading, router]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -82,16 +82,14 @@ export default function LoginPage() {
     }
 
     try {
-      const resultAction = await dispatch(
-        loginUserThunk({ username: username.trim(), password })
-      );
+      const result = await login(username.trim(), password);
 
-      if (loginUserThunk.fulfilled.match(resultAction)) {
+      if (result.success) {
         router.push("/dashboard");
         router.refresh();
       } else {
         setError(
-          resultAction.payload || "Login failed. Please check your credentials."
+          result.error || "Login failed. Please check your credentials."
         );
       }
     } catch (err) {
@@ -100,6 +98,20 @@ export default function LoginPage() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

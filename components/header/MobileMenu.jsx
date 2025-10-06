@@ -7,20 +7,18 @@ import useMenus from "@/hooks/useMenus";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
 import { isActiveLink } from "../../utils/linkActiveChecker";
-import { logoutUserThunk } from "@/features/auth/authSlice";
 import Social from "../common/social/Social";
 import ContactInfo from "./ContactInfo";
-import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "@/context/AuthContext";
 
 const MobileMenu = () => {
-  const dispatch = useDispatch();
   const pathname = usePathname();
   const router = useRouter();
   const menuItems = useMenus();
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
 
   const handleLogout = async () => {
-    await dispatch(logoutUserThunk());
+    await logout();
     router.push("/login");
   };
 

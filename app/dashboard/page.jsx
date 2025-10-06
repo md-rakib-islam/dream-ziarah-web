@@ -1,16 +1,14 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import OrderDetails from "@/components/dashboard/OrderDetails";
 import DashboardSummary from "@/components/dashboard/DashboardSummary";
 import TourOrders from "@/components/dashboard/TourOrders";
 import SupportTickets from "@/components/dashboard/SupportTickets";
 import AccountSettings from "@/components/dashboard/AccountSettings";
-import { logoutUserThunk, verifySessionThunk } from "@/features/auth/authSlice";
+import { useAuth } from "@/context/AuthContext";
 import { ProtectedRoute } from "@/components/protected-route";
 import { useTourBookings } from "@/hooks/useTourBookings";
-import { BASE_URL } from "@/constant/constants";
 import Image from "next/image";
 
 // Memoized navigation items to prevent unnecessary re-renders
@@ -119,12 +117,7 @@ const SidebarNavigation = ({
 };
 
 function Dashboard() {
-  const dispatch = useDispatch();
-  const {
-    user,
-    isAuthenticated,
-    loading: authLoading,
-  } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
 
   const [activeSection, setActiveSection] = useState("dashboard");
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -142,13 +135,6 @@ function Dashboard() {
     pageSize,
     changePageSize,
   } = useTourBookings(user?.traveller_id);
-
-  // Memoized auth check
-  useEffect(() => {
-    if (!isAuthenticated && !authLoading) {
-      dispatch(verifySessionThunk());
-    }
-  }, [dispatch, isAuthenticated, authLoading]);
 
   // Optimized payment return handler with cleanup
   useEffect(() => {
@@ -174,8 +160,8 @@ function Dashboard() {
 
   // Memoized handlers to prevent unnecessary re-renders
   const handleLogout = useCallback(() => {
-    dispatch(logoutUserThunk());
-  }, [dispatch]);
+    logout();
+  }, [logout]);
 
   const handleSidebarToggle = useCallback(() => {
     setIsSidebarOpen((prev) => !prev);
@@ -241,7 +227,6 @@ function Dashboard() {
           <TourOrders
             {...props}
             onOrderSelect={setSelectedOrder}
-            // Add these pagination props
             onPageChange={changePage}
             currentPage={currentPage}
             pageSize={pageSize}
@@ -255,9 +240,33 @@ function Dashboard() {
       default:
         return <DashboardSummary {...props} />;
     }
-  }, [activeSection, bookingData, bookingsLoading, refreshBookings, user]);
+  }, [
+    activeSection,
+    bookingData,
+    bookingsLoading,
+    refreshBookings,
+    user,
+    changePage,
+    currentPage,
+    pageSize,
+    changePageSize,
+  ]);
 
-  // Early returns for loading and error states
+  // Early return for loading state
+  if (authLoading) {
+    return (
+      <div className="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Early return for unauthenticated state
   if (!isAuthenticated) {
     return (
       <div className="container-fluid vh-100 d-flex justify-content-center align-items-center">
@@ -331,7 +340,6 @@ function Dashboard() {
         selectedOrder={selectedOrder}
         onClose={() => setSelectedOrder(null)}
         onPayment={handlePayment}
-        // Removed onCancel prop since we moved cancel functionality to TourOrders
       />
 
       <style jsx>{`
@@ -356,7 +364,7 @@ function Dashboard() {
         .dashboard-main {
           flex: 1;
           background-color: #f8f9fa;
-          min-width: 0; /* Prevent flex item from overflowing */
+          min-width: 0;
         }
 
         .dashboard-content {
@@ -387,7 +395,6 @@ function Dashboard() {
           height: 100%;
         }
 
-        /* Navigation button styles */
         .nav-button {
           transition: all 0.2s ease;
           color: rgba(255, 255, 255, 0.8);
@@ -410,7 +417,6 @@ function Dashboard() {
           color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Mobile Styles */
         @media (max-width: 767.98px) {
           .dashboard-sidebar {
             position: fixed;
@@ -435,15 +441,13 @@ function Dashboard() {
             padding: 1rem;
           }
 
-          /* Ensure sidebar content is scrollable on mobile */
           .sidebar-content {
-            padding-top: 120px; /* Account for header */
+            padding-top: 120px;
             height: 100vh;
             overflow: hidden;
           }
         }
 
-        /* Desktop Styles */
         @media (min-width: 768px) {
           .dashboard-sidebar {
             position: relative;
@@ -455,7 +459,6 @@ function Dashboard() {
           }
         }
 
-        /* Large screens */
         @media (min-width: 992px) {
           .dashboard-sidebar {
             width: 200px;
@@ -466,7 +469,6 @@ function Dashboard() {
           }
         }
 
-        /* Accessibility improvements */
         @media (prefers-reduced-motion: reduce) {
           .dashboard-sidebar,
           .nav-button {
@@ -474,7 +476,6 @@ function Dashboard() {
           }
         }
 
-        /* Focus styles for better accessibility */
         .nav-button:focus,
         .mobile-menu-toggle:focus {
           outline: 2px solid rgba(255, 255, 255, 0.5);

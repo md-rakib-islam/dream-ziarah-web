@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import convertCurrency from "@/utils/currency";
 import Loading from "../loading";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const CheckoutPage = () => {
   const [bookingData, setBookingData] = useState(null);
@@ -26,7 +27,7 @@ const CheckoutPage = () => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { login, user, isAuthenticated } = useAuth();
 
   const validateField = (name, value) => {
     switch (name) {

@@ -12,13 +12,14 @@ import CurrenctyMegaMenu from "../CurrenctyMegaMenu";
 import MainMenu from "../MainMenu";
 import MobileCurrencyMenu from "../MobileCurrencyMenu";
 import MobileMenu from "../MobileMenu";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [navbar, setNavbar] = useState(false);
 
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
 
   const {
     data,
@@ -28,7 +29,7 @@ const Header = () => {
   const { data: menuData, isSuccess: menuSuccess } = useGetAllMenuQuery(null);
 
   const handleLogout = async () => {
-    await dispatch(logoutUserThunk());
+    await logout();
     router.push("/login");
   };
 

@@ -1,13 +1,12 @@
 "use client";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export function ProtectedRoute({ children, requiredRole }) {
-  const { user, loading, isAuthenticated } = useSelector((state) => state.auth);
+  const { user, loading, isAuthenticated } = useAuth();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -36,7 +35,7 @@ export function ProtectedRoute({ children, requiredRole }) {
     return null;
   }
 
-  if (requiredRole && user.role !== requiredRole) {
+  if (requiredRole && user?.role !== requiredRole) {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-100">
         <div className="text-center">

@@ -16,7 +16,7 @@ import { store } from "../store/store";
 import "../styles/index.scss";
 import CookieConsent from "@/components/cookie/CookieConsent";
 import { usePathname } from "next/navigation";
-import AuthInitializer from "@/components/authInitializer/AuthInitializer";
+import { AuthProvider } from "@/context/AuthContext";
 
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
@@ -121,13 +121,15 @@ export default function RootLayout({ children }) {
           />
         </noscript>
         <main>
+          {/* Redux Provider wraps AuthProvider so both can be used together */}
           <Provider store={store}>
-            <AuthInitializer />
-            {!isCheckout && <Header />}
-            {children}
-            <DefaultFooter />
-            <SrollTop />
-            <CookieConsent />
+            <AuthProvider>
+              {!isCheckout && <Header />}
+              {children}
+              <DefaultFooter />
+              <SrollTop />
+              <CookieConsent />
+            </AuthProvider>
           </Provider>
         </main>
       </body>
