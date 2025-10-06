@@ -3,6 +3,7 @@ import TourHeading from "@/components/tour-single/TourHeading";
 import TourSingle from "@/components/tour-single/TourSingle";
 import { getTourBySlugServer } from "@/services/tourService";
 import { notFound } from "next/navigation";
+import { getAlternates } from "@/utils/canonical";
 
 function getFullUrl(slug) {
   const baseUrl =
@@ -110,6 +111,7 @@ export async function generateMetadata({ params }) {
   return {
     title: tourMetadatas[name]?.title,
     description: tourMetadatas[name]?.description,
+    alternates: getAlternates(`/tour/${name}`),
   };
 }
 

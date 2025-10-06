@@ -319,13 +319,6 @@ export default function LoginPage() {
                 </div> */}
               </form>
             </div>
-
-            {/* Footer */}
-            <div className="text-center mt-4">
-              <p className="text-muted small">
-                © 2025 Hajj, Umrah and Ziarah. All rights reserved.
-              </p>
-            </div>
           </div>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import TermsAndConditionsContent from "@/components/common/TermsAndConditionsContent";
+import { getAlternates } from "@/utils/canonical";
 
 export const metadata = {
   title: "Terms and Conditions | Dream Ziarah's Booking Guidelines",
   description:
     "Review Dream Ziarah's terms and conditions to understand our booking guidelines and policies. Essential information for planning your spiritual journey with us.",
+  alternates: getAlternates('/terms-and-conditions'),
 };
 
 const TermsAndConditions = () => {

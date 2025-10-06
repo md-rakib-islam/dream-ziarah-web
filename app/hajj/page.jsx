@@ -2,11 +2,13 @@ import Wrapper from "@/components/layout/Wrapper";
 import TourHeading from "@/components/tour-single/TourHeading";
 import TourSingle from "@/components/tour-single/TourSingle";
 import { getAllToursServer } from "@/services/tourService";
+import { getAlternates } from "@/utils/canonical";
 
 export const metadata = {
   title: "Book Hajj packages with trusted guides and clear plans",
   description:
     "Book Hajj packages with guided tours, hotel options, and organized transport between Makkah and Madinah. Get step-by-step support. View current prices and dates.",
+  alternates: getAlternates('/hajj'),
 };
 
 // Server-side data fetching function

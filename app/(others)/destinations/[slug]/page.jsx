@@ -14,6 +14,7 @@ import ToursTaif from "@/components/tours/ToursTaif";
 import { slightContent } from "@/data/desinations";
 import getAllMenuItem from "@/services/menuService";
 import dynamic from "next/dynamic";
+import { getAlternates } from "@/utils/canonical";
 
 const destinationsMetadatas = {
   jeddah: {
@@ -229,6 +230,7 @@ export async function generateMetadata({ params }) {
   return {
     title: destinationsMetadatas[slug]?.title,
     description: destinationsMetadatas[slug]?.description,
+    alternates: getAlternates(`/destinations/${slug}`),
   };
 }
 

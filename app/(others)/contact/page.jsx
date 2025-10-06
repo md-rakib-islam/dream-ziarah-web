@@ -1,11 +1,13 @@
 import Address from "@/components/block/Address";
 import ContactForm from "@/components/common/ContactForm";
 import Social from "@/components/common/social/Social";
+import { getAlternates } from "@/utils/canonical";
 
 export const metadata = {
   title: "Contact Dream Ziarah | Get in Touch for Your Spiritual Journey",
   description:
-    "Ready to plan your spiritual journey? Contact Dream Ziarah today. Whether you’re interested in Ziyarat, Umrah, or Hajj packages, our team is here to provide guidance and support every step of the way.",
+    "Ready to plan your spiritual journey? Contact Dream Ziarah today. Whether you're interested in Ziyarat, Umrah, or Hajj packages, our team is here to provide guidance and support every step of the way.",
+  alternates: getAlternates('/contact'),
 };
 
 const Contact = () => {

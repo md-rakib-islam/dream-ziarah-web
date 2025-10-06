@@ -2,11 +2,13 @@ import Wrapper from "@/components/layout/Wrapper";
 import TourHeading from "@/components/tour-single/TourHeading";
 import TourSingle from "@/components/tour-single/TourSingle";
 import { getAllToursServer } from "@/services/tourService";
+import { getAlternates } from "@/utils/canonical";
 
 export const metadata = {
   title: "Affordable Umrah packages with guided Ziyarat tours",
   description:
     "Book affordable Umrah packages with guided Ziyarat in Makkah and Madinah. Flexible dates, hotel options, airport pickup, and friendly support. See prices and availability.",
+  alternates: getAlternates('/umrah'),
 };
 
 // Server-side data fetching function

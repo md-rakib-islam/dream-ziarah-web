@@ -1,9 +1,11 @@
 import PrivacyPolicyContent from "@/components/common/PrivacyPolicyContent";
+import { getAlternates } from "@/utils/canonical";
 
 export const metadata = {
   title: "Privacy Policy | Dream Ziarah's Commitment to Your Privacy",
   description:
     "Read Dream Ziarah's privacy policy to understand how we handle and protect your information. Your privacy is important to us, and we prioritize keeping your data secure.",
+  alternates: getAlternates('/privacy-policy'),
 };
 
 const PrivacyPolicy = () => {
