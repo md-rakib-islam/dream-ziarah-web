@@ -47,8 +47,8 @@ export default async function Sitemap() {
     // const blogsXml = blogsData.blogs.map((item) => ({
     //   url: `${BASE_URL}/blog-details/${encodeURIComponent(item.title)}`,
     //   lastModified: new Date(item.updated_at).toISOString(),
-    //   changeFrequency: "yearly",
-    //   priority: 1,
+    //
+    //
     // }));
 
     // Generate tour URLs based on published tours
@@ -63,8 +63,6 @@ export default async function Sitemap() {
           return {
             url: `${BASE_URL}/hajj`,
             lastModified: new Date(tour.updated_at || Date.now()).toISOString(),
-            changeFrequency: "yearly",
-            priority: 1,
           };
         }
 
@@ -72,8 +70,6 @@ export default async function Sitemap() {
           return {
             url: `${BASE_URL}/umrah`,
             lastModified: new Date(tour.updated_at || Date.now()).toISOString(),
-            changeFrequency: "yearly",
-            priority: 1,
           };
         }
 
@@ -81,8 +77,6 @@ export default async function Sitemap() {
         return {
           url: `${BASE_URL}/tour/${encodeURIComponent(tour.slug)}`,
           lastModified: new Date(tour.updated_at || Date.now()).toISOString(),
-          changeFrequency: "yearly",
-          priority: 1,
         };
       });
 
@@ -96,45 +90,42 @@ export default async function Sitemap() {
               child.name.toLowerCase()
             )}`,
             lastModified: new Date().toISOString(),
-            changeFrequency: "yearly",
-            priority: 1,
           }))
       );
 
+    const mainUrl = [
+      {
+        url: `${BASE_URL}`,
+        lastModified: new Date().toISOString(), // Use current date for homepage
+      },
+    ];
+
     const otherXml = [
+      {
+        url: `${BASE_URL}/tour`,
+        lastModified: new Date().toISOString(),
+      },
       {
         url: `${BASE_URL}/about`,
         lastModified: new Date().toISOString(),
-        changeFrequency: "yearly",
-        priority: 1,
       },
       {
         url: `${BASE_URL}/contact`,
         lastModified: new Date().toISOString(),
-        changeFrequency: "yearly",
-        priority: 1,
       },
-      // {
-      //   url: `${BASE_URL}/blogs`,
-      //   lastModified: new Date().toISOString(),
-      //   changeFrequency: "yearly",
-      //   priority: 1,
-      // },
+
       {
         url: `${BASE_URL}/privacy-policy`,
         lastModified: new Date().toISOString(),
-        changeFrequency: "yearly",
-        priority: 1,
       },
       {
         url: `${BASE_URL}/terms-and-conditions`,
         lastModified: new Date().toISOString(),
-        changeFrequency: "yearly",
-        priority: 1,
       },
     ];
 
     const combinedXml = [
+      ...mainUrl,
       ...toursXml,
       // ...blogsXml,
       ...destinationsXml,
