@@ -11,25 +11,29 @@ const Calendar = ({
   isDateAvailable,
 }) => {
   const [currentMonth, setCurrentMonth] = useState(() => {
-    const today = new Date();
-    const currentMonthStart = new Date(today.getFullYear(), today.getMonth());
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowMonthStart = new Date(
+      tomorrow.getFullYear(),
+      tomorrow.getMonth()
+    );
 
-    // If no available dates provided, start from current month
+    // If no available dates provided, start from tomorrow's month
     if (!availableDates || availableDates.length === 0) {
-      return currentMonthStart;
+      return tomorrowMonthStart;
     }
 
-    // Filter available dates to only include current month and future months
+    // Filter available dates to only include tomorrow and future dates
     const futureAvailableDates = availableDates.filter((date) => {
       const availableDate = new Date(date);
       const availableMonthStart = new Date(
         availableDate.getFullYear(),
         availableDate.getMonth()
       );
-      return availableMonthStart >= currentMonthStart;
+      return availableMonthStart >= tomorrowMonthStart;
     });
 
-    // If there are available dates in current month or future, start from the earliest
+    // If there are available dates in tomorrow's month or future, start from the earliest
     if (futureAvailableDates.length > 0) {
       const sortedDates = [...futureAvailableDates].sort((a, b) => a - b);
       const firstAvailableDate = sortedDates[0];
@@ -39,8 +43,8 @@ const Calendar = ({
       );
     }
 
-    // Fallback to current month if no future available dates
-    return currentMonthStart;
+    // Fallback to tomorrow's month if no future available dates
+    return tomorrowMonthStart;
   });
 
   const [isMobile, setIsMobile] = useState(false);

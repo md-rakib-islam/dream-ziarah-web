@@ -2,10 +2,10 @@
 //http://192.168.0.8:8002
 
 //base url local
-// export const BASE_URL = "http://192.168.68.127:8004";
+export const BASE_URL = "http://192.168.68.127:8004";
 
 //base url producton
-export const BASE_URL = "https://api.dreamziarah.com";
+// export const BASE_URL = "https://api.dreamziarah.com";
 //
 // export const BASE_URL = "https://ziarahapi.dreamtourism.co.uk";
 // export const BASE_URL = "https://api.activemanpowerservices.com/";

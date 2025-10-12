@@ -25,10 +25,22 @@ const ChangeDate = ({ isOpen, onClose, order, onDateChange }) => {
 
       if (matchingOption) {
         // Convert available dates to Date objects
-        const dates =
+        const rawDates =
           matchingOption.available_dates?.map((dateStr) => new Date(dateStr)) ||
           [];
-        setAvailableDates(dates);
+
+        // Filter dates to only show from tomorrow onwards
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+
+        const validDates = rawDates.filter((date) => {
+          const checkDate = new Date(date);
+          checkDate.setHours(0, 0, 0, 0);
+          return checkDate >= tomorrow;
+        });
+
+        setAvailableDates(validDates);
       }
     }
   }, [tourData, order]);

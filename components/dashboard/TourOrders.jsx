@@ -672,35 +672,33 @@ export default function TourOrders({
                           return (
                             <tr
                               key={order.id}
-                              className={`align-middle border-bottom ${
-                                disabled ? "table-secondary opacity-50" : ""
-                              }`}
+                              className={`align-middle border-bottom`}
                               style={{
                                 cursor: disabled ? "not-allowed" : "pointer",
-                                filter: disabled ? "grayscale(50%)" : "none",
+                                backgroundColor: disabled
+                                  ? "#ffe6e6"
+                                  : "transparent",
                               }}
                               onClick={
                                 disabled
                                   ? undefined
                                   : () => onOrderSelect(order)
                               }
-                              onMouseEnter={(e) => {
-                                if (!disabled) {
+                              {...(!disabled && {
+                                onMouseEnter: (e) => {
                                   e.currentTarget.style.backgroundColor =
                                     "#f8f9fa";
                                   e.currentTarget.style.transform =
                                     "scale(1.01)";
                                   e.currentTarget.style.transition =
                                     "all 0.2s ease";
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (!disabled) {
+                                },
+                                onMouseLeave: (e) => {
                                   e.currentTarget.style.backgroundColor =
                                     "transparent";
                                   e.currentTarget.style.transform = "scale(1)";
-                                }
-                              }}
+                                },
+                              })}
                             >
                               <td className="py-3">
                                 <div className="d-flex align-items-center">
@@ -727,14 +725,11 @@ export default function TourOrders({
                                       order.status
                                     )} d-flex align-items-center justify-content-center mb-1 text-dark`}
                                     style={{
-                                      width: "90px",
+                                      width: "130px",
                                       padding: "6px",
                                       fontSize: "10px",
                                     }}
                                   >
-                                    <i
-                                      className={getStatusIcon(order.status)}
-                                    ></i>
                                     {order.status.charAt(0).toUpperCase() +
                                       order.status.slice(1)}
                                   </span>

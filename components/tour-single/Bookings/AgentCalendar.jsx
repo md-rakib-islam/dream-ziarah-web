@@ -28,8 +28,8 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
   const [availabilityMessage, setAvailabilityMessage] =
     useState("Check Availability");
   const [isMobile, setIsMobile] = useState(false);
-  const [errors, setErrors] = useState({}); // Added error state
-  const [errorMessage, setErrorMessage] = useState(""); // Added global error message
+  const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Construct full URL
   const currentUrl =
@@ -67,89 +67,6 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
     return `${year}-${month}-${day}`;
   };
 
-  // Helper function to convert 12-hour time to 24-hour time for comparison
-  const convertTo24Hour = (time12h) => {
-    const [time, modifier] = time12h.split(" ");
-    let [hours, minutes] = time.split(":");
-
-    if (hours === "12") {
-      hours = "00";
-    }
-
-    if (modifier === "PM" && hours !== "12") {
-      hours = String(parseInt(hours, 10) + 12); // convert back to string
-    }
-
-    // Ensure hours is a string before using padStart
-    hours = hours.toString().padStart(2, "0");
-
-    return `${hours}:${minutes}`;
-  };
-
-  // Helper function to get current time plus 4 hours
-  const getCurrentTimePlus4Hours = () => {
-    const now = new Date();
-    const plus4Hours = new Date(now.getTime() + 4 * 60 * 60 * 1000);
-    return plus4Hours.getHours() * 100 + plus4Hours.getMinutes();
-  };
-
-  // Helper function to convert time string to minutes for comparison
-  const timeToMinutes = (timeStr) => {
-    const time24 = convertTo24Hour(timeStr);
-    const [hours, minutes] = time24.split(":").map(Number);
-    return hours * 60 + minutes;
-  };
-
-  // Helper function to filter times based on 4-hour advance requirement
-  const filterAvailableTimes = (times, selectedDate) => {
-    if (!times || times.length === 0) return [];
-
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const compareDate = new Date(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth(),
-      selectedDate.getDate()
-    );
-
-    // If selected date is not today, return all times
-    if (compareDate.getTime() !== today.getTime()) {
-      return times;
-    }
-
-    // If selected date is today, filter times that are at least 4 hours from now
-    const currentTimeMinutes = now.getHours() * 60 + now.getMinutes();
-    const minRequiredTime = currentTimeMinutes + 4 * 60; // Add 4 hours
-
-    return times.filter((timeStr) => {
-      const timeMinutes = timeToMinutes(timeStr);
-      return timeMinutes >= minRequiredTime;
-    });
-  };
-
-  // Helper function to check if a date should be disabled
-  const isDateDisabled = (date, availableTimes) => {
-    // If there are no times at all in the tour data, don't disable any dates
-    if (!availableTimes || availableTimes.length === 0) return false;
-
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const compareDate = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate()
-    );
-
-    // If it's not today, don't disable
-    if (compareDate.getTime() !== today.getTime()) {
-      return false;
-    }
-
-    // If it's today, check if any times are available after 4 hours from now
-    const filteredTimes = filterAvailableTimes(availableTimes, date);
-    return filteredTimes.length === 0;
-  };
-
   // Get unique tour types
   const getUniqueTourTypes = () => {
     if (!priceList) return [];
@@ -158,7 +75,6 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
       const firstMatch = priceList.find((item) => item.guide === guide);
       return {
         guide: firstMatch.guide,
-        // You can add more properties here if needed
       };
     });
   };
@@ -196,12 +112,16 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         const rawDates =
           matchingOption.available_dates?.map((date) => new Date(date)) || [];
 
-        // Filter out dates that have no available times after 4-hour rule
-        // Only if there are times in the data
-        const validDates =
-          rawTimes.length > 0
-            ? rawDates.filter((date) => !isDateDisabled(date, rawTimes))
-            : rawDates;
+        // Filter dates to only show from tomorrow onwards
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+
+        const validDates = rawDates.filter((date) => {
+          const checkDate = new Date(date);
+          checkDate.setHours(0, 0, 0, 0);
+          return checkDate >= tomorrow;
+        });
 
         setAvailableTimes(rawTimes);
         setAvailableDates(validDates);
@@ -218,10 +138,10 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
     }
   }, [selectedTourType, participantCount, priceList]);
 
-  // Update filtered times when selected date changes
+  // Get all times for the selected date (no filtering)
   const getFilteredTimesForSelectedDate = () => {
     if (!selectedDate || !availableTimes) return [];
-    return filterAvailableTimes(availableTimes, selectedDate);
+    return availableTimes;
   };
 
   // Check if tour has time slots configured
@@ -285,14 +205,12 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
 
   const handleTourTypeChange = (tourType) => {
     setSelectedTourType(tourType);
-    // Clear tour type error when tour type is selected
     setErrors((prev) => ({ ...prev, tourType: false }));
     setErrorMessage("");
   };
 
   const handleParticipantChange = (newCount) => {
     setParticipantCount(newCount);
-    // Clear participant error when participant count is changed
     setErrors((prev) => ({ ...prev, participants: false }));
     setErrorMessage("");
   };
@@ -301,13 +219,10 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
     if (isDateAvailable(date)) {
       setSelectedDate(date);
       setShowCalendar(false);
-      // Clear date error when date is selected
       setErrors((prev) => ({ ...prev, date: false }));
       setErrorMessage("");
-      // Reset booking availability when date changes
       setBookingAvailable(false);
       setBookingData(null);
-      // Reset selected time when date changes since available times might change
       setSelectedTime("");
       setDropDownTime("00:00");
     }
@@ -316,10 +231,8 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
   const handleTimeChange = (time) => {
     setSelectedTime(time);
     setDropDownTime(time);
-    // Clear time error when time is selected
     setErrors((prev) => ({ ...prev, time: false }));
     setErrorMessage("");
-    // Reset booking availability when time changes
     setBookingAvailable(false);
     setBookingData(null);
   };
@@ -335,10 +248,8 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
     if (!currentOption || !tourData) return 0;
 
     if (tourData.price_by_vehicle) {
-      // Group price - return the full group price regardless of participant count
       return Number.parseFloat(currentOption.group_price);
     } else if (tourData.price_by_passenger) {
-      // Per person price - multiply by participant count
       return (
         Number.parseFloat(currentOption.price_per_person) * participantCount
       );
@@ -348,9 +259,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
   };
 
   const checkAvailabilityFromBackend = async (bookingDetails) => {
-    // Simulate API call to backend
     try {
-      // Replace this with your actual API call
       const response = await fetch(checkAvailability, {
         method: "POST",
         headers: {
@@ -367,7 +276,6 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
       }
     } catch (error) {
       console.error("Error checking availability:", error);
-      // For demo purposes, simulate successful response
       return {
         available: true,
         totalPrice: calculateTotalPrice(),
@@ -379,7 +287,6 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
   };
 
   const handleCheckAvailability = async () => {
-    // Clear previous errors
     setErrors({});
     setErrorMessage("");
     const newErrors = {};
@@ -398,7 +305,6 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
       newErrors.date = true;
       errorMsg = "Please select a date";
     } else if (hasTimeSlots() && !selectedTime) {
-      // Only require time selection if tour has time slots
       newErrors.time = true;
       errorMsg = "Please select a time";
     }
@@ -419,7 +325,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
       tour_details: {
         tour_id: tourData?.id,
         selected_date: formatDateToYYYYMMDD(selectedDate),
-        selected_time: hasTimeSlots() ? selectedTime : null, // Only include time if tour has time slots
+        selected_time: hasTimeSlots() ? selectedTime : null,
         total_participants: participantCount,
         total_price: totalPrice,
         guide: selectedTourType?.guide,
@@ -432,7 +338,6 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         bookingDetails
       );
 
-      // Handle error response from backend
       if (availabilityResult.status === "error") {
         const errorMessages = Object.values(availabilityResult.errors).join(
           " "
@@ -443,13 +348,11 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         return;
       }
 
-      // Handle success response
       if (availabilityResult.available) {
         setBookingAvailable(true);
         setBookingData(availabilityResult);
         setAvailabilityMessage("Available");
 
-        // Scroll to booking preview section
         setTimeout(() => {
           bookingPreviewRef.current?.scrollIntoView({
             behavior: "smooth",
@@ -472,7 +375,6 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
     }
   };
 
-  // Get filtered times for the selected date
   const filteredTimes = getFilteredTimesForSelectedDate();
 
   const currentPriceOption = getCurrentPriceOption();
@@ -484,10 +386,10 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
       <div
         className="p-3 border-bottom mb-1"
         style={{
-          padding: "12px 16px 30px", // added bottom padding: 20px
+          padding: "12px 16px 30px",
           height: "auto",
-          borderTop: "3px solid #007bff", // keep the blue top border
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)", // subtle shadow
+          borderTop: "3px solid #007bff",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
         }}
       >
         <small className="text-muted">From</small>
@@ -546,7 +448,6 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
           ref={dateButtonRef}
         >
           {availableDates.length === 0 ? (
-            // Show message when no dates are available
             <div
               className="form-control d-flex align-items-center bg-light rounded"
               style={{
@@ -610,7 +511,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
           )}
         </div>
 
-        {/* Time Selection - Only show if tour has time slots AND there are available times for selected date */}
+        {/* Time Selection */}
         {hasTimeSlots() && selectedDate && filteredTimes.length > 0 && (
           <CustomDropdown
             label="Select Time"
@@ -622,7 +523,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
           />
         )}
 
-        {/* Show message if tour has time slots but no times available for selected date */}
+        {/* Show message if tour has time slots but no times available */}
         {hasTimeSlots() && selectedDate && filteredTimes.length === 0 && (
           <div className="mb-3">
             <div
@@ -641,7 +542,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
                 className="flex-grow-1"
                 style={{ fontSize: isMobile ? "14px" : "16px" }}
               >
-                No times available for selected date (4hr advance required)
+                No times available for selected date
               </span>
             </div>
           </div>
@@ -695,7 +596,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         </button>
       </div>
 
-      {/* Error Message Section - Shows under main border */}
+      {/* Error Message Section */}
       {errorMessage && (
         <div
           className="p-2 mb-3 rounded"
