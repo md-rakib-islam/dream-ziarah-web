@@ -11,6 +11,44 @@ import { useSelector } from "react-redux";
 import convertCurrency from "@/utils/currency";
 import { useSearchParams } from "next/navigation";
 
+/**
+ * Helper function to extract date strings from API response
+ * Handles both formats:
+ * - Plain strings: ["01/02/2026", "01/03/2026"]
+ * - Objects with date property: [{id: 1, date: "01/02/2026"}, {id: 2, date: "01/03/2026"}]
+ */
+const extractDateStrings = (dates) => {
+  if (!Array.isArray(dates)) return [];
+
+  return dates.map((item) => {
+    // If it's an object with a date property, extract the date
+    if (typeof item === "object" && item !== null && item.date) {
+      return item.date;
+    }
+    // If it's already a string, return as is
+    return item;
+  });
+};
+
+/**
+ * Helper function to extract time strings from API response
+ * Handles both formats:
+ * - Plain strings: ["10:30 AM", "11:00 AM"]
+ * - Objects with time property: [{id: 1, time: "10:30 AM"}, {id: 2, time: "11:00 AM"}]
+ */
+const extractTimeStrings = (times) => {
+  if (!Array.isArray(times)) return [];
+
+  return times.map((item) => {
+    // If it's an object with a time property, extract the time
+    if (typeof item === "object" && item !== null && item.time) {
+      return item.time;
+    }
+    // If it's already a string, return as is
+    return item;
+  });
+};
+
 const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
   const searchParams = useSearchParams();
   const [selectedDate, setSelectedDate] = useState(null);
@@ -108,9 +146,16 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
       );
 
       if (matchingOption) {
-        const rawTimes = matchingOption.available_times || [];
-        const rawDates =
-          matchingOption.available_dates?.map((date) => new Date(date)) || [];
+        // Extract strings from both plain arrays and objects with id/time or id/date
+        const rawTimes = extractTimeStrings(
+          matchingOption.available_times || []
+        );
+        const rawDateStrings = extractDateStrings(
+          matchingOption.available_dates || []
+        );
+
+        // Convert date strings to Date objects
+        const rawDates = rawDateStrings.map((dateStr) => new Date(dateStr));
 
         // Filter dates to only show from tomorrow onwards
         const tomorrow = new Date();
@@ -135,6 +180,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
       setSelectedDate(null);
       setBookingAvailable(false);
       setBookingData(null);
+      setErrorMessage(""); // Clear error message
     }
   }, [selectedTourType, participantCount, priceList]);
 
@@ -268,20 +314,22 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         body: JSON.stringify(bookingDetails),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
         return data;
       } else {
-        throw new Error("Failed to check availability");
+        // Return error data structure
+        return data;
       }
     } catch (error) {
       console.error("Error checking availability:", error);
       return {
-        available: true,
-        totalPrice: calculateTotalPrice(),
-        bookingId: "BK-" + Date.now(),
-        details: bookingDetails,
-        priceOption: getCurrentPriceOption(),
+        status: "error",
+        errors: {
+          network:
+            "Error occurred while checking availability. Please try again.",
+        },
       };
     }
   };
@@ -339,10 +387,12 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
       );
 
       if (availabilityResult.status === "error") {
+        // Extract error messages from the errors object
         const errorMessages = Object.values(availabilityResult.errors).join(
           " "
         );
         setBookingAvailable(false);
+        setBookingData(null); // Clear booking data
         setAvailabilityMessage("Check Availability");
         setErrorMessage(errorMessages);
         return;
@@ -352,6 +402,7 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         setBookingAvailable(true);
         setBookingData(availabilityResult);
         setAvailabilityMessage("Available");
+        setErrorMessage(""); // Clear any previous error
 
         setTimeout(() => {
           bookingPreviewRef.current?.scrollIntoView({
@@ -361,11 +412,14 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         }, 100);
       } else {
         setBookingAvailable(false);
+        setBookingData(null); // Clear booking data
         setAvailabilityMessage("Check Availability");
-        setErrorMessage("Not available");
+        setErrorMessage("Not available for the selected date and time.");
       }
     } catch (error) {
       console.error("Error:", error);
+      setBookingAvailable(false);
+      setBookingData(null); // Clear booking data
       setAvailabilityMessage("Check Availability");
       setErrorMessage(
         "Error occurred while checking availability. Please try again."
@@ -523,30 +577,33 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
           />
         )}
 
-        {/* Show message if tour has time slots but no times available */}
-        {hasTimeSlots() && selectedDate && filteredTimes.length === 0 && (
-          <div className="mb-3">
-            <div
-              className="form-control d-flex align-items-center bg-light rounded"
-              style={{
-                padding: "12px 16px",
-                height: "48px",
-                width: "100%",
-                border: "1px solid #e0e0e0",
-                color: "#6c757d",
-                cursor: "not-allowed",
-              }}
-            >
-              <i className="icon-twitter text-14 me-2" />
-              <span
-                className="flex-grow-1"
-                style={{ fontSize: isMobile ? "14px" : "16px" }}
+        {/* Show message if tour has time slots but no times available OR if there's an error */}
+        {hasTimeSlots() &&
+          selectedDate &&
+          filteredTimes.length === 0 &&
+          !errorMessage && (
+            <div className="mb-3">
+              <div
+                className="form-control d-flex align-items-center bg-light rounded"
+                style={{
+                  padding: "12px 16px",
+                  height: "48px",
+                  width: "100%",
+                  border: "1px solid #e0e0e0",
+                  color: "#6c757d",
+                  cursor: "not-allowed",
+                }}
               >
-                No times available for selected date
-              </span>
+                <i className="icon-twitter text-14 me-2" />
+                <span
+                  className="flex-grow-1"
+                  style={{ fontSize: isMobile ? "14px" : "16px" }}
+                >
+                  No times available for selected date
+                </span>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* Price Display */}
         {currentPriceOption && participantCount && tourData && (
@@ -594,26 +651,26 @@ const AgentCalendar = ({ tourData = null, refFunction, umrah }) => {
         >
           {availabilityMessage}
         </button>
+
+        {/* Error Message Section - Moved inside booking form for better visibility */}
+        {errorMessage && (
+          <div
+            className="mt-3 p-2 rounded"
+            style={{
+              backgroundColor: "#ffebee",
+              border: "1px solid #ffcdd2",
+              color: "#c62828",
+              fontSize: "14px",
+            }}
+          >
+            <i className="fas fa-exclamation-triangle me-2"></i>
+            {errorMessage}
+          </div>
+        )}
       </div>
 
-      {/* Error Message Section */}
-      {errorMessage && (
-        <div
-          className="p-2 mb-3 rounded"
-          style={{
-            backgroundColor: "#ffebee",
-            border: "1px solid #ffcdd2",
-            color: "#c62828",
-            fontSize: "14px",
-          }}
-        >
-          <i className="fas fa-exclamation-triangle me-2"></i>
-          {errorMessage}
-        </div>
-      )}
-
-      {/* Booking Preview Section */}
-      {bookingAvailable && bookingData && (
+      {/* Booking Preview Section - Only shows when booking is available and no errors */}
+      {bookingAvailable && bookingData && !errorMessage && (
         <div ref={bookingPreviewRef} className="mt-4">
           <BookingPreview
             tourId={tourData?.id}

@@ -65,20 +65,14 @@ export async function getTourBySlugServer(slug, forceRefresh = false) {
   }
 }
 
-export async function getSingleTourServer(tourId) {
+export async function getSingleTourServer(tourId, forceRefresh = false) {
   try {
     if (!tourId) return null;
 
     const timestamp = new Date().getTime();
     const url = `${GET_TOUR_ENTRYID}/${tourId}/?t=${timestamp}`;
 
-    const response = await fetch(url, {
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-      },
-    });
+    const response = await fetch(url, getCacheConfig(forceRefresh));
 
     if (!response.ok) {
       throw new Error(`Failed to fetch single tour: ${response.status}`);

@@ -135,6 +135,7 @@ export const transformBookingData = (apiResponse) => {
     payment_invoice: booking.payment_invoice,
     cancellation_denied_count: booking.cancellation_denied_count,
     cancellation_eligible: booking.cancellation_eligible,
+    cloudflare_thumbnail_image_url: booking.cloudflare_thumbnail_image_url,
   }));
 
   return {

@@ -4,16 +4,48 @@ import { useState, useEffect } from "react";
 import Calendar from "../tour-single/Bookings/Calendar";
 import { Update_ATour_BookingDate } from "@/constant/constants";
 import { useSingleTour } from "@/hooks/useSingleTour";
+import { getSingleTourServer } from "@/services/tourService";
+
+/**
+ * Helper function to extract date strings from API response
+ * Handles both formats:
+ * - Plain strings: ["01/02/2026", "01/03/2026"]
+ * - Objects with date property: [{id: 1, date: "01/02/2026"}, {id: 2, date: "01/03/2026"}]
+ */
+const extractDateStrings = (dates) => {
+  if (!Array.isArray(dates)) return [];
+
+  return dates.map((item) => {
+    // If it's an object with a date property, extract the date
+    if (typeof item === "object" && item !== null && item.date) {
+      return item.date;
+    }
+    // If it's already a string, return as is
+    return item;
+  });
+};
 
 const ChangeDate = ({ isOpen, onClose, order, onDateChange }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [tourData, setTourData] = useState(null);
   const [errors, setErrors] = useState({});
 
   const tourId = order?.tour_id;
-  const { data: tourData, error } = useSingleTour(tourId);
+  useEffect(() => {
+    async function fetchTour() {
+      try {
+        const data = await getSingleTourServer(tourId);
+        setTourData(data);
+      } catch (err) {
+        setErrors(err.message);
+      }
+    }
+
+    if (tourId) fetchTour();
+  }, [tourId]);
 
   // Initialize available dates based on tour data
   useEffect(() => {
@@ -24,10 +56,19 @@ const ChangeDate = ({ isOpen, onClose, order, onDateChange }) => {
       );
 
       if (matchingOption) {
-        // Convert available dates to Date objects
-        const rawDates =
-          matchingOption.available_dates?.map((dateStr) => new Date(dateStr)) ||
-          [];
+        // Extract date strings from API response (handles both plain strings and objects with date property)
+        const rawDateStrings = extractDateStrings(
+          matchingOption.available_dates || []
+        );
+
+        // console.log(
+        //   "🔍 Raw available_dates from API:",
+        //   matchingOption.available_dates
+        // );
+        // console.log("🔍 Extracted date strings:", rawDateStrings);
+
+        // Convert date strings to Date objects
+        const rawDates = rawDateStrings.map((dateStr) => new Date(dateStr));
 
         // Filter dates to only show from tomorrow onwards
         const tomorrow = new Date();
@@ -40,7 +81,11 @@ const ChangeDate = ({ isOpen, onClose, order, onDateChange }) => {
           return checkDate >= tomorrow;
         });
 
+        // console.log("✅ Valid dates for selection:", validDates);
         setAvailableDates(validDates);
+      } else {
+        console.warn("⚠️ No matching guide option found for:", order.guide);
+        setAvailableDates([]);
       }
     }
   }, [tourData, order]);
@@ -139,6 +184,8 @@ const ChangeDate = ({ isOpen, onClose, order, onDateChange }) => {
         selected_date: formatDateToYYYYMMDD(selectedDate),
       };
 
+      console.log("📤 Submitting date change request:", payload);
+
       // Make API call
       const response = await fetch(Update_ATour_BookingDate, {
         method: "POST",
@@ -153,12 +200,13 @@ const ChangeDate = ({ isOpen, onClose, order, onDateChange }) => {
       }
 
       const result = await response.json();
+      console.log("✅ Date change successful:", result);
 
       // Call the parent callback with the result
       await onDateChange(result);
       onClose();
     } catch (error) {
-      console.error("Error changing date:", error);
+      console.error("❌ Error changing date:", error);
       setErrors({ submit: "Failed to change booking date. Please try again." });
     } finally {
       setIsLoading(false);
@@ -334,6 +382,10 @@ const ChangeDate = ({ isOpen, onClose, order, onDateChange }) => {
                         Your booking will be changed to{" "}
                         <strong>{formatDate(selectedDate)}</strong>
                       </p>
+                      <small className="text-muted d-block mt-2">
+                        <strong>Note:</strong> Once your date change request is
+                        approved, the tour will become non-cancellable.
+                      </small>
                     </div>
                   </div>
                 </div>

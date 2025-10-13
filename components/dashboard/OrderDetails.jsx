@@ -2,7 +2,7 @@
 
 import { BASE_URL } from "@/constant/constants";
 import { useState } from "react";
-
+import Image from "next/image";
 export default function OrderDetails({
   selectedOrder,
   onClose,
@@ -10,19 +10,19 @@ export default function OrderDetails({
   onCancel,
 }) {
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  console.log("selectedOrder", selectedOrder);
 
   if (!selectedOrder) return null;
 
-  // Function to get tour image based on tour name
-  const getTourImage = (tourName) => {
-    const tourImages = {
-      "Bali Adventure Package": "/placeholder.png?height=200&width=400",
-      "Tokyo City Tour": "/placeholder.png?height=200&width=400",
-      "European Explorer": "/placeholder.png?height=300&width=400",
-      "Safari Adventure": "/placeholder.png?height=300&width=400",
-      "Mountain Hiking": "/placeholder.png?height=300&width=400",
-    };
-    return tourImages[tourName] || "/placeholder.png?height=240&width=320";
+  // Function to get tour image - prioritize cloudflare_thumbnail_image_url
+  const getTourImage = () => {
+    // First check if cloudflare_thumbnail_image_url exists
+    if (selectedOrder.cloudflare_thumbnail_image_url) {
+      return selectedOrder.cloudflare_thumbnail_image_url;
+    }
+
+    // Fallback to placeholder
+    return "/placeholder.png?height=300&width=400";
   };
 
   const handleStripePayment = async () => {
@@ -425,16 +425,23 @@ export default function OrderDetails({
               {/* Tour Image */}
               <div className="col-12 col-lg-4">
                 <div className="card border-0 shadow-sm h-100">
-                  <div className="position-relative">
-                    <img
-                      src={
-                        getTourImage(selectedOrder.tourName) ||
-                        "/placeholder.png"
-                      }
-                      alt={selectedOrder.tourName}
-                      className="card-img-top"
-                      style={{ objectFit: "cover", height: "200px" }}
-                    />
+                  <div
+                    className="position-relative"
+                    style={{ overflow: "hidden" }}
+                  >
+                    <div className="cardImage ratio ratio-1x1">
+                      <div className="cardImage__content">
+                        <Image
+                          width={300}
+                          height={300}
+                          priority
+                          className="w-100 h-100 object-fit-cover"
+                          src={getTourImage()}
+                          alt={selectedOrder.tourName}
+                        />
+                      </div>
+                    </div>
+
                     <div className="position-absolute top-0 start-0 m-2">
                       <span className="badge bg-primary bg-opacity-90">
                         <i className="icon-camera text-14 me-1"></i>

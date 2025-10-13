@@ -340,7 +340,11 @@ export default function TourOrders({
 
   const handleDateChangeSubmit = async (dateChangeData) => {
     try {
-      await onDateChange(dateChangeData);
+      if (typeof onDateChange === "function") {
+        await onDateChange(dateChangeData);
+      } else {
+        console.warn("onDateChange prop is missing or not a function");
+      }
       setSelectedOrderForDateChange(null);
       onRefresh();
     } catch (error) {

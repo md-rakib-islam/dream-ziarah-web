@@ -175,11 +175,10 @@ export default function MobileOrderCard({
 
   return (
     <div
-      className={`mobile-order-card ${disabled ? "opacity-50" : ""}`}
+      className={`mobile-order-card ${disabled ? "" : ""}`}
       onClick={disabled ? undefined : () => onOrderSelect(order)}
       style={{
         cursor: disabled ? "not-allowed" : "pointer",
-        filter: disabled ? "grayscale(50%)" : "none",
         marginBottom: "1rem",
         border: "1px solid #dee2e6",
         borderRadius: "0.5rem",
