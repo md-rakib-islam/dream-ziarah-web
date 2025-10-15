@@ -1,7 +1,10 @@
 "use client";
 
 export default function DashboardSummary({ orderData, loading }) {
-  if (loading) {
+  // Check if there are bookings to determine if we should show loading spinner
+  const hasBookings = orderData?.orders?.length > 0;
+
+  if (loading && hasBookings) {
     return (
       <div>
         <div className="d-flex align-items-center mb-4">
@@ -39,6 +42,9 @@ export default function DashboardSummary({ orderData, loading }) {
     );
   }
 
+  // Check if there are no bookings
+  const hasNoBookings = !orderData?.orders?.length || orderData.orders.length === 0;
+
   return (
     <div className="desktop-mt">
       <div className="d-flex align-items-center mb-4">
@@ -68,7 +74,7 @@ export default function DashboardSummary({ orderData, loading }) {
                     Total Tours
                   </h6>
                   <h2 className="mb-0 fw-bold">
-                    {orderData.summary.totalOrders}
+                    {hasNoBookings ? 0 : orderData.summary.totalOrders}
                   </h2>
                   <small className="opacity-75">All bookings</small>
                 </div>
@@ -98,7 +104,7 @@ export default function DashboardSummary({ orderData, loading }) {
                     Confirmed Tours
                   </h6>
                   <h2 className="mb-0 fw-bold">
-                    {orderData.summary.paidOrders}
+                    {hasNoBookings ? 0 : orderData.summary.paidOrders}
                   </h2>
                   <small className="opacity-75">Ready to explore</small>
                 </div>
@@ -128,7 +134,7 @@ export default function DashboardSummary({ orderData, loading }) {
                     Pending Payment
                   </h6>
                   <h2 className="mb-0 fw-bold text-dark">
-                    {orderData.summary.pendingPayment}
+                    {hasNoBookings ? 0 : orderData.summary.pendingPayment}
                   </h2>
                   <small className="opacity-75 text-dark">
                     Awaiting confirmation
@@ -160,7 +166,7 @@ export default function DashboardSummary({ orderData, loading }) {
                     Cancelled Tours
                   </h6>
                   <h2 className="mb-0 fw-bold">
-                    {orderData.summary.cancelledOrders}
+                    {hasNoBookings ? 0 : orderData.summary.cancelledOrders}
                   </h2>
                   <small className="opacity-75">Refund processed</small>
                 </div>
@@ -194,7 +200,7 @@ export default function DashboardSummary({ orderData, loading }) {
                     ></i>
                     <div>
                       <h4 className="mb-0 text-primary">
-                        {orderData.orders.reduce(
+                        {hasNoBookings ? 0 : orderData.orders.reduce(
                           (sum, order) => sum + order.participants,
                           0
                         )}
@@ -211,7 +217,7 @@ export default function DashboardSummary({ orderData, loading }) {
                     ></i>
                     <div>
                       <h4 className="mb-0 text-success">
-                        {
+                        {hasNoBookings ? 0 :
                           new Set(
                             orderData.orders.map((order) => order.tourName)
                           ).size
@@ -229,7 +235,7 @@ export default function DashboardSummary({ orderData, loading }) {
                     ></i>
                     <div>
                       <h4 className="mb-0 text-warning">
-                        {orderData.orders.length > 0
+                        {hasNoBookings ? "N/A" : orderData.orders.length > 0
                           ? new Date(
                               Math.max(
                                 ...orderData.orders.map(
@@ -254,7 +260,7 @@ export default function DashboardSummary({ orderData, loading }) {
                     ></i>
                     <div>
                       <h4 className="mb-0 text-info">
-                        {orderData.orders.length > 0
+                        {hasNoBookings ? 0 : orderData.orders.length > 0
                           ? new Set(
                               orderData.orders.map(
                                 (order) => order.tourName.split(" ")[0]

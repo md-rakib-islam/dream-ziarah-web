@@ -1,5 +1,18 @@
 import React from "react";
 
+// Utility function to determine if background color is dark
+const getTextColorClass = (bgColorClass) => {
+  const darkBackgrounds = ["success", "primary", "danger", "dark", "info"];
+  const lightBackgrounds = ["warning", "light", "secondary"];
+
+  if (darkBackgrounds.includes(bgColorClass)) {
+    return "text-white";
+  } else if (lightBackgrounds.includes(bgColorClass)) {
+    return "text-dark";
+  }
+  return "text-dark"; // default
+};
+
 // Component to render cancel button or status
 const CancelButtonOrStatus = ({
   order,
@@ -36,7 +49,7 @@ const CancelButtonOrStatus = ({
       <div className="d-flex align-items-center justify-content-center">
         <div className="d-flex flex-column align-items-center">
           <span
-            className={`badge bg-${statusInfo.badgeColor} text-dark px-2 py-1 mb-1`}
+            className={`badge bg-${statusInfo.badgeColor} ${getTextColorClass(statusInfo.badgeColor)} px-2 py-1 mb-1`}
             style={{ fontSize: "10px" }}
           >
             <i className="icon-clock me-1"></i>
@@ -97,7 +110,7 @@ const ChangeDateButtonOrStatus = ({
       <div className="d-flex align-items-center justify-content-center">
         <div className="d-flex flex-column align-items-center">
           <span
-            className={`badge bg-${statusInfo.badgeColor} text-dark px-2 py-1 mb-1`}
+            className={`badge bg-${statusInfo.badgeColor} ${getTextColorClass(statusInfo.badgeColor)} px-2 py-1 mb-1`}
             style={{ fontSize: "10px" }}
           >
             <i
@@ -202,7 +215,7 @@ export default function MobileOrderCard({
           <span
             className={`badge bg-${getStatusColor(
               order.status
-            )} text-dark px-3 py-2`}
+            )} ${getTextColorClass(getStatusColor(order.status))} px-3 py-2`}
           >
             <i className={getStatusIcon(order.status)}></i>
             {order.status.charAt(0).toUpperCase() + order.status.slice(1)}

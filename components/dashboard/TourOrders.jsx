@@ -7,6 +7,19 @@ import PaginationControls from "./PaginationControls";
 import MobileOrderCard from "./MobileOrderCard";
 import FilterTourOrder from "./FilterTourOrder";
 
+// Utility function to determine if background color is dark
+const getTextColorClass = (bgColorClass) => {
+  const darkBackgrounds = ["success", "primary", "danger", "dark", "info"];
+  const lightBackgrounds = ["warning", "light", "secondary"];
+
+  if (darkBackgrounds.includes(bgColorClass)) {
+    return "text-white";
+  } else if (lightBackgrounds.includes(bgColorClass)) {
+    return "text-dark";
+  }
+  return "text-dark"; // default
+};
+
 export default function TourOrders({
   orderData,
   onOrderSelect,
@@ -386,7 +399,7 @@ export default function TourOrders({
         >
           <div className="d-flex flex-column align-items-center">
             <span
-              className={`badge bg-${statusInfo.badgeColor} text-dark px-2 py-1 mb-1`}
+              className={`badge bg-${statusInfo.badgeColor} ${getTextColorClass(statusInfo.badgeColor)} px-2 py-1 mb-1`}
               style={{ fontSize: "10px" }}
             >
               <i className="icon-clock me-1"></i>
@@ -441,7 +454,7 @@ export default function TourOrders({
         <div className="text-center">
           <div className="d-flex flex-column align-items-center">
             <span
-              className={`badge bg-${statusInfo.badgeColor} text-dark px-2 py-1 mb-1`}
+              className={`badge bg-${statusInfo.badgeColor} ${getTextColorClass(statusInfo.badgeColor)} px-2 py-1 mb-1`}
               style={{ fontSize: "10px" }}
             >
               <i
@@ -553,12 +566,23 @@ export default function TourOrders({
         />
 
         {/* Orders Display */}
-        {loading ? (
+        {loading && orderData.orders.length > 0 ? (
           <div className="text-center py-5">
             <div className="spinner-border text-primary mb-3" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
             <h5 className="text-muted">Loading tour bookings...</h5>
+          </div>
+        ) : orderData.orders.length === 0 ? (
+          <div className="text-center py-5">
+            <i
+              className="icon-calendar-x text-muted mb-3"
+              style={{ fontSize: "4rem" }}
+            ></i>
+            <h4 className="text-muted">No Bookings Yet</h4>
+            <p className="text-muted">
+              You haven't made any tour bookings yet. Start exploring our tours!
+            </p>
           </div>
         ) : filteredOrders.length === 0 ? (
           <div className="text-center py-5">
@@ -727,7 +751,7 @@ export default function TourOrders({
                                   <span
                                     className={`badge bg-${getStatusColor(
                                       order.status
-                                    )} d-flex align-items-center justify-content-center mb-1 text-dark`}
+                                    )} ${getTextColorClass(getStatusColor(order.status))} d-flex align-items-center justify-content-center mb-1`}
                                     style={{
                                       width: "130px",
                                       padding: "6px",

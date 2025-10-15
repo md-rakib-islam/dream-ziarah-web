@@ -41,7 +41,6 @@ const NAVIGATION_ITEMS = [
 const SidebarNavigation = ({
   activeSection,
   setActiveSection,
-  bookingsLoading,
   handleLogout,
   user,
 }) => {
@@ -86,14 +85,6 @@ const SidebarNavigation = ({
           >
             <i className={`${item.icon} text-14 me-3`}></i>
             {item.label}
-            {bookingsLoading && activeSection === item.id && (
-              <div
-                className="spinner-border spinner-border-sm ms-2"
-                role="status"
-              >
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            )}
             {activeSection === item.id && (
               <div className="position-absolute top-50 end-0 translate-middle-y me-2">
                 <i className="icon-chevron-right"></i>
@@ -305,7 +296,6 @@ function Dashboard() {
           <SidebarNavigation
             activeSection={activeSection}
             setActiveSection={setActiveSection}
-            bookingsLoading={bookingsLoading}
             handleLogout={handleLogout}
             user={user}
           />
