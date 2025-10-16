@@ -7,17 +7,14 @@ import PaginationControls from "./PaginationControls";
 import MobileOrderCard from "./MobileOrderCard";
 import FilterTourOrder from "./FilterTourOrder";
 
-// Utility function to determine if background color is dark
-const getTextColorClass = (bgColorClass) => {
+// Utility function to determine text color based on background
+const getTextColor = (bgColorClass) => {
   const darkBackgrounds = ["success", "primary", "danger", "dark", "info"];
-  const lightBackgrounds = ["warning", "light", "secondary"];
 
   if (darkBackgrounds.includes(bgColorClass)) {
-    return "text-white";
-  } else if (lightBackgrounds.includes(bgColorClass)) {
-    return "text-dark";
+    return "#fff";
   }
-  return "text-dark"; // default
+  return "#212529";
 };
 
 export default function TourOrders({
@@ -152,7 +149,14 @@ export default function TourOrders({
       case "pending":
         return "icon-clock me-2";
       case "cancelled":
+      case "cancelled without refund":
         return "icon-x-circle me-2";
+      case "refund pending":
+        return "icon-refresh-cw me-2";
+      case "partial refund":
+        return "icon-arrow-left-circle me-2";
+      case "refunded":
+        return "icon-check-circle me-2";
       default:
         return "icon-help-circle me-2";
     }
@@ -165,7 +169,15 @@ export default function TourOrders({
       case "pending":
         return "warning";
       case "cancelled":
+      case "cancelled by admin":
+      case "cancelled without refund":
         return "danger";
+      case "refund pending":
+        return "info";
+      case "partial_refund":
+        return "warning";
+      case "refunded":
+        return "primary";
       default:
         return "secondary";
     }
@@ -399,8 +411,8 @@ export default function TourOrders({
         >
           <div className="d-flex flex-column align-items-center">
             <span
-              className={`badge bg-${statusInfo.badgeColor} ${getTextColorClass(statusInfo.badgeColor)} px-2 py-1 mb-1`}
-              style={{ fontSize: "10px" }}
+              className={`badge bg-${statusInfo.badgeColor} px-2 py-1 mb-1`}
+              style={{ fontSize: "10px", color: getTextColor(statusInfo.badgeColor) }}
             >
               <i className="icon-clock me-1"></i>
               {statusInfo.status}
@@ -454,8 +466,8 @@ export default function TourOrders({
         <div className="text-center">
           <div className="d-flex flex-column align-items-center">
             <span
-              className={`badge bg-${statusInfo.badgeColor} ${getTextColorClass(statusInfo.badgeColor)} px-2 py-1 mb-1`}
-              style={{ fontSize: "10px" }}
+              className={`badge bg-${statusInfo.badgeColor} px-2 py-1 mb-1`}
+              style={{ fontSize: "10px", color: getTextColor(statusInfo.badgeColor) }}
             >
               <i
                 className={`${
@@ -751,15 +763,16 @@ export default function TourOrders({
                                   <span
                                     className={`badge bg-${getStatusColor(
                                       order.status
-                                    )} ${getTextColorClass(getStatusColor(order.status))} d-flex align-items-center justify-content-center mb-1`}
+                                    )} d-flex align-items-center justify-content-center mb-1`}
                                     style={{
                                       width: "130px",
                                       padding: "6px",
                                       fontSize: "10px",
+                                      color: getTextColor(getStatusColor(order.status)),
                                     }}
                                   >
                                     {order.status.charAt(0).toUpperCase() +
-                                      order.status.slice(1)}
+                                      order.status.slice(1).replace(/_/g, ' ')}
                                   </span>
                                   {order.status === "pending" && !disabled && (
                                     <small

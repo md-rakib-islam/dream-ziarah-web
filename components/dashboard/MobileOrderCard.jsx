@@ -1,16 +1,13 @@
 import React from "react";
 
-// Utility function to determine if background color is dark
-const getTextColorClass = (bgColorClass) => {
+// Utility function to determine text color based on background
+const getTextColor = (bgColorClass) => {
   const darkBackgrounds = ["success", "primary", "danger", "dark", "info"];
-  const lightBackgrounds = ["warning", "light", "secondary"];
 
   if (darkBackgrounds.includes(bgColorClass)) {
-    return "text-white";
-  } else if (lightBackgrounds.includes(bgColorClass)) {
-    return "text-dark";
+    return "#fff";
   }
-  return "text-dark"; // default
+  return "#212529";
 };
 
 // Component to render cancel button or status
@@ -49,8 +46,8 @@ const CancelButtonOrStatus = ({
       <div className="d-flex align-items-center justify-content-center">
         <div className="d-flex flex-column align-items-center">
           <span
-            className={`badge bg-${statusInfo.badgeColor} ${getTextColorClass(statusInfo.badgeColor)} px-2 py-1 mb-1`}
-            style={{ fontSize: "10px" }}
+            className={`badge bg-${statusInfo.badgeColor} px-2 py-1 mb-1`}
+            style={{ fontSize: "10px", color: getTextColor(statusInfo.badgeColor) }}
           >
             <i className="icon-clock me-1"></i>
             {statusInfo.status}
@@ -110,8 +107,8 @@ const ChangeDateButtonOrStatus = ({
       <div className="d-flex align-items-center justify-content-center">
         <div className="d-flex flex-column align-items-center">
           <span
-            className={`badge bg-${statusInfo.badgeColor} ${getTextColorClass(statusInfo.badgeColor)} px-2 py-1 mb-1`}
-            style={{ fontSize: "10px" }}
+            className={`badge bg-${statusInfo.badgeColor} px-2 py-1 mb-1`}
+            style={{ fontSize: "10px", color: getTextColor(statusInfo.badgeColor) }}
           >
             <i
               className={`${
@@ -215,10 +212,10 @@ export default function MobileOrderCard({
           <span
             className={`badge bg-${getStatusColor(
               order.status
-            )} ${getTextColorClass(getStatusColor(order.status))} px-3 py-2`}
+            )} px-3 py-2`}
+            style={{ color: getTextColor(getStatusColor(order.status)) }}
           >
-            <i className={getStatusIcon(order.status)}></i>
-            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+            {order.status.charAt(0).toUpperCase() + order.status.slice(1).replace(/_/g, ' ')}
           </span>
           {!disabled && (
             <ChangeDateButtonOrStatus
