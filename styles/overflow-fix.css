@@ -152,8 +152,8 @@ img {
 /* Prevent touch-action conflicts */
 .tabs__controls,
 .masthead.controls-head {
-  touch-action: pan-y; /* Allow vertical panning for page scroll */
-  /* overflow-x: hidden !important; Prevent horizontal scroll when tabs fit */
+  touch-action: pan-x pan-y; /* Allow both horizontal tabs scroll and vertical page scroll */
+  overflow-x: auto; /* Allow horizontal scroll for tabs */
 }
 
 /* Fix for galleries and horizontal scrollers */

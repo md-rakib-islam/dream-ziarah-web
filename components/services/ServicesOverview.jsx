@@ -364,7 +364,7 @@ const ServicesOverview = () => {
 
         <Link href={service.route} className="text-decoration-none">
           <button
-            className={`btn btn-success fw-bold rounded-pill ${
+            className={`btn btn-success fw-bold ${
               isMobile ? "btn-xs px-2 py-1" : "btn-sm px-3"
             }`}
           >
@@ -385,7 +385,10 @@ const ServicesOverview = () => {
                 Find Ziyarat Tours in Makkah, Umrah, and Hajj Packages
               </h2>
               <p className=" sectionTitle__text mt-5 sm:mt-0 md:text-13">
-               Enjoy guided ziyarat tours in Makkah, umrah packages, and cheap hajj deals. See the list of ziyarat places in Makkah and Madinah with easy transport and English guides. Book your spiritual pilgrimage now!
+                Enjoy guided ziyarat tours in Makkah, umrah packages, and cheap
+                hajj deals. See the list of ziyarat places in Makkah and Madinah
+                with easy transport and English guides. Book your spiritual
+                pilgrimage now!
               </p>
             </div>
           </div>

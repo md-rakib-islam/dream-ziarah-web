@@ -76,7 +76,6 @@ const index = ({
                   className="tabs__controls d-flex items-center js-tabs-controls"
                   style={{
                     backgroundColor: "#015a29ff",
-                    justifyContent: "space-between",
                   }}
                 >
                   {tabs?.map((tab) => (
