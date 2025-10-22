@@ -1,41 +1,42 @@
-import React from 'react';
+import React from "react";
 
 const FrequentlyQ = ({ faqDescription }) => {
+  console.log("FAQ Description:", faqDescription);
   // Parse the HTML string to extract FAQ items
   const parseFAQData = (htmlString) => {
     if (!htmlString) return [];
 
     const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlString, 'text/html');
-    
+    const doc = parser.parseFromString(htmlString, "text/html");
+
     const faqItems = [];
-    const h3Elements = doc.querySelectorAll('h3');
-    
+    const h3Elements = doc.querySelectorAll("h3");
+
     h3Elements.forEach((h3, index) => {
       const question = h3.textContent.trim();
-      let answer = '';
+      let answer = "";
       let nextElement = h3.nextElementSibling;
-      
+
       // Collect all content until the next h3 or end
-      while (nextElement && nextElement.tagName !== 'H3') {
-        if (nextElement.tagName === 'P') {
+      while (nextElement && nextElement.tagName !== "H3") {
+        if (nextElement.tagName === "P") {
           answer += nextElement.innerHTML;
-        } else if (nextElement.tagName === 'UL') {
+        } else if (nextElement.tagName === "UL") {
           answer += nextElement.outerHTML;
         }
         nextElement = nextElement.nextElementSibling;
       }
-      
+
       if (question && answer) {
-        faqItems.push({ 
+        faqItems.push({
           id: index + 1,
           title: question,
           content: answer,
-          collapseTarget: `faq${index + 1}`
+          collapseTarget: `faq${index + 1}`,
         });
       }
     });
-    
+
     return faqItems;
   };
 
@@ -88,7 +89,7 @@ const FrequentlyQ = ({ faqDescription }) => {
               data-bs-parent={`#${parentId}`}
             >
               <div className="pt-15 pl-60">
-                <div 
+                <div
                   className="text-15"
                   dangerouslySetInnerHTML={{ __html: item.content }}
                 />
@@ -103,8 +104,8 @@ const FrequentlyQ = ({ faqDescription }) => {
 
   return (
     <>
-      {renderColumn(leftColumnItems, 'FaqLeft')}
-      {renderColumn(rightColumnItems, 'FaqRight')}
+      {renderColumn(leftColumnItems, "FaqLeft")}
+      {renderColumn(rightColumnItems, "FaqRight")}
     </>
   );
 };
