@@ -2,7 +2,7 @@
 import { useGetSliderImagesQuery } from "@/features/image/imageApi";
 import useWindowSize from "@/hooks/useWindowSize";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useFaqDescription } from "@/hooks/useFaqDescription";
 import FrequentlyQ from "../faq/FrequentlyQ";
@@ -46,22 +46,22 @@ const MainHome = () => {
   const [mobileTourDataAvailable, setMobileTourDataAvailable] = useState(false);
 
   const width = useWindowSize();
-  const isMobile = width > 768;
+  const isMobile = useMemo(() => width > 768, [width]);
 
   const { currentTab } = useSelector((state) => state.hero) || {};
 
-  // Function to handle data availability big device
-  const handleDataAvailability = (isDataAvailable) => {
+  // Memoize callback functions to prevent re-renders
+  const handleDataAvailability = useCallback((isDataAvailable) => {
     setDataAvailable(isDataAvailable);
-  };
-  // Function to handle data availability for mobile
-  const handleMobileDataAvailability = (isMobileDataAvailable) => {
+  }, []);
+
+  const handleMobileDataAvailability = useCallback((isMobileDataAvailable) => {
     setMobileDataAvailable(isMobileDataAvailable);
-  };
-  // Function to handle data availability for mobile
-  const handleMobileTourDataAvailability = (isMobileTourDataAvailable) => {
+  }, []);
+
+  const handleMobileTourDataAvailability = useCallback((isMobileTourDataAvailable) => {
     setMobileTourDataAvailable(isMobileTourDataAvailable);
-  };
+  }, []);
 
   return (
     <>

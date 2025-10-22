@@ -1,11 +1,7 @@
 "use client";
 
-import useWindowSize from "@/hooks/useWindowSize";
-import Slider from "react-slick";
-
-const TourGalleryGridSkeleton = () => {
-  const width = useWindowSize();
-  const isMobile = width < 768;
+const TourGalleryGridSkeleton = ({ isMobile = false }) => {
+  // Accept isMobile as prop instead of calculating it here
 
   // Custom arrow component for mobile slider skeleton
   function MobileArrow(props) {
@@ -72,16 +68,6 @@ const TourGalleryGridSkeleton = () => {
   }
 
   // Slider settings for mobile skeleton
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    nextArrow: <MobileArrow type="next" />,
-    prevArrow: <MobileArrow type="prev" />,
-  };
 
   return (
     <section className="pt-40 js-pin-container">
@@ -108,7 +94,46 @@ const TourGalleryGridSkeleton = () => {
               </div>
             </div>
           </div>
-        ) : null}
+        ) : (
+          // Mobile Banner Skeleton
+          <div className="mobile-gallery-skeleton">
+            <div
+              className="skeleton-pulse rounded-4"
+              style={{
+                width: '100%',
+                height: '280px',
+                position: 'relative',
+                backgroundColor: '#f0f0f0',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Shimmer effect */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                  animation: 'shimmer 1.5s infinite',
+                }}
+              />
+            </div>
+
+            {/* Add shimmer animation */}
+            <style jsx>{`
+              @keyframes shimmer {
+                0% {
+                  transform: translateX(-100%);
+                }
+                100% {
+                  transform: translateX(100%);
+                }
+              }
+            `}</style>
+          </div>
+        )}
       </div>
     </section>
   );

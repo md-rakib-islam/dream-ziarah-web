@@ -1,0 +1,169 @@
+/**
+ * Overflow Fix for Horizontal Scrolling
+ * Prevents horizontal scroll on mobile devices while allowing sliders
+ */
+
+/* Prevent horizontal overflow on all pages */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
+}
+
+/* Ensure container doesn't overflow but allow slider overflow */
+/* Only apply on mobile/tablet to prevent desktop issues */
+@media (max-width: 1199.98px) {
+  .container,
+  .container-fluid {
+    max-width: 100%;
+  }
+}
+
+/* Sections should contain content - but not slider sections */
+section:not(:has(.slick-slider)):not(:has(.swiper)) {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Slider parent sections need special handling */
+section:has(.slick-slider),
+section:has(.swiper) {
+  max-width: 100%;
+  overflow: hidden; /* Hide overflow at section level */
+  position: relative;
+}
+
+/* Fix for rows that might overflow - but exclude slick slider rows */
+.row:not(.slick-slider .row) {
+  max-width: 100%;
+}
+
+/* Mobile specific fixes */
+@media (max-width: 767.98px) {
+  /* Prevent wide elements from causing scroll - except sliders */
+  *:not(.slick-slider):not(.slick-list):not(.slick-track):not(.swiper):not(.swiper-wrapper) {
+    max-width: 100vw;
+  }
+
+  /* Fix for absolute positioned elements */
+  .mobile-overlay {
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  /* Fix dashboard sidebar on mobile */
+  .dashboard-sidebar {
+    max-width: 250px;
+  }
+}
+
+/* Ensure images don't overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix for swiper containers - allow internal scroll */
+.swiper,
+.swiper-container {
+  max-width: 100%;
+  overflow: visible; /* Allow slides to overflow */
+}
+
+.swiper-wrapper {
+  overflow: visible;
+}
+
+/* React Slick slider fixes */
+.slick-slider {
+  overflow: hidden; /* Contain the slider */
+  max-width: 100%;
+}
+
+.slick-list {
+  overflow: visible; /* Allow slides to be visible */
+  margin: 0 -15px; /* Negative margin for spacing */
+}
+
+.slick-track {
+  display: flex !important;
+}
+
+.slick-slide {
+  height: auto;
+  padding: 0 15px; /* Padding for spacing */
+}
+
+/* Fix for slider arrows not causing overflow */
+.slick-prev,
+.slick-next {
+  z-index: 1;
+}
+
+.slick-prev {
+  left: 10px;
+}
+
+.slick-next {
+  right: 10px;
+}
+
+/* Ensure slider container doesn't overflow the section */
+.slick-slider .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Fix for y-gap classes in sliders */
+.slick-slider .y-gap-30,
+.slick-slider .y-gap-40 {
+  row-gap: 0 !important;
+}
+
+/* Fix scroll hijacking - prevent sections from capturing scroll */
+@media (max-width: 767.98px) {
+  /* Disable scroll snap on mobile to prevent hijacking */
+  .tabs__controls,
+  .masthead.controls-head,
+  .masthead__tabs .tabs__controls {
+    scroll-snap-type: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure tab containers don't hijack vertical scroll */
+  .tabs__controls:not(:active),
+  .masthead.controls-head:not(:active) {
+    overflow-x: auto;
+    overflow-y: hidden; /* Prevent vertical scroll capture */
+  }
+
+  /* Only enable scrolling when actively touching */
+  .tabs__controls:active,
+  .masthead.controls-head:active {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+/* Prevent touch-action conflicts */
+.tabs__controls,
+.masthead.controls-head {
+  touch-action: pan-x; /* Only allow horizontal panning */
+}
+
+/* Fix for galleries and horizontal scrollers */
+@media (max-width: 767.98px) {
+  /* Galleries should only scroll horizontally when intentional */
+  [class*="gallery"],
+  [class*="slider"],
+  .slick-list {
+    touch-action: pan-x pinch-zoom; /* Horizontal + zoom only */
+  }
+
+  /* Main content should scroll vertically */
+  main,
+  section:not(:has(.slick-slider)):not(:has(.tabs__controls)) {
+    touch-action: pan-y; /* Vertical scroll only */
+  }
+}

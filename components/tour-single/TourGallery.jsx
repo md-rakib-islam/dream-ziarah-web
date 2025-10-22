@@ -7,7 +7,6 @@ import useWindowSize from "@/hooks/useWindowSize";
 import "../../styles/weather.scss";
 import { useState, useEffect, useRef } from "react";
 import OverviewSkeleton from "../skeleton/OverviewSkeleton";
-import TourGalleryGridSkeleton from "./TourGalleryGridSkeleton";
 import Slider from "react-slick";
 import SidebarRight2 from "./SidebarRight2";
 import Itinerary from "./itinerary/index";
@@ -15,7 +14,6 @@ import ImportantInfo from "@/components/tour-single/ImportantInfo";
 
 export default function TourGallery({ tour, onDataAvailable, isUmrahPage }) {
   const [dataAvailable, setDataAvailable] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showScrollMenus, setShowScrollMenus] = useState(false);
@@ -287,7 +285,6 @@ export default function TourGallery({ tour, onDataAvailable, isUmrahPage }) {
   // Handle image load
   const handleImageLoad = (e) => {
     if (e) {
-      setIsLoading(false);
       setDataAvailable(true);
       if (onDataAvailable) {
         onDataAvailable(true);
@@ -311,15 +308,6 @@ export default function TourGallery({ tour, onDataAvailable, isUmrahPage }) {
         (prev - 1 + (tourImages?.length || 1)) % (tourImages?.length || 1)
     );
   };
-
-  useEffect(() => {
-    // Set loading to false after a short delay to show skeleton
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500); // Show skeleton for 2 seconds
-
-    return () => clearTimeout(timer);
-  }, [tour]);
 
   // Check if there's only one image
   const hasSingleImage = tourImages?.length === 1;
@@ -611,7 +599,6 @@ export default function TourGallery({ tour, onDataAvailable, isUmrahPage }) {
         </div>
       )}
       {/* Mobile Bottom Menu (conditionally visible) */}
-      {/* Mobile Bottom Menu (conditionally visible) */}
       {isMobile && (
         <div
           className="mobile-bottom-menu"
@@ -675,121 +662,113 @@ export default function TourGallery({ tour, onDataAvailable, isUmrahPage }) {
           </button>
         </div>
       )}
-      <section className="pt-40 js-pin-container">
+      <section className="pt-5 pt-sm-0 js-pin-container">
         <div className="container">
           {/* Full Width Gallery Section */}
           <div className="row">
             <div className="col-12">
-              {/* Show skeleton while loading */}
-              {isLoading ? (
-                <TourGalleryGridSkeleton />
-              ) : (
-                <>
-                  {/* Desktop View */}
-                  {!isMobile && (
-                    <div className="gallery-grid">
-                      <div
-                        className={`gallery-grid-container ${
-                          hasSingleImage ? "single-image-grid" : ""
-                        }`}
-                      >
-                        {/* First large image (left) */}
-                        <div
-                          className="gallery-item gallery-item-large-left"
-                          onClick={() => handleImageClick(0)}
-                        >
-                          <Image
-                            src={normalizedImages[0] || "/placeholder.svg"}
-                            alt={`${tour?.name || "Tour"} - Image 1`}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            className="object-cover rounded-4"
-                            priority={true}
-                            onLoad={handleImageLoad}
-                          />
-                        </div>
-                        {/* Center large image */}
-                        <div
-                          className="gallery-item gallery-item-large-center"
-                          onClick={() => handleImageClick(1)}
-                        >
-                          <Image
-                            src={normalizedImages[1] || "/placeholder.svg"}
-                            alt={`${tour?.name || "Tour"} - Image 2`}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                            className="object-cover rounded-4"
-                            priority={true}
-                            onLoad={handleImageLoad}
-                          />
-                        </div>
-                        {/* Top right image */}
-                        <div
-                          className="gallery-item gallery-item-small-top-right"
-                          onClick={() => handleImageClick(2)}
-                        >
-                          <Image
-                            src={normalizedImages[2] || "/placeholder.svg"}
-                            alt={`${tour?.name || "Tour"} - Image 3`}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 25vw"
-                            className="object-cover rounded-4"
-                            onLoad={handleImageLoad}
-                          />
-                        </div>
-                        {/* Bottom right image */}
-                        <div
-                          className="gallery-item gallery-item-small-bottom-right"
-                          onClick={() => handleImageClick(3)}
-                        >
-                          <Image
-                            src={normalizedImages[3] || "/placeholder.svg"}
-                            alt={`${tour?.name || "Tour"} - Image 4`}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 25vw"
-                            className="object-cover rounded-4"
-                            onLoad={handleImageLoad}
-                          />
-                          {tourImages?.length > 4 && (
-                            <div className="more-photos-overlay rounded-4">
-                              <span>+{tourImages.length - 4}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
+              {/* Desktop View - Hidden on mobile (< 768px) */}
+              <div className="d-none d-sm-block">
+                <div className="gallery-grid">
+                  <div
+                    className={`gallery-grid-container ${
+                      hasSingleImage ? "single-image-grid" : ""
+                    }`}
+                  >
+                    {/* First large image (left) */}
+                    <div
+                      className="gallery-item gallery-item-large-left"
+                      onClick={() => handleImageClick(0)}
+                    >
+                      <Image
+                        src={normalizedImages[0] || "/placeholder.svg"}
+                        alt={`${tour?.name || "Tour"} - Image 1`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover rounded-4"
+                        priority={true}
+                        onLoad={handleImageLoad}
+                      />
                     </div>
-                  )}
+                    {/* Center large image */}
+                    <div
+                      className="gallery-item gallery-item-large-center"
+                      onClick={() => handleImageClick(1)}
+                    >
+                      <Image
+                        src={normalizedImages[1] || "/placeholder.svg"}
+                        alt={`${tour?.name || "Tour"} - Image 2`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover rounded-4"
+                        priority={true}
+                        onLoad={handleImageLoad}
+                      />
+                    </div>
+                    {/* Top right image */}
+                    <div
+                      className="gallery-item gallery-item-small-top-right"
+                      onClick={() => handleImageClick(2)}
+                    >
+                      <Image
+                        src={normalizedImages[2] || "/placeholder.svg"}
+                        alt={`${tour?.name || "Tour"} - Image 3`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                        className="object-cover rounded-4"
+                        onLoad={handleImageLoad}
+                      />
+                    </div>
+                    {/* Bottom right image */}
+                    <div
+                      className="gallery-item gallery-item-small-bottom-right"
+                      onClick={() => handleImageClick(3)}
+                    >
+                      <Image
+                        src={normalizedImages[3] || "/placeholder.svg"}
+                        alt={`${tour?.name || "Tour"} - Image 4`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                        className="object-cover rounded-4"
+                        onLoad={handleImageLoad}
+                      />
+                      {tourImages?.length > 4 && (
+                        <div className="more-photos-overlay rounded-4">
+                          <span>+{tourImages.length - 4}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                  {/* Mobile View */}
-                  {/* Mobile View */}
-                  {isMobile && (
-                    <div className="mobile-slider-container">
-                      <div className="mobile-slider-wrapper">
-                        <Slider {...sliderSettings}>
-                          {normalizedImages.map((image, index) => (
-                            <div key={index} className="mobile-slide-wrapper">
-                              <div
-                                className="mobile-slide-single"
-                                onClick={() => handleImageClick(index)}
-                              >
-                                <Image
-                                  src={image || "/placeholder.svg"}
-                                  alt={`${tour?.name || "Tour"} - Image ${
-                                    index + 1
-                                  }`}
-                                  fill
-                                  onLoad={handleImageLoad}
-                                  priority={index === 0}
-                                />
-                              </div>
-                            </div>
-                          ))}
-                        </Slider>
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
+              {/* Mobile View - Hidden on desktop (>= 576px) */}
+              <div className="d-sm-none">
+                <div className="mobile-slider-container">
+                  <div className="mobile-slider-wrapper">
+                    <Slider {...sliderSettings}>
+                      {normalizedImages.map((image, index) => (
+                        <div key={index} className="mobile-slide-wrapper">
+                          <div
+                            className="mobile-slide-single"
+                            onClick={() => handleImageClick(index)}
+                          >
+                            <Image
+                              src={image || "/placeholder.svg"}
+                              alt={`${tour?.name || "Tour"} - Image ${
+                                index + 1
+                              }`}
+                              fill
+                              onLoad={handleImageLoad}
+                              priority={index === 0}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </Slider>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

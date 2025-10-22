@@ -42,11 +42,6 @@ const TourSingleV1Dynamic = ({
   const [copied, setCopied] = useState(false);
   const [isCopyLoading, setIsCopyLoading] = useState(false);
 
-  // Use the new single tour hook
-  // const { tourIds, notFound } = useTourBySlug(params.name);
-  // Use the new single tour hook
-  // const { data: tourData, error, isLoading } = useSingleTour(tourIds);
-
   useEffect(() => {
     if (tourData) {
       // Set location-based flags based on location_type
@@ -174,10 +169,10 @@ const TourSingleV1Dynamic = ({
   }
 
   return (
-    <>
+    <div className="overflow-hidden">
       <div className="header-margin"></div>
 
-      <section className="pt-50 js-pin-container">
+      <section className="pt-5 pt-sm-3 pt-md-4 pt-lg-5 js-pin-container">
         <div className="container">
           <div className="row y-gap-30">
             {children}
@@ -268,13 +263,6 @@ const TourSingleV1Dynamic = ({
                     </li>
                   </ul>
                 </div>
-
-                {/* <div className="col-auto">
-                  <button className="button px-10 py-10 -blue-1 bg-light-2">
-                    <i className="icon-heart mr-10"></i>
-                    Save
-                  </button>
-                </div> */}
               </div>
             </div>
           </div>
@@ -282,35 +270,6 @@ const TourSingleV1Dynamic = ({
       </section>
 
       <TourGallery tour={tourData} isUmrahPage={isUmrahPage} />
-      {/* 
-      {dataAvailable && (
-        <>
-          <section className="pt-40">
-            <div className="container">
-              <div className="pt-40 border-top-light">
-                <div className="row x-gap-40 y-gap-40">
-                  <div className="col-auto">
-                    <h2 className="text-22 fw-600">Important information</h2>
-                  </div>
-                </div>
-                <ImportantInfo tour={tourData} />
-              </div>
-            </div>
-          </section>
-
-          {tourData?.itineraries_list?.length > 0 && (
-            <section className="border-top-light  mt-40 pt-40">
-              <div className="container">
-                <h3 className="text-22 fw-600 mb-20">Itinerary</h3>
-                <Itinerary
-                  name={tourData?.name}
-                  itenarayItems={tourData?.itineraries_list}
-                />
-              </div>
-            </section>
-          )}
-        </>
-      )} */}
 
       {makka && tourData?.name && dataAvailable && (
         <section className="layout-pt-md layout-pb-md">
@@ -439,7 +398,7 @@ const TourSingleV1Dynamic = ({
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 };
 
