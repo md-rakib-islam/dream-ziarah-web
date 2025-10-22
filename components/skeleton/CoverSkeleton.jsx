@@ -120,7 +120,6 @@ const CoverSkeleton = () => {
             height={600}
             alt="image"
             priority={true}
-            onLoad={() => onDataAvailable(true)}
           />
         </div>
 

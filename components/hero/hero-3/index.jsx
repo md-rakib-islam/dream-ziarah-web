@@ -105,7 +105,7 @@ const index = ({
                 className="row justify-center m-0"
                 style={{
                   backgroundImage:
-                    "url(https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/e8c9ea82-4d87-4e1a-5458-9a7348e14400/public)",
+                    "url(https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/a59cfc16-7fde-4a50-7103-e6622f883600/public)",
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                   opacity: 0.89,

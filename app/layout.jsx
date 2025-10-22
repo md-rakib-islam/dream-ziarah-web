@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "../styles/index.scss";
 import "../styles/overflow-fix.css";
+import "../styles/islamic-patterns.css";
 
 /**
  * Root Layout - Server Component

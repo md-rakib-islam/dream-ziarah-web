@@ -83,7 +83,7 @@ const MainHome = () => {
       {/* Hajj/Umrah Section for Mobile */}
       {!isMobile && mobileDataAvailable ? (
         <>
-          <section className="layout-pt-md layout-pb-md">
+          <section className="layout-pt-md layout-pb-md islamic-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -129,7 +129,7 @@ const MainHome = () => {
 
           {/* Show Makkah section only if current tab is NOT Makkah */}
           {currentTab !== "Makkah" && mobileTourDataAvailable && (
-            <section className="layout-pt-md layout-pb-md ">
+            <section className="layout-pt-md layout-pb-md kaaba-pattern-bg">
               <div className="container">
                 <div className="row justify-center text-center">
                   <div className="col-12">
@@ -162,7 +162,7 @@ const MainHome = () => {
 
           {/* Show Madina section only if current tab is NOT Madina */}
           {currentTab !== "Madina" && mobileTourDataAvailable && (
-            <section className="layout-pt-md layout-pb-md">
+            <section className="layout-pt-md layout-pb-md madina-green-pattern">
               <div className="container">
                 <div className="row justify-center text-center">
                   <div className="col-12">
@@ -240,7 +240,7 @@ const MainHome = () => {
 
           {/* Show Taif section only if current tab is NOT Taif */}
           {currentTab !== "Taif" && mobileTourDataAvailable && (
-            <section className="layout-pt-md layout-pb-md">
+            <section className="layout-pt-md layout-pb-md taif-pattern-bg">
               <div className="container">
                 <div className="row justify-center text-center">
                   <div className="col-12">
@@ -284,7 +284,7 @@ const MainHome = () => {
           {/* Show Why Book With Us and Top Destinations sections */}
           {mobileTourDataAvailable && (
             <>
-              <section className="layout-pt-md layout-pb-md">
+              <section className="layout-pt-md layout-pb-md arabesque-pattern-bg">
                 <div className="container">
                   <div className="row justify-center text-center">
                     <div className="col-12">
@@ -309,7 +309,7 @@ const MainHome = () => {
               </section>
               {/* End Why choose Section */}
 
-              <section className="layout-pt-md layout-pb-md">
+              <section className="layout-pt-md layout-pb-md dome-pattern-bg">
                 <div className="container">
                   <div className="row justify-center text-center">
                     <div className="col-12">
@@ -336,7 +336,7 @@ const MainHome = () => {
                 {/* End .container */}
               </section>
 
-              <section className="layout-pt-md layout-pb-md">
+              <section className="layout-pt-md layout-pb-md tawaf-pattern-bg">
                 <div className="container">
                   <div className="row justify-center text-center">
                     <div className="col-12">
@@ -393,7 +393,7 @@ const MainHome = () => {
       {isMobile && (
         <>
           {/* Always show Hajj/Umrah section on desktop */}
-          <section className="layout-pt-md layout-pb-md ">
+          <section className="layout-pt-md layout-pb-md islamic-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -420,7 +420,7 @@ const MainHome = () => {
           {/* End Hajj/Umrah Tours Sections */}
 
           {/* Always show Makkah section on desktop */}
-          <section className="layout-pt-md layout-pb-md">
+          <section className="layout-pt-md layout-pb-md kaaba-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -445,7 +445,7 @@ const MainHome = () => {
           {/* End Makkah Tours Sections */}
 
           {/* Always show Madina section on desktop */}
-          <section className="layout-pt-md layout-pb-md">
+          <section className="layout-pt-md layout-pb-md madina-green-pattern">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -497,7 +497,7 @@ const MainHome = () => {
           {/* End Jeddah Tours Sections */}
 
           {/* Always show Taif section on desktop */}
-          <section className="layout-pt-md layout-pb-md">
+          <section className="layout-pt-md layout-pb-md taif-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -523,7 +523,7 @@ const MainHome = () => {
           {/* End Taif Tours Sections */}
 
           {/* Always show Why Book With Us section on desktop */}
-          <section className="layout-pt-md layout-pb-md">
+          <section className="layout-pt-md layout-pb-md arabesque-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -552,7 +552,7 @@ const MainHome = () => {
           {/* End Why choose Section */}
 
           {/* Always show Top Destinations section on desktop */}
-          <section className="layout-pt-md layout-pb-md">
+          <section className="layout-pt-md layout-pb-md dome-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -580,7 +580,7 @@ const MainHome = () => {
           </section>
           {/* End Top Destinations Section */}
           {/* Review section */}
-          <section className="layout-pt-md layout-pb-md">
+          <section className="layout-pt-md layout-pb-md tawaf-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">

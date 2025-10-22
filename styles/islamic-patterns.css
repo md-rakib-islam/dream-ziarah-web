@@ -1,0 +1,244 @@
+/**
+ * Islamic Patterns and Backgrounds for Makkah/Madina Tour Website
+ * Light, subtle patterns to give Arabic/Islamic vibes
+ */
+
+/* Islamic Geometric Pattern Background */
+.islamic-pattern-bg {
+  background-color: #f8f9fa;
+  position: relative;
+  overflow: hidden;
+}
+
+.islamic-pattern-bg::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 450px;
+  height: 450px;
+  background-image: url('https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/9cd5b2a1-447f-4785-8fd1-bec352c42600/v1');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left top;
+  opacity: 0.08;
+  z-index: 0;
+  pointer-events: none;
+  filter: grayscale(30%);
+}
+
+.islamic-pattern-bg::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 450px;
+  height: 450px;
+  background-image: url('https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/00d6b484-2698-4120-22c6-baccdd205500/v1');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right bottom;
+  opacity: 0.08;
+  z-index: 0;
+  pointer-events: none;
+  filter: grayscale(30%);
+}
+
+/* Hide right image on mobile */
+@media (max-width: 767.98px) {
+  .islamic-pattern-bg::after {
+    display: none;
+  }
+}
+
+.islamic-pattern-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Kaaba/Star Pattern - Very Light */
+.kaaba-pattern-bg {
+  background-color: #fefefe;
+  background-image: radial-gradient(circle at 25% 25%, rgba(1, 90, 41, 0.02) 2%, transparent 2%),
+                    radial-gradient(circle at 75% 75%, rgba(1, 90, 41, 0.02) 2%, transparent 2%);
+  background-size: 80px 80px;
+  background-position: 0 0, 40px 40px;
+}
+
+/* Arabesque Pattern - Elegant Curves */
+.arabesque-pattern-bg {
+  background-color: #fcfcfc;
+  background-image:
+    radial-gradient(circle at 0% 50%, rgba(1, 90, 41, 0.03) 9%, transparent 10%),
+    radial-gradient(circle at 100% 50%, rgba(1, 90, 41, 0.03) 9%, transparent 10%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+/* Mosque Dome Pattern */
+.dome-pattern-bg {
+  background-color: #f9fafb;
+  background-image:
+    radial-gradient(ellipse at top, rgba(1, 90, 41, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(1, 90, 41, 0.02) 0%, transparent 50%);
+  background-size: 100px 100px;
+  background-position: 0 0, 50px 50px;
+}
+
+/* Madina Green Light Pattern */
+.madina-green-pattern {
+  background: linear-gradient(135deg, #f8fdf9 25%, transparent 25%) -50px 0,
+              linear-gradient(225deg, #f8fdf9 25%, transparent 25%) -50px 0,
+              linear-gradient(315deg, #f8fdf9 25%, transparent 25%),
+              linear-gradient(45deg, #f8fdf9 25%, transparent 25%);
+  background-size: 100px 100px;
+  background-color: #ffffff;
+}
+
+/* Crescent and Star Subtle Pattern */
+.crescent-pattern-bg {
+  background-color: #fafafa;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(1, 90, 41, 0.02) 8%, transparent 8%),
+    radial-gradient(circle at 80% 20%, rgba(1, 90, 41, 0.02) 5%, transparent 5%);
+  background-size: 120px 120px;
+}
+
+/* Taif Section Pattern */
+.taif-pattern-bg {
+  background-color: #fafafa;
+  position: relative;
+  overflow: hidden;
+}
+
+.taif-pattern-bg::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 450px;
+  height: 450px;
+  background-image: url('https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b36b14c7-d18f-4fff-ad37-0fe374e11000/public');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left top;
+  opacity: 0.08;
+  z-index: 0;
+  pointer-events: none;
+  filter: grayscale(30%);
+}
+
+.taif-pattern-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Jeddah Section Pattern - Full Background */
+.jeddah-pattern-bg {
+  background-color: #fafafa;
+  position: relative;
+  overflow: hidden;
+  background-image: url('https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/a8182be8-e4fd-4bf9-da1e-12c792063600/public');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: scroll;
+}
+
+.jeddah-pattern-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.jeddah-pattern-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hajj Theme - Circular Pattern (Tawaf inspired) */
+.tawaf-pattern-bg {
+  background-color: #ffffff;
+  background-image:
+    repeating-radial-gradient(circle at center, transparent 0, transparent 40px, rgba(1, 90, 41, 0.015) 40px, rgba(1, 90, 41, 0.015) 80px);
+}
+
+/* Islamic Tile Mosaic */
+.mosaic-pattern-bg {
+  background-color: #fefefe;
+  background-image:
+    linear-gradient(30deg, rgba(1, 90, 41, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(1, 90, 41, 0.02) 87.5%, rgba(1, 90, 41, 0.02)),
+    linear-gradient(150deg, rgba(1, 90, 41, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(1, 90, 41, 0.02) 87.5%, rgba(1, 90, 41, 0.02)),
+    linear-gradient(30deg, rgba(1, 90, 41, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(1, 90, 41, 0.02) 87.5%, rgba(1, 90, 41, 0.02)),
+    linear-gradient(150deg, rgba(1, 90, 41, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(1, 90, 41, 0.02) 87.5%, rgba(1, 90, 41, 0.02));
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+}
+
+/* Calligraphy Inspired Lines */
+.calligraphy-lines-bg {
+  background-color: #ffffff;
+  background-image:
+    linear-gradient(90deg, transparent 79px, rgba(1, 90, 41, 0.02) 79px, rgba(1, 90, 41, 0.02) 81px, transparent 81px),
+    linear-gradient(rgba(1, 90, 41, 0.01) 0.1em, transparent 0.1em);
+  background-size: 100% 1.2em;
+}
+
+/* Subtle Prayer Mat Pattern */
+.prayer-mat-pattern {
+  background-color: #fafbfa;
+  background-image:
+    linear-gradient(rgba(1, 90, 41, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(1, 90, 41, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Gold Accent Islamic Pattern (for premium sections) */
+.gold-islamic-pattern {
+  background-color: #fffef9;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(218, 165, 32, 0.02) 35px, rgba(218, 165, 32, 0.02) 70px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(218, 165, 32, 0.02) 35px, rgba(218, 165, 32, 0.02) 70px);
+}
+
+/* Section Overlays with Islamic Patterns */
+.section-with-islamic-bg {
+  position: relative;
+  z-index: 1;
+}
+
+.section-with-islamic-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(1, 90, 41, 0.02) 2%, transparent 2%),
+    radial-gradient(circle at 75% 75%, rgba(1, 90, 41, 0.02) 2%, transparent 2%);
+  background-size: 100px 100px;
+  background-position: 0 0, 50px 50px;
+  opacity: 0.5;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Makkah Clock Tower Inspired Vertical Lines */
+.clock-tower-lines {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(1, 90, 41, 0.015) 60px,
+      rgba(1, 90, 41, 0.015) 62px
+    ),
+    #ffffff;
+}
