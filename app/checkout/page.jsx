@@ -492,15 +492,31 @@ const CheckoutPage = () => {
                 <Loading />
               ) : (
                 <Image
-                  style={{ width: "60px", height: "60px" }}
+                  className="d-none d-md-block"
+                  style={{ width: "100%", height: "auto" }}
                   src={logoUrl}
                   width={128}
                   height={128}
                   alt="Hajj, Umrah and Ziarah"
+                  priority
+                />
+              )}
+              {!isLoading && (
+                <Image
+                  className="d-md-none"
+                  style={{ width: "60x", height: "40px" }}
+                  src={logoUrl}
+                  width={80}
+                  height={80}
+                  alt="Hajj, Umrah and Ziarah"
+                  priority
                 />
               )}
             </Link>
-            <h4 className="mb-0 text-black">Secure Checkout</h4>
+            <h4 className="mb-0 text-black d-none d-md-block">
+              Secure Checkout
+            </h4>
+            <h6 className="mb-0 text-black d-md-none">Checkout</h6>
           </div>
 
           <div className="d-flex">
@@ -511,10 +527,19 @@ const CheckoutPage = () => {
               rel="noopener noreferrer"
             >
               <Image
+                className="d-none d-md-block"
                 style={{ cursor: "pointer" }}
                 src="/img/whatsapp.svg"
                 width={50}
                 height={50}
+                alt="WhatsApp"
+              />
+              <Image
+                className="d-md-none"
+                style={{ cursor: "pointer" }}
+                src="/img/whatsapp.svg"
+                width={35}
+                height={35}
                 alt="WhatsApp"
               />
             </a>
@@ -692,19 +717,25 @@ const CheckoutPage = () => {
 
                   <div className="card border-0 mb-3">
                     <div className="row g-0">
-                      <div className="col-4">
-                        <img
-                          src={
-                            bookingData.tourImage ||
-                            "/placeholder.svg?height=80&width=120" ||
-                            "/placeholder.svg"
-                          }
-                          className="img-fluid rounded-start h-100 object-fit-cover"
-                          alt="Tour"
-                          style={{ minHeight: "80px" }}
-                        />
+                      <div className="col-4 col-md-4">
+                        <div
+                          style={{
+                            position: "relative",
+                            width: "100%",
+                            height: "100px",
+                            minHeight: "80px",
+                          }}
+                        >
+                          <Image
+                            src={bookingData.tourImage || "/placeholder.svg"}
+                            fill
+                            className="rounded-start object-fit-cover"
+                            alt="Tour"
+                            sizes="(max-width: 768px) 25vw, 20vw"
+                          />
+                        </div>
                       </div>
-                      <div className="col-8">
+                      <div className="col-8 col-md-8">
                         <div className="card-body p-3">
                           <h6
                             className="card-title mb-1"
