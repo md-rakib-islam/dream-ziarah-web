@@ -10,6 +10,7 @@ import FrequentlyQ from "../faq/FrequentlyQ";
 // Critical above-the-fold components (no lazy loading)
 import Hero3 from "@/components/hero/hero-3";
 import ServicesOverview from "@/components/services/ServicesOverview";
+import TourOverview from "../services/TourOverview";
 
 // Lazy load below-the-fold components for better performance
 const TopDestinations = dynamic(
@@ -59,9 +60,12 @@ const MainHome = () => {
     setMobileDataAvailable(isMobileDataAvailable);
   }, []);
 
-  const handleMobileTourDataAvailability = useCallback((isMobileTourDataAvailable) => {
-    setMobileTourDataAvailable(isMobileTourDataAvailable);
-  }, []);
+  const handleMobileTourDataAvailability = useCallback(
+    (isMobileTourDataAvailable) => {
+      setMobileTourDataAvailable(isMobileTourDataAvailable);
+    },
+    []
+  );
 
   return (
     <>
@@ -78,6 +82,7 @@ const MainHome = () => {
 
       {/* Services Overview Section */}
       <ServicesOverview />
+      <TourOverview />
       {/* End Services Overview */}
 
       {/* Hajj/Umrah Section for Mobile */}
