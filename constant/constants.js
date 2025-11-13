@@ -1025,3 +1025,26 @@ export const GET_ITENARIES_BY_CONTENT_ID = `${BASE_URL}/cms_itinerary/api/v1/Iti
 
 // get Customer location
 export const GET_LOCATION_BY_COORDS = `https://api.opencagedata.com/geocode/v1/json`;
+
+// cms_blog
+export const CREATE_CMS_BLOG = `${BASE_URL}/cms_blog/api/v1/cms_blog/create/`;
+
+export const GET_CMS_BLOGID = `${BASE_URL}/cms_blog/api/v1/cms_blog/`;
+
+export const GET_CMS_BLOG_BY_TITLE = `${BASE_URL}/cms_blog/api/v1/cms_blog/get_blogBy_blog_title_slug`;
+
+export const GET_CMS_BLOGS = `${BASE_URL}/cms_blog/api/v1/cms_blog/all/`;
+
+export const GET_CMS_BLOG_WITHOUT_PAGINATION = `${BASE_URL}/cms_blog/api/v1/cms_blog/without_pagination/all/`;
+
+export const UPDATE_CMS_BLOG = `${BASE_URL}/cms_blog/api/v1/cms_blog/update/`;
+
+export const DELETE_CMS_BLOG = `${BASE_URL}/cms_blog/api/v1/cms_blog/delete/`;
+
+export const SEARCH_CMS_BLOG = `${BASE_URL}/cms_blog/api/v1/cms_blog/search/`;
+
+export const BLOG_CATEGORIES = `${BASE_URL}/cms_blog_category/api/v1/blog_category/without_pagination/all/`;
+
+export const GET_METADATA_BY_CONTENT_NAME = `${BASE_URL}/cms_meta_data/api/v1/cms_meta_data/get_meta_data_by_cms_content_name`;
+
+export const GET_ALL_COUNTRIES = `${BASE_URL}/country/api/v1/country/without_pagination/all/`;

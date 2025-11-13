@@ -8,7 +8,7 @@ const useMenus = () => {
       item.name === "About" ||
       item.name === "Contact" ||
       // item.name === "Tour" ||
-      item.name === "Blog" ||
+      // item.name === "Blog" ||
       item.name === "Tours"
     ) {
       return false;
@@ -19,6 +19,7 @@ const useMenus = () => {
   filteredMenus.sort((a, b) => a.position - b.position);
 
   const modifiedMenuItems = filteredMenus?.map((item) => {
+    // Handle Home route
     if (item.name === "Home") {
       return {
         ...item,
@@ -32,6 +33,23 @@ const useMenus = () => {
             : [],
       };
     }
+
+    // Handle Blog route
+    if (item.name === "Blog") {
+      return {
+        ...item,
+        routePath: "/blogs",
+        children:
+          item?.children?.length > 0
+            ? item.children.map((subItem) => ({
+                ...subItem,
+                routePath: `/blogs/${subItem.name.toLowerCase()}`,
+              }))
+            : [],
+      };
+    }
+
+    // Handle all other routes
     return {
       ...item,
       routePath: `/${item?.name?.toLowerCase()}`,
@@ -44,6 +62,7 @@ const useMenus = () => {
           : [],
     };
   });
+
   return modifiedMenuItems;
 };
 
