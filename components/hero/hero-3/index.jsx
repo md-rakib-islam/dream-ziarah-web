@@ -5,6 +5,7 @@ import MainFilterSearchBox from "./MainFilterSearchBox";
 import CoverSkeleton from "@/components/skeleton/CoverSkeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { addCurrentTab } from "@/features/hero/findPlaceSlice";
+
 const index = ({
   onDataAvailable,
   isSuccess,
@@ -15,6 +16,7 @@ const index = ({
   const { tabs, currentTab } = useSelector((state) => state.hero) || {};
   const dispatch = useDispatch();
   const [navbar, setNavbar] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const changeBackground = () => {
     if (window.scrollY >= 10) {
@@ -30,6 +32,7 @@ const index = ({
       behavior: "smooth",
     });
   };
+
   useEffect(() => {
     if (isSuccess) {
       onMobileDataAvailable(true);
@@ -42,6 +45,7 @@ const index = ({
       window.removeEventListener("scroll", changeBackground);
     };
   }, []);
+
   let sliderImageItems = [];
   if (isSuccess) {
     sliderImageItems = data?.homepage_sliders?.map((item) => ({
@@ -49,21 +53,24 @@ const index = ({
       image: `${item.image}`,
     }));
   }
-  // useEffect(() => {
-  //   if (sliderImageItems !== 0) {
-  //     onDataAvailable(true);
-  //   }
-  // }, [onDataAvailable, sliderImageItems]);
+
+  // Auto-play slider
+  useEffect(() => {
+    if (sliderImageItems.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % sliderImageItems.length);
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+  }, [sliderImageItems.length]);
 
   return isLoading ? (
     <CoverSkeleton />
   ) : (
     <>
       {/* Mobile View - Hidden on desktop (>= 576px) */}
-      <section
-        className="masthead__bg -type-2 z-2 d-sm-none"
-        // style={{ backgroundColor: "#3bf6aeff" }}
-      >
+      <section className="masthead__bg -type-2 z-2 d-sm-none">
         <div className="row m-0">
           <div className="col-12 p-0">
             <div
@@ -89,15 +96,12 @@ const index = ({
                         dispatch(addCurrentTab(tab?.name));
                       }}
                     >
-                      {/* <i className={`${tab.icon} text-20 mr-10 sm:mr-5`}></i> */}
                       {tab?.name}
                     </button>
                   ))}
                 </div>
               </div>
-              {/* End tabs */}
             </div>
-            {/* End .masthead__tabs */}
 
             <div className="w-100">
               <div
@@ -118,7 +122,6 @@ const index = ({
                   <div className="text-center">
                     <h1
                       className="text-20 lg:text-20 md:text-14  text-white"
-                      // data-aos="fade-up"
                       style={{
                         textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
                       }}
@@ -128,7 +131,6 @@ const index = ({
                     </h1>
                     <p
                       className="text-white text-10 mt-5"
-                      // data-aos="fade-up"
                       data-aos-delay="100"
                       style={{
                         textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
@@ -138,28 +140,58 @@ const index = ({
                       ziyarat tours in Saudi Arabia.
                     </p>
                   </div>
-                  {/* End hero title */}
                 </div>
               </div>
             </div>
           </div>
-
-          {/* End .masthead__content */}
         </div>
-        {/* End .container */}
       </section>
 
       {/* Desktop View - Hidden on mobile (< 576px) */}
       <section className="masthead -type-6 mb-40 d-none d-sm-block">
-        <div className="masthead__bg ">
-          <Image
-            src={sliderImageItems[1]?.cloudflare_image_url}
-            width={1920}
-            height={600}
-            alt="image"
-            priority={true}
-            onLoad={() => onDataAvailable(true)}
-          />
+        {/* Slider Container */}
+        <div className="masthead__bg">
+          {/* Slider Images */}
+          <div style={{ position: "relative", width: "100%", height: "100%" }}>
+            {sliderImageItems.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  position: index === 0 ? "relative" : "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: currentSlide === index ? 1 : 0,
+                  transition: "opacity 1s ease-in-out",
+                  zIndex: currentSlide === index ? 1 : 0,
+                }}
+              >
+                <Image
+                  src={item?.cloudflare_image_url}
+                  width={1920}
+                  height={600}
+                  alt={`slide-${index}`}
+                  priority={index === 0}
+                  onLoad={() => index === 0 && onDataAvailable(true)}
+                />
+              </div>
+            ))}
+
+            {/* Dark Overlay */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(2, 6, 20, 0.3)",
+                zIndex: 2,
+                pointerEvents: "none",
+              }}
+            />
+          </div>
         </div>
 
         <div
@@ -171,7 +203,6 @@ const index = ({
               <div className="text-center">
                 <h1
                   className="text-45 lg:text-40 md:text-30 text-white"
-                  // data-aos="fade-up"
                   style={{
                     textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
                   }}
@@ -181,7 +212,6 @@ const index = ({
                 </h1>
                 <p
                   className="text-white mt-5"
-                  // data-aos="fade-up"
                   data-aos-delay="100"
                   style={{
                     textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
@@ -189,21 +219,21 @@ const index = ({
                 >
                   Find Makkah ziyarat tour and umrah packages with guided
                   ziyarat tours in Saudi Arabia. Visit Haram Sharif and the
-                  Prophet’s Mosque with English guides. Get cheap hajj deals and
+                  Prophet's Mosque with English guides. Get cheap hajj deals and
                   ziyarat places in Makkah list now, spots fill fast!
                 </p>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Search Box */}
         <div className="container">
           <div
             className="mainSearch-wrap bg-white shadow-1"
-            // data-aos="fade-up"
             data-aos-delay="200"
           >
             <MainFilterSearchBox />
-            {/* End tab-filter */}
           </div>
         </div>
       </section>
