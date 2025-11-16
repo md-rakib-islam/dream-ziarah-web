@@ -77,12 +77,15 @@ const index = ({
               className={`masthead__tabs  ${
                 navbar ? "header-masterhead controls-head  is-sticky" : ""
               }`}
+              style={{ paddingRight: 0, marginRight: 0 }}
             >
-              <div className="tabs -bookmark-2 js-tabs w-100">
+              <div className="tabs -bookmark-2 js-tabs w-100" style={{ paddingRight: 0, marginRight: 0 }}>
                 <div
-                  className="tabs__controls d-flex items-center js-tabs-controls"
+                  className="tabs__controls d-flex items-center justify-center js-tabs-controls"
                   style={{
                     backgroundColor: "#015a29ff",
+                    paddingRight: 0,
+                    marginRight: 0,
                   }}
                 >
                   {tabs?.map((tab) => (
@@ -91,6 +94,12 @@ const index = ({
                       className={`tab__button px-30 py-15 sm:px-15 sm:py-15 rounded-4 fw-600 text-white js-tabs-button ${
                         tab?.name === currentTab ? "is-tab-el-active" : ""
                       }`}
+                      style={{
+                        backgroundColor:
+                          tab?.name === currentTab
+                            ? "rgba(255, 255, 255, 0.2)"
+                            : "transparent",
+                      }}
                       onClick={() => {
                         scrollToTop();
                         dispatch(addCurrentTab(tab?.name));

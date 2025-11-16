@@ -10,6 +10,11 @@ const TourOverview = ({
   onScrollToJeddah,
   onScrollToTaif,
 }) => {
+  // Helper function to add dimensions to image URL
+  const getImageWithDimensions = (url, width, height) => {
+    return `${url}?w=${width}&h=${height}&q=75`;
+  };
+
   const toursData = [
     // Slide 1
     [
@@ -22,6 +27,7 @@ const TourOverview = ({
         buttonText: "SEARCH NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+        imageDimensions: { width: 605, height: 300 }, // Top Left Card
         onClick: onScrollToMadina,
       },
       {
@@ -33,7 +39,8 @@ const TourOverview = ({
         buttonText: "BOOK NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/668cbe9a-6df0-452c-76e8-1abc71a2b500/v1",
-        onClick: onScrollToMakkah, // Bodor is related to Makkah
+        imageDimensions: { width: 605, height: 200 }, // Bottom Left Card
+        onClick: onScrollToMakkah,
       },
       {
         id: 3,
@@ -44,6 +51,7 @@ const TourOverview = ({
         buttonText: "FIND A DEAL",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+        imageDimensions: { width: 605, height: 605 }, // Right Column
         onClick: onScrollToMakkah,
       },
     ],
@@ -58,6 +66,7 @@ const TourOverview = ({
         buttonText: "DISCOVER NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/668cbe9a-6df0-452c-76e8-1abc71a2b500/v1",
+        imageDimensions: { width: 605, height: 300 }, // Top Left Card
         onClick: onScrollToJeddah,
       },
       {
@@ -69,6 +78,7 @@ const TourOverview = ({
         buttonText: "EXPLORE NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+        imageDimensions: { width: 605, height: 200 }, // Bottom Left Card
         onClick: onScrollToTaif,
       },
       {
@@ -80,6 +90,7 @@ const TourOverview = ({
         buttonText: "LEARN MORE",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+        imageDimensions: { width: 605, height: 605 }, // Right Column
         onClick: onScrollToMakkah,
       },
     ],
@@ -137,7 +148,11 @@ const TourOverview = ({
                           <div
                             className="tour-card-bg tour-card-bg-top"
                             style={{
-                              backgroundImage: `url(${tours[0].imageUrl})`,
+                              backgroundImage: `url(${getImageWithDimensions(
+                                tours[0].imageUrl,
+                                tours[0].imageDimensions.width,
+                                tours[0].imageDimensions.height
+                              )})`,
                             }}
                           >
                             {/* Content Section */}
@@ -171,7 +186,11 @@ const TourOverview = ({
                           <div
                             className="tour-card-bg"
                             style={{
-                              backgroundImage: `url(${tours[1].imageUrl})`,
+                              backgroundImage: `url(${getImageWithDimensions(
+                                tours[1].imageUrl,
+                                tours[1].imageDimensions.width,
+                                tours[1].imageDimensions.height
+                              )})`,
                             }}
                           >
                             {/* Content Section */}
@@ -207,7 +226,11 @@ const TourOverview = ({
                       <div
                         className="tour-card-bg tour-card-bg-large"
                         style={{
-                          backgroundImage: `url(${tours[2].imageUrl})`,
+                          backgroundImage: `url(${getImageWithDimensions(
+                            tours[2].imageUrl,
+                            tours[2].imageDimensions.width,
+                            tours[2].imageDimensions.height
+                          )})`,
                         }}
                       >
                         {/* Content Section */}
@@ -249,7 +272,11 @@ const TourOverview = ({
                   <div
                     className="tour-card-bg"
                     style={{
-                      backgroundImage: `url(${tour.imageUrl})`,
+                      backgroundImage: `url(${getImageWithDimensions(
+                        tour.imageUrl,
+                        800,
+                        600
+                      )})`,
                     }}
                   >
                     {/* Content Section */}
