@@ -9,7 +9,7 @@ import FrequentlyQ from "../faq/FrequentlyQ";
 
 // Critical above-the-fold components (no lazy loading)
 import Hero3 from "@/components/hero/hero-3";
-import ServicesOverview from "@/components/services/ServicesOverview";
+// import ServicesOverview from "@/components/services/ServicesOverview";
 import TourOverview from "../services/TourOverview";
 
 // Lazy load below-the-fold components for better performance
@@ -28,12 +28,12 @@ const Tours = dynamic(() => import("@/components/tours/Tours"), {
 const ToursForMobile = dynamic(() =>
   import("@/components/tours/ToursForMobile")
 );
-const ToursHajjUmrah = dynamic(() =>
-  import("@/components/tours/ToursHajjUmrah")
-);
-const ToursHajjUmrahForMobile = dynamic(() =>
-  import("@/components/tours/ToursHajjUmrahForMobile")
-);
+// const ToursHajjUmrah = dynamic(() =>
+//   import("@/components/tours/ToursHajjUmrah")
+// );
+// const ToursHajjUmrahForMobile = dynamic(() =>
+//   import("@/components/tours/ToursHajjUmrahForMobile")
+// );
 const TestimonialSection = dynamic(() =>
   import("@/components/Testimonial/TestimonialSection")
 );
@@ -81,7 +81,7 @@ const MainHome = () => {
       {/* End Hero 3 */}
 
       {/* Services Overview Section */}
-      <ServicesOverview />
+      {/* <ServicesOverview /> */}
       <TourOverview />
       {/* End Services Overview */}
 
@@ -115,8 +115,8 @@ const MainHome = () => {
               {/* End .row */}
 
               <div className="row y-gap-40 mb-5">
-                {currentTab === "Hajj" ? (
-                  <ToursHajjUmrahForMobile
+                {currentTab === "Makkah" ? (
+                  <ToursForMobile
                     searchLocation={currentTab}
                     onMobileTourDataAvailable={handleMobileTourDataAvailability}
                   />
@@ -398,7 +398,7 @@ const MainHome = () => {
       {isMobile && (
         <>
           {/* Always show Hajj/Umrah section on desktop */}
-          <section className="layout-pt-md layout-pb-md islamic-pattern-bg">
+          {/* <section className="layout-pt-md layout-pb-md islamic-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -414,18 +414,18 @@ const MainHome = () => {
                     </p>
                   </div>
                 </div>
-                {/* End .col */}
+        
               </div>
 
               <div className="row y-gap-30 pt-40 sm:pt-20 item_gap-x30">
                 <ToursHajjUmrah filterLocation="HajjUmrah" />
               </div>
             </div>
-          </section>
+          </section> */}
           {/* End Hajj/Umrah Tours Sections */}
 
           {/* Always show Makkah section on desktop */}
-          <section className="layout-pt-md layout-pb-md kaaba-pattern-bg">
+          <section className="layout-pt-md layout-pb-md islamic-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">

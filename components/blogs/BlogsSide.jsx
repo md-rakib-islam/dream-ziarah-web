@@ -22,13 +22,14 @@ import useBlogAndCountryData from "@/hooks/useBlogAndCountryData"; // Import the
 const BlogsSide = ({ categories, fullUrl, countriesData }) => {
   const { blogData, loading, error } = useBlogAndCountryData(); // Use the hook
   const [copied, setCopied] = useState(false);
+  console.log("blogdatas, blogData", blogData);
   const [isCopyLoading, setIsCopyLoading] = useState(false);
 
   const featuredBlogs =
-    blogData?.blogs?.blogs
-      ?.filter((blog) => blog.is_featured == true)
-      .slice(0, 3) || [];
+    blogData?.blogs?.filter((blog) => blog.is_featured == true).slice(0, 3) ||
+    [];
 
+  console.log("blogdatas, blogData", featuredBlogs);
   const desiredOrder = [
     "Italy",
     "Netherlands",

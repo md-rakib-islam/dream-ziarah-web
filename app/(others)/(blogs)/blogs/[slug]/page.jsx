@@ -107,6 +107,106 @@ const SingleBlogPage = dynamic(
   }
 );
 
+// 🚀 OPTIMIZATION: Enhanced metadata generation with better error handling
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+
+  try {
+    // NOTE: Blog API does NOT use trailing slash (returns 404 with slash)
+    const blogData = await optimizedDataFetcher(
+      `${GET_CMS_BLOG_BY_TITLE}/${slug}`,
+      {
+        next: {
+          revalidate: 3600, // 1 hour
+          tags: [`blog-${slug}`, "blog-metadata"],
+        },
+        cache: true,
+        cacheDuration: CACHE_DURATION.LONG,
+        maxRetries: 2,
+        timeout: 8000,
+        fallback: null,
+      }
+    );
+
+    if (blogData && blogData.meta_title) {
+      return {
+        metadataBase: new URL("https://dreamtourism.it"),
+        title: blogData.meta_title,
+        description: blogData.meta_description,
+        keywords:
+          blogData.keywords ||
+          `${blogData.title}, Italy travel, travel blog, ${slug.replace(
+            /-/g,
+            " "
+          )}`,
+
+        // Enhanced Open Graph
+        openGraph: {
+          title: blogData.meta_title,
+          description: blogData.meta_description,
+          url: `https://dreamtourism.it/blogs/${slug}`,
+          siteName: "Dream Tourism SRLS",
+          locale: "en_US",
+          type: "article",
+          images: [
+            {
+              url: blogData.cloudflare_image,
+              width: 1200,
+              height: 630,
+              alt: blogData.meta_title,
+              type: "image/webp",
+            },
+          ],
+          publishedTime: blogData.created_at,
+          modifiedTime: blogData.updated_at,
+          authors: ["Dream Tourism SRLS"],
+          section: "Travel",
+        },
+
+        // Enhanced Twitter Cards
+        twitter: {
+          card: "summary_large_image",
+          title: blogData.meta_title,
+          description: blogData.meta_description,
+          images: [blogData.cloudflare_image],
+          creator: "@dreamtourismit",
+        },
+
+        // SEO Enhancements
+        alternates: {
+          canonical: `https://dreamtourism.it/blogs/${slug}`,
+        },
+
+        robots: {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+          },
+        },
+
+        // Article-specific metadata
+        category: "travel",
+        classification: "article",
+      };
+    }
+  } catch (error) {
+    console.error(`Blog metadata fetch error for ${slug}:`, error);
+  }
+
+  // Fallback metadata for invalid/missing blogs
+  return {
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
+
 const BlogPost = async ({ params }) => {
   console.log("\n\n🚀 ========== BlogPost Component Called ==========");
   const { slug } = await params;

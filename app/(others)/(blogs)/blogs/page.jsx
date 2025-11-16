@@ -9,6 +9,35 @@ import {
 // Edge Runtime required for Cloudflare Pages
 export const runtime = "edge";
 
+// 🚀 OPTIMIZATION: Generate metadata for SEO
+export async function generateMetadata() {
+  return {
+    title: "Your Place for Amazing Ziarah - DreamZiarah",
+    description: "hajj and ziarah",
+    openGraph: {
+      title: "Your Place for Amazing Ziarah - DreamZiarah",
+      description: "hajj and ziarah",
+      images: [
+        {
+          url: "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/a4f72ded-464b-4d18-c697-ff1352f2b600/public",
+          width: 1200,
+          height: 630,
+          alt: "DreamZiarah - Your Place for Amazing Ziarah",
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Your Place for Amazing Ziarah - DreamZiarah",
+      description: "hajj and ziarah",
+      images: [
+        "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/a4f72ded-464b-4d18-c697-ff1352f2b600/public",
+      ],
+    },
+  };
+}
+
 // 🚀 OPTIMIZATION: Lazy load Blog component to reduce initial bundle size
 const Blog = dynamic(() => import("@/components/blogs/Blog"), {
   ssr: true,

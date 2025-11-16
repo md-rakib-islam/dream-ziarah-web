@@ -113,7 +113,7 @@ const TourOverview = () => {
   const desktopSliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -135,7 +135,7 @@ const TourOverview = () => {
   };
 
   return (
-    <section className="layout-pt-md layout-pb-md">
+    <section className="layout-pt-md layout-pb-md tour-overview-section">
       <div className="container">
         {/* Desktop Slider */}
         <div className="desktop-slider">
@@ -269,6 +269,9 @@ const TourOverview = () => {
       </div>
 
       <style jsx>{`
+        .tour-overview-section {
+          display: block;
+        }
         .desktop-slider {
           display: block;
         }
@@ -394,6 +397,11 @@ const TourOverview = () => {
         :global(.slick-next:before) {
           font-size: 40px;
           color: #ffd410;
+        }
+        @media (max-width: 768px) {
+          .tour-overview-section {
+            display: none;
+          }
         }
 
         @media (max-width: 991px) {
