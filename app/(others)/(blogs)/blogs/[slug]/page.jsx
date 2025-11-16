@@ -144,7 +144,7 @@ export async function generateMetadata({ params }) {
         openGraph: {
           title: blogData.meta_title,
           description: blogData.meta_description,
-          url: `https://dreamtourism.it/blogs/${slug}`,
+          url: `https://dreamziarah.com/blogs/${slug}`,
           siteName: "Dream Tourism SRLS",
           locale: "en_US",
           type: "article",
@@ -174,7 +174,7 @@ export async function generateMetadata({ params }) {
 
         // SEO Enhancements
         alternates: {
-          canonical: `https://dreamtourism.it/blogs/${slug}`,
+          canonical: `https://dreamziarah.com/blogs/${slug}`,
         },
 
         robots: {
@@ -212,7 +212,7 @@ const BlogPost = async ({ params }) => {
   const { slug } = await params;
   console.log("📌 Slug:", slug);
 
-  const fullUrl = `https://dreamtourism.it/blogs/${slug}`;
+  const fullUrl = `https://dreamziarah.com/blogs/${slug}`;
   console.log("🌐 Full URL:", fullUrl);
 
   try {

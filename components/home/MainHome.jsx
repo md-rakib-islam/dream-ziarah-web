@@ -2,7 +2,7 @@
 import { useGetSliderImagesQuery } from "@/features/image/imageApi";
 import useWindowSize from "@/hooks/useWindowSize";
 import dynamic from "next/dynamic";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useFaqDescription } from "@/hooks/useFaqDescription";
 import FrequentlyQ from "../faq/FrequentlyQ";
@@ -51,6 +51,28 @@ const MainHome = () => {
 
   const { currentTab } = useSelector((state) => state.hero) || {};
 
+  // Create refs for each section
+  const makkahRef = useRef(null);
+  const madinaRef = useRef(null);
+  const jeddahRef = useRef(null);
+  const taifRef = useRef(null);
+
+  // Scroll handler function
+  // Scroll handler function with offset for header
+  const scrollToSection = useCallback((sectionRef) => {
+    if (sectionRef && sectionRef.current) {
+      const headerOffset = 110; // Increase this value to scroll higher above the h2
+      const elementPosition = sectionRef.current.getBoundingClientRect().top;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  }, []);
+
   // Memoize callback functions to prevent re-renders
   const handleDataAvailability = useCallback((isDataAvailable) => {
     setDataAvailable(isDataAvailable);
@@ -82,7 +104,12 @@ const MainHome = () => {
 
       {/* Services Overview Section */}
       {/* <ServicesOverview /> */}
-      <TourOverview />
+      <TourOverview
+        onScrollToMakkah={() => scrollToSection(makkahRef)}
+        onScrollToMadina={() => scrollToSection(madinaRef)}
+        onScrollToJeddah={() => scrollToSection(jeddahRef)}
+        onScrollToTaif={() => scrollToSection(taifRef)}
+      />
       {/* End Services Overview */}
 
       {/* Hajj/Umrah Section for Mobile */}
@@ -425,7 +452,10 @@ const MainHome = () => {
           {/* End Hajj/Umrah Tours Sections */}
 
           {/* Always show Makkah section on desktop */}
-          <section className="layout-pt-md layout-pb-md islamic-pattern-bg">
+          <section
+            ref={makkahRef}
+            className="layout-pt-md layout-pb-md islamic-pattern-bg"
+          >
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -450,7 +480,10 @@ const MainHome = () => {
           {/* End Makkah Tours Sections */}
 
           {/* Always show Madina section on desktop */}
-          <section className="layout-pt-md layout-pb-md madina-green-pattern">
+          <section
+            ref={madinaRef}
+            className="layout-pt-md layout-pb-md madina-green-pattern"
+          >
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -476,7 +509,7 @@ const MainHome = () => {
           {/* End Madina Tours Sections */}
 
           {/* Always show Jeddah section on desktop */}
-          <section className="layout-pt-md layout-pb-md">
+          <section ref={jeddahRef} className="layout-pt-md layout-pb-md">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -502,7 +535,10 @@ const MainHome = () => {
           {/* End Jeddah Tours Sections */}
 
           {/* Always show Taif section on desktop */}
-          <section className="layout-pt-md layout-pb-md taif-pattern-bg">
+          <section
+            ref={taifRef}
+            className="layout-pt-md layout-pb-md taif-pattern-bg"
+          >
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">

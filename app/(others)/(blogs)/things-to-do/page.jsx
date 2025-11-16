@@ -105,7 +105,7 @@ export async function generateMetadata() {
     openGraph: {
       title: metadata.meta_title,
       description: metadata.meta_description,
-      url: "https://dreamtourism.it/things-to-do",
+      url: "https://dreamziarah.com/things-to-do",
       siteName: "Dream Tourism SRLS",
       locale: "en_US",
       type: "website",
@@ -131,7 +131,7 @@ export async function generateMetadata() {
 
     // SEO Enhancements
     alternates: {
-      canonical: "https://dreamtourism.it/things-to-do",
+      canonical: "https://dreamziarah.com/things-to-do",
     },
 
     robots: {

@@ -564,3 +564,271 @@
   margin-left: 100px;
   margin-top: 10px;
 }
+
+//blog
+.blog-content {
+  font-family: var(--font-franklin);
+  // color: #1a1a1a !important;
+}
+// .blog-content a {
+//   color: var(--color-blue-1) !important;
+//   text-decoration: underline !important;
+// }
+.blog-content li a {
+  color: var(--color-blue-1) !important;
+  text-decoration: none !important;
+}
+.blog-content p a {
+  color: var(--color-blue-1) !important;
+  text-decoration: underline !important;
+}
+.blog-content p span a {
+  color: var(--color-blue-1) !important;
+  text-decoration: underline !important;
+}
+.blog-content p span a strong {
+  color: var(--color-blue-1) !important;
+  text-decoration: underline !important;
+}
+.blog-content p a strong {
+  color: var(--color-blue-1) !important;
+  text-decoration: underline !important;
+}
+.blog-content p {
+  margin-top: 13px;
+  margin-bottom: 13px;
+  color: #1a1a1a !important;
+
+  font-size: 18px;
+}
+.blog-content p span {
+  color: #1a1a1a !important;
+
+  font-size: 18px;
+}
+.blog-content p strong {
+  color: #1a1a1a !important;
+
+  font-size: 18px;
+}
+.blog-content h1 {
+  color: #1a1a1a !important;
+
+  font-size: 35px !important;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.blog-content h2 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 25px;
+}
+.blog-content h3 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+.blog-content td p span {
+  font-size: 15px;
+}
+.blog-content ul {
+  list-style-type: disc;
+  list-style-position: inside; // margin-left: 20px; /* optional, to add some spacing */
+  margin-left: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+.blog-content li {
+  list-style-type: disc;
+  list-style-position: inside; // margin-left: 20px; /* optional, to add some spacing */
+  margin-left: 5px;
+  color: #1a1a1a;
+  font-size: 18px;
+  padding: 0;
+}
+.blog-content li span {
+  color: #1a1a1a;
+  // font-style: italic;
+}
+
+.blog-content ol {
+  list-style-type: decimal !important; /* or lower-alpha, upper-alpha, etc. */
+  list-style-position: inside; // margin-left: 20px; /* optional, to add some spacing */
+  margin-left: 5px;
+  color: black;
+}
+.blog-content ol li {
+  list-style-type: decimal !important; /* or lower-alpha, upper-alpha, etc. */
+  list-style-position: inside; // margin-left: 20px; /* optional, to add some spacing */
+  margin-left: 5px;
+  color: black;
+}
+// .blog-content span {
+//   color: rgb(126, 126, 126);
+//   // font-style: italic;
+// }
+.blog-content .blog-sidebar p {
+  margin: 0;
+}
+.blog-content .blog-sidebar p a {
+  color: var(--color-light-1) !important;
+  text-decoration: none !important;
+}
+.blog-content .blog-sidebar .category ul {
+  list-style-type: none;
+  -moz-column-count: 3;
+  -moz-column-gap: 15px;
+  -webkit-column-count: 3;
+  -webkit-column-gap: 7px;
+  column-count: 3;
+  column-gap: 7px;
+  -webkit-column-width: 200px;
+  -moz-column-width: 200px;
+  column-width: 100px;
+}
+.blog-content .blog-sidebar .category li {
+  list-style-type: none;
+}
+.blog-content .blog-sidebar .category ul li {
+  // padding: 10px 15px;
+  padding-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+  border-radius: 5px; /* Optional: Makes it look more like a button */
+}
+
+.blog-content .blog-sidebar .category ul li:hover {
+  background-color: #d8d8d8; /* Change this to your desired hover background color */
+}
+.blog-content .blog-sidebar .bg-img span {
+  background: url("/img/blog/tag.png") no-repeat;
+  background-size: cover;
+  text-align: center;
+  padding: 15px 180px;
+}
+.blog-content .blog-sidebar .text-clamp-short-head {
+  display: -webkit-box; /* Required for webkit-based browsers */
+  -webkit-box-orient: vertical; /* Specify vertical orientation */
+  overflow: hidden; /* Hide the overflowed content */
+  text-overflow: ellipsis; /* Add ellipsis (...) */
+  line-clamp: 2; /* Limit to 3 lines */
+  -webkit-line-clamp: 2; /* For webkit browsers */
+}
+.blog-content .blog-sidebar .text-clamp-short-des {
+  display: -webkit-box; /* Required for webkit-based browsers */
+  -webkit-box-orient: vertical; /* Specify vertical orientation */
+  overflow: hidden; /* Hide the overflowed content */
+  text-overflow: ellipsis; /* Add ellipsis (...) */
+  line-clamp: 3; /* Limit to 3 lines */
+  -webkit-line-clamp: 3; /* For webkit browsers */
+}
+.blog-content .blog-sidebar .featured-image .image-wrapper {
+  display: inline-block; /* Ensure the anchor behaves like a block/inline element */
+}
+
+.blog-content .blog-sidebar .featured-image .image-wrapper img {
+  max-width: 200px;
+  width: 200px;
+  height: 100px;
+  border-radius: 5px;
+  object-fit: cover; /* Maintain aspect ratio and fit within the defined dimensions */
+  display: block; /* Avoid unwanted spacing around the image */
+}
+.blog-content .blog-sidebar .character {
+  display: inline-block; /* Change block to inline-block to keep it inline */
+  width: 13px;
+  height: 1px;
+  margin: 13px 5px;
+  background-color: #777777;
+  position: relative;
+  vertical-align: middle; /* Aligns it properly with text */
+}
+
+.blog-content .blog-sidebar .character:before,
+.blog-content .blog-sidebar .character:after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 7px;
+  transform: skew(-25deg);
+  background-color: #777777;
+  transform-origin: bottom;
+  top: -3px;
+}
+
+.blog-content .blog-sidebar .character:before {
+  left: 3px;
+}
+
+.blog-content .blog-sidebar .character:after {
+  left: 6px;
+}
+.blog-content .blog-sidebar .date {
+  color: #1a1a1a; /* Dark enough text */
+  background-color: #ffffff; /* Light background */
+}
+.blog-content .blog-sidebar .featured-content p a:hover {
+  background-size: 100% 1px;
+  color: "#000000";
+}
+.blog-content .blog-sidebar .featured-content p a {
+  text-decoration: none;
+  border-bottom: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #777777;
+  background-image: linear-gradient(#000000, #000000);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size 0.5s;
+  display: flex;
+  align-items: center;
+}
+.blog-content .accordion p span {
+  font-size: 15px;
+}
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity for darkness */
+  z-index: 1;
+  pointer-events: none; /* Prevents blocking interactions */
+}
+
+.book-now {
+  --color: #edf2de;
+  --hover: #edf2de; /* Adjust hue dynamically if needed */
+
+  color: var(--color);
+  transition: 0.25s;
+  background: none;
+  border: 2px solid var(--color);
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em 2em;
+
+  &:hover,
+  &:focus {
+    border-color: var(--hover);
+    color: #000000;
+    box-shadow: inset -4.5em 0 0 0 var(--hover), inset 4.5em 0 0 0 var(--hover);
+  }
+}
+.book-now a {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.75rem 1.5rem; /* ~12px top/bottom + text size */
+  font-size: 1rem; /* ~16px text */
+}
+.book-now:hover,
+.book-now:focus {
+  border-color: var(--hover);
+  color: #000000;
+  box-shadow: inset -6.5em 0 0 0 var(--hover), inset 6.5em 0 0 0 var(--hover);
+}

@@ -88,7 +88,7 @@ const index = ({
                   {tabs?.map((tab) => (
                     <button
                       key={tab?.id}
-                      className={`tabs__button px-30 py-15 sm:px-15 sm:py-15 rounded-4 fw-600 text-white js-tabs-button ${
+                      className={`tab__button px-30 py-15 sm:px-15 sm:py-15 rounded-4 fw-600 text-white js-tabs-button ${
                         tab?.name === currentTab ? "is-tab-el-active" : ""
                       }`}
                       onClick={() => {

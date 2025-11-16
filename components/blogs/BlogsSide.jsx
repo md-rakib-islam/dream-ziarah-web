@@ -142,7 +142,6 @@ const BlogsSide = ({ categories, fullUrl, countriesData }) => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  marginLeft: "-15px",
                 }}
                 onClick={copyToClipboard}
               >
@@ -254,7 +253,7 @@ const BlogsSide = ({ categories, fullUrl, countriesData }) => {
           </div>
         </div>
 
-        <div className="col-12">
+        {/* <div className="col-12">
           <div className="blog-sidebar">
             <div className="mb-30 mt-20 bg-img">
               <span className="text-20 text-black fw-600"> Sponsor</span>
@@ -342,7 +341,7 @@ const BlogsSide = ({ categories, fullUrl, countriesData }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

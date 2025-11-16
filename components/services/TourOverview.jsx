@@ -4,105 +4,83 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const TourOverview = () => {
+const TourOverview = ({
+  onScrollToMakkah,
+  onScrollToMadina,
+  onScrollToJeddah,
+  onScrollToTaif,
+}) => {
   const toursData = [
     // Slide 1
     [
       {
         id: 1,
-        title: "City breaks",
+        title: "Madina Ziyarat",
         description:
-          "From café corners to skyline views, your spontaneous late escape is calling.",
+          "Visit the sacred sites of Madina and experience spiritual enlightenment.",
         badge: "Deals from £99pp",
         buttonText: "SEARCH NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+        onClick: onScrollToMadina,
       },
       {
         id: 2,
-        title: "Lone haul",
+        title: "Bodor Ziyarat",
         description:
-          "Some places are worth the distance – like Mexico's beaches and Dubai's glow.",
+          "Explore the historic battlefield of Bodor and connect with Islamic history.",
         badge: "Deals from £439pp",
         buttonText: "BOOK NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/668cbe9a-6df0-452c-76e8-1abc71a2b500/v1",
+        onClick: onScrollToMakkah, // Bodor is related to Makkah
       },
       {
         id: 3,
-        title: "Last minute holidays",
+        title: "Makkah Ziyarat",
         description:
-          "From Egypt's Red Sea to the Canaries' golden sands and beyond – your autumn escape awaits!",
+          "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
         badge: "Deals from £169pp",
         buttonText: "FIND A DEAL",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+        onClick: onScrollToMakkah,
       },
     ],
     // Slide 2
     [
       {
         id: 4,
-        title: "Beach paradise",
+        title: "Jeddah Ziyarat",
         description:
-          "Crystal clear waters and golden sands await your perfect summer getaway.",
+          "Discover the coastal beauty and historical landmarks of Jeddah.",
         badge: "Deals from £299pp",
         buttonText: "DISCOVER NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/668cbe9a-6df0-452c-76e8-1abc71a2b500/v1",
+        onClick: onScrollToJeddah,
       },
       {
         id: 5,
-        title: "Mountain escapes",
+        title: "Taif Ziyarat",
         description:
-          "Breathtaking peaks and serene valleys for your alpine adventure.",
+          "Experience the cool climate and beautiful gardens of Taif.",
         badge: "Deals from £199pp",
         buttonText: "EXPLORE NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+        onClick: onScrollToTaif,
       },
       {
         id: 6,
-        title: "Cultural journeys",
+        title: "Makkah Ziyarat",
         description:
-          "Immerse yourself in history, art, and local traditions across the globe.",
+          "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
         badge: "Deals from £349pp",
         buttonText: "LEARN MORE",
         imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/668cbe9a-6df0-452c-76e8-1abc71a2b500/v1",
-      },
-    ],
-    // Slide 3
-    [
-      {
-        id: 7,
-        title: "Safari adventures",
-        description:
-          "Witness wildlife in their natural habitat on an unforgettable safari experience.",
-        badge: "Deals from £599pp",
-        buttonText: "BOOK SAFARI",
-        imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
-      },
-      {
-        id: 8,
-        title: "Island hopping",
-        description:
-          "Discover hidden gems and tropical paradises across stunning island chains.",
-        badge: "Deals from £449pp",
-        buttonText: "SET SAIL",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/668cbe9a-6df0-452c-76e8-1abc71a2b500/v1",
-      },
-      {
-        id: 9,
-        title: "Northern lights",
-        description:
-          "Chase the aurora borealis in the Arctic's most spectacular locations.",
-        badge: "Deals from £799pp",
-        buttonText: "VIEW TOURS",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+        onClick: onScrollToMakkah,
       },
     ],
   ];
@@ -132,6 +110,13 @@ const TourOverview = () => {
     autoplaySpeed: 4000,
     arrows: true,
     pauseOnHover: true,
+  };
+
+  const handleButtonClick = (e, onClick) => {
+    e.preventDefault();
+    if (onClick) {
+      onClick();
+    }
   };
 
   return (
@@ -166,7 +151,13 @@ const TourOverview = () => {
                               <p className="tour-description">
                                 {tours[0].description}
                               </p>
-                              <a href="#" className="tour-link">
+                              <a
+                                href="#"
+                                className="tour-link"
+                                onClick={(e) =>
+                                  handleButtonClick(e, tours[0].onClick)
+                                }
+                              >
                                 {tours[0].buttonText}
                               </a>
                             </div>
@@ -194,7 +185,13 @@ const TourOverview = () => {
                               <p className="tour-description">
                                 {tours[1].description}
                               </p>
-                              <a href="#" className="tour-link">
+                              <a
+                                href="#"
+                                className="tour-link"
+                                onClick={(e) =>
+                                  handleButtonClick(e, tours[1].onClick)
+                                }
+                              >
                                 {tours[1].buttonText}
                               </a>
                             </div>
@@ -224,7 +221,13 @@ const TourOverview = () => {
                           <p className="tour-description">
                             {tours[2].description}
                           </p>
-                          <a href="#" className="tour-link">
+                          <a
+                            href="#"
+                            className="tour-link"
+                            onClick={(e) =>
+                              handleButtonClick(e, tours[2].onClick)
+                            }
+                          >
                             {tours[2].buttonText}
                           </a>
                         </div>
@@ -256,7 +259,11 @@ const TourOverview = () => {
 
                       <h3 className="tour-title">{tour.title}</h3>
                       <p className="tour-description">{tour.description}</p>
-                      <a href="#" className="tour-link">
+                      <a
+                        href="#"
+                        className="tour-link"
+                        onClick={(e) => handleButtonClick(e, tour.onClick)}
+                      >
                         {tour.buttonText}
                       </a>
                     </div>
@@ -272,6 +279,7 @@ const TourOverview = () => {
         .tour-overview-section {
           display: block;
         }
+
         .desktop-slider {
           display: block;
         }
@@ -365,6 +373,7 @@ const TourOverview = () => {
           text-transform: uppercase;
           display: inline-block;
           transition: opacity 0.3s ease;
+          cursor: pointer;
         }
         .tour-link:hover {
           opacity: 0.8;
@@ -398,11 +407,6 @@ const TourOverview = () => {
           font-size: 40px;
           color: #ffd410;
         }
-        @media (max-width: 768px) {
-          .tour-overview-section {
-            display: none;
-          }
-        }
 
         @media (max-width: 991px) {
           .tour-card-large {
@@ -424,6 +428,10 @@ const TourOverview = () => {
         }
 
         @media (max-width: 768px) {
+          .tour-overview-section {
+            display: none;
+          }
+
           .desktop-slider {
             display: none;
           }
