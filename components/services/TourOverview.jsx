@@ -56,8 +56,41 @@ const TourOverview = ({
     return `Deals from $${Math.round(price)}`;
   };
 
-  // Helper function to add dimensions to image URL
+  // Helper function to get local image path based on title
+  const getLocalImagePath = (title) => {
+    const titleLower = title.toLowerCase();
+    
+    if (titleLower.includes("madina")) {
+      // Use first Madinah image for first occurrence, second for others
+      return "/img/touroverview/Madinah 605x300px.jpg";
+    }
+    if (titleLower.includes("bodor") || titleLower.includes("badr")) {
+      return "/img/touroverview/Badr 605 x 200 px.jpg";
+    }
+    if (titleLower.includes("makkah")) {
+      return "/img/touroverview/Makkah 605px X 605px.jpg";
+    }
+    if (titleLower.includes("jeddah")) {
+      return "/img/touroverview/Jeddah 605 x 300 px .jpg";
+    }
+    if (titleLower.includes("taif")) {
+      return "/img/touroverview/Taif 605 x 200 px.jpg";
+    }
+    
+    return "/img/touroverview/Makkah 605px X 605px.jpg"; // Default fallback
+  };
+
+  // Helper function to add dimensions to image URL and encode spaces for CSS usage
   const getImageWithDimensions = (url, width, height) => {
+    // For local images, encode spaces and special characters for CSS background-image
+    if (url.startsWith("/")) {
+      // Replace spaces with %20 for CSS URL compatibility
+      // Split the path, encode each part, then rejoin
+      const parts = url.split("/").filter(part => part !== "");
+      const encodedPath = "/" + parts.map(part => encodeURIComponent(part)).join("/");
+      return encodedPath;
+    }
+    // Fallback for external URLs (if any remain)
     return `${url}?w=${width}&h=${height}&q=75`;
   };
 
@@ -70,8 +103,7 @@ const TourOverview = ({
         description:
           "Visit the sacred sites of Madina and experience spiritual enlightenment.",
         buttonText: "SEARCH NOW",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/c1efcbd4-ebea-4b1a-c025-2f440de7db00/v1",
+        imageUrl: getLocalImagePath("Madina Ziyarat"),
         imageDimensions: { width: 605, height: 300 },
         onClick: onScrollToMadina,
       },
@@ -81,8 +113,7 @@ const TourOverview = ({
         description:
           "Explore the historic battlefield of Bodor and connect with Islamic history.",
         buttonText: "BOOK NOW",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/2f347b1e-e351-42e1-b6ce-5b62054ffc00/v1",
+        imageUrl: getLocalImagePath("Bodor Ziyarat"),
         imageDimensions: { width: 605, height: 200 },
         onClick: onScrollToMakkah,
       },
@@ -92,8 +123,7 @@ const TourOverview = ({
         description:
           "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
         buttonText: "FIND A DEAL",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
+        imageUrl: getLocalImagePath("Makkah Ziyarat"),
         imageDimensions: { width: 605, height: 605 },
         onClick: onScrollToMakkah,
       },
@@ -106,8 +136,7 @@ const TourOverview = ({
         description:
           "Discover the coastal beauty and historical landmarks of Jeddah.",
         buttonText: "DISCOVER NOW",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/6fa1f60e-045e-4c91-d61e-255726666300/v1",
+        imageUrl: getLocalImagePath("Jeddah Ziyarat"),
         imageDimensions: { width: 605, height: 300 },
         onClick: onScrollToJeddah,
       },
@@ -117,8 +146,7 @@ const TourOverview = ({
         description:
           "Experience the cool climate and beautiful gardens of Taif.",
         buttonText: "EXPLORE NOW",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b58c3bdc-fa72-4eaf-eb56-28ed346a3a00/v1",
+        imageUrl: getLocalImagePath("Taif Ziyarat"),
         imageDimensions: { width: 605, height: 200 },
         onClick: onScrollToTaif,
       },
@@ -128,8 +156,7 @@ const TourOverview = ({
         description:
           "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
         buttonText: "LEARN MORE",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
+        imageUrl: getLocalImagePath("Makkah Ziyarat"),
         imageDimensions: { width: 605, height: 605 },
         onClick: onScrollToMakkah,
       },
@@ -142,8 +169,7 @@ const TourOverview = ({
         description:
           "Visit the sacred sites of Madina and experience spiritual enlightenment.",
         buttonText: "SEARCH NOW",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/c3d597b0-594e-43d9-3a94-ef90fa3bed00/v1",
+        imageUrl: "/img/touroverview/Madinah 605x300px2.jpg", // Use second Madinah image for variety
         imageDimensions: { width: 605, height: 300 },
         onClick: onScrollToMadina,
       },
@@ -153,8 +179,7 @@ const TourOverview = ({
         description:
           "Experience the cool climate and beautiful gardens of Taif.",
         buttonText: "EXPLORE NOW",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b58c3bdc-fa72-4eaf-eb56-28ed346a3a00/v1",
+        imageUrl: getLocalImagePath("Taif Ziyarat"),
         imageDimensions: { width: 605, height: 200 },
         onClick: onScrollToTaif,
       },
@@ -164,8 +189,7 @@ const TourOverview = ({
         description:
           "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
         buttonText: "FIND A DEAL",
-        imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
+        imageUrl: getLocalImagePath("Makkah Ziyarat"),
         imageDimensions: { width: 605, height: 605 },
         onClick: onScrollToMakkah,
       },
