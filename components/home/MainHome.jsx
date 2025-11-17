@@ -10,7 +10,15 @@ import FrequentlyQ from "../faq/FrequentlyQ";
 // Critical above-the-fold components (no lazy loading)
 import Hero3 from "@/components/hero/hero-3";
 // import ServicesOverview from "@/components/services/ServicesOverview";
-import TourOverview from "../services/TourOverview";
+const TourOverview = dynamic(
+  () => import("../services/TourOverview"),
+  {
+    loading: () => (
+      <div className="loading-skeleton">Loading overview...</div>
+    ),
+    ssr: false, // optional — add only if the component uses browser APIs
+  }
+);
 
 // Lazy load below-the-fold components for better performance
 const TopDestinations = dynamic(

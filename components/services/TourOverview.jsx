@@ -26,7 +26,7 @@ const TourOverview = ({
         badge: "Deals from £99pp",
         buttonText: "SEARCH NOW",
         imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/c1efcbd4-ebea-4b1a-c025-2f440de7db00/v1",
         imageDimensions: { width: 605, height: 300 }, // Top Left Card
         onClick: onScrollToMadina,
       },
@@ -38,7 +38,7 @@ const TourOverview = ({
         badge: "Deals from £439pp",
         buttonText: "BOOK NOW",
         imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/668cbe9a-6df0-452c-76e8-1abc71a2b500/v1",
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/2f347b1e-e351-42e1-b6ce-5b62054ffc00/v1",
         imageDimensions: { width: 605, height: 200 }, // Bottom Left Card
         onClick: onScrollToMakkah,
       },
@@ -50,7 +50,7 @@ const TourOverview = ({
         badge: "Deals from £169pp",
         buttonText: "FIND A DEAL",
         imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
         imageDimensions: { width: 605, height: 605 }, // Right Column
         onClick: onScrollToMakkah,
       },
@@ -65,7 +65,7 @@ const TourOverview = ({
         badge: "Deals from £299pp",
         buttonText: "DISCOVER NOW",
         imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/668cbe9a-6df0-452c-76e8-1abc71a2b500/v1",
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/6fa1f60e-045e-4c91-d61e-255726666300/v1",
         imageDimensions: { width: 605, height: 300 }, // Top Left Card
         onClick: onScrollToJeddah,
       },
@@ -77,7 +77,7 @@ const TourOverview = ({
         badge: "Deals from £199pp",
         buttonText: "EXPLORE NOW",
         imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b58c3bdc-fa72-4eaf-eb56-28ed346a3a00/v1",
         imageDimensions: { width: 605, height: 200 }, // Bottom Left Card
         onClick: onScrollToTaif,
       },
@@ -89,7 +89,46 @@ const TourOverview = ({
         badge: "Deals from £349pp",
         buttonText: "LEARN MORE",
         imageUrl:
-          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b0259502-4ed2-48fb-c2e7-79481e657900/public",
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
+        imageDimensions: { width: 605, height: 605 }, // Right Column
+        onClick: onScrollToMakkah,
+      },
+    ],
+    //slide 3
+    [
+      {
+        id: 1,
+        title: "Madina Ziyarat",
+        description:
+          "Visit the sacred sites of Madina and experience spiritual enlightenment.",
+        badge: "Deals from £99pp",
+        buttonText: "SEARCH NOW",
+        imageUrl:
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/c3d597b0-594e-43d9-3a94-ef90fa3bed00/v1",
+        imageDimensions: { width: 605, height: 300 }, // Top Left Card
+        onClick: onScrollToMadina,
+      },
+      {
+        id: 5,
+        title: "Taif Ziyarat",
+        description:
+          "Experience the cool climate and beautiful gardens of Taif.",
+        badge: "Deals from £199pp",
+        buttonText: "EXPLORE NOW",
+        imageUrl:
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b58c3bdc-fa72-4eaf-eb56-28ed346a3a00/v1",
+        imageDimensions: { width: 605, height: 200 }, // Bottom Left Card
+        onClick: onScrollToTaif,
+      },
+      {
+        id: 3,
+        title: "Makkah Ziyarat",
+        description:
+          "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
+        badge: "Deals from £169pp",
+        buttonText: "FIND A DEAL",
+        imageUrl:
+          "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
         imageDimensions: { width: 605, height: 605 }, // Right Column
         onClick: onScrollToMakkah,
       },
