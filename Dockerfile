@@ -1,46 +1,28 @@
-# ---- Builder Stage ----
-FROM node:20-alpine AS builder
+# Build Stage - Only for compiling the app
+FROM node:20.18.1-slim AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Install dependencies only when needed
-COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
+# Install system dependencies required by sharp
 
-# If you use npm
-# RUN npm ci
-# If yarn
-RUN yarn install --frozen-lockfile
-# If pnpm
-# RUN npm install -g pnpm && pnpm install --frozen-lockfile
+# Copy and install dependencies
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then npm install -g pnpm && pnpm install --frozen-lockfile; \
+  else echo "No lockfile found" && exit 1; \
+  fi
 
 # Copy project files
 COPY . .
 
-# Build Next.js app
+# Build the app
 RUN yarn build
-
-
-# ---- Runner Stage ----
-FROM node:20-alpine AS runner
-
-WORKDIR /app
-
-# Don't run as root
-RUN addgroup --system --gid 1001 nodejs \
-    && adduser --system --uid 1001 nextjs
-
-# Copy only necessary files from builder
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-
-RUN chown -R nextjs:nodejs /app
-USER nextjs
 
 EXPOSE 3000
 
-ENV NODE_ENV=production
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

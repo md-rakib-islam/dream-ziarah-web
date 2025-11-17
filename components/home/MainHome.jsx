@@ -9,15 +9,10 @@ import FrequentlyQ from "../faq/FrequentlyQ";
 // Critical above-the-fold components (no lazy loading)
 import Hero3 from "@/components/hero/hero-3";
 // import ServicesOverview from "@/components/services/ServicesOverview";
-const TourOverview = dynamic(
-  () => import("../services/TourOverview"),
-  {
-    loading: () => (
-      <div className="loading-skeleton">Loading overview...</div>
-    ),
-    ssr: false, // optional — add only if the component uses browser APIs
-  }
-);
+const TourOverview = dynamic(() => import("../services/TourOverview"), {
+  loading: () => <div className="loading-skeleton">Loading overview...</div>,
+  ssr: false, // optional — add only if the component uses browser APIs
+});
 
 // Lazy load below-the-fold components for better performance
 // const TopDestinations = dynamic(
@@ -32,8 +27,12 @@ const WhyChoose = dynamic(() => import("@/components/home/home-3/WhyChoose"));
 const Tours = dynamic(() => import("@/components/tours/Tours"), {
   loading: () => <div className="loading-skeleton">Loading tours...</div>,
 });
-const ToursForMobile = dynamic(() =>
-  import("@/components/tours/ToursForMobile")
+const ToursForMobile = dynamic(
+  () => import("@/components/tours/ToursForMobile"),
+  {
+    ssr: true, // Enable SSR for mobile tours - important content
+    loading: () => <div className="loading-skeleton">Loading tours...</div>,
+  }
 );
 // const ToursHajjUmrah = dynamic(() =>
 //   import("@/components/tours/ToursHajjUmrah")
@@ -58,7 +57,7 @@ const MainHome = ({ initialSliderData = [], initialTabsData = [] }) => {
   const [mobileTourDataAvailable, setMobileTourDataAvailable] = useState(false);
 
   const width = useWindowSize();
-  const isMobile = useMemo(() => width > 768, [width]);
+  const isMobile = useMemo(() => width < 768, [width]);
 
   const { currentTab } = useSelector((state) => state.hero) || {};
 
@@ -99,7 +98,7 @@ const MainHome = ({ initialSliderData = [], initialTabsData = [] }) => {
     },
     []
   );
-
+  console.log("initialTabsData", !isMobile && mobileDataAvailable);
   return (
     <>
       {/* <Hero7/> */}
@@ -125,7 +124,7 @@ const MainHome = ({ initialSliderData = [], initialTabsData = [] }) => {
       {/* End Services Overview */}
 
       {/* Hajj/Umrah Section for Mobile */}
-      {!isMobile && mobileDataAvailable ? (
+      {isMobile ? (
         <>
           <section className="layout-pt-md layout-pb-md islamic-pattern-bg">
             <div className="container">
