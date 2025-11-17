@@ -85,3 +85,57 @@ export async function getSingleTourServer(tourId, forceRefresh = false) {
     return null;
   }
 }
+
+//lowest price
+export async function getLowestPriceByLocationType(forceRefresh = false) {
+  try {
+    const tours = await getAllToursServer(forceRefresh);
+
+    // Object to store lowest prices by location_type
+    const lowestPrices = {};
+
+    tours.forEach((tour) => {
+      const locationType = tour.location_type;
+
+      // Skip if no location_type
+      if (!locationType) return;
+
+      // Calculate prices for this tour
+      tour.day_tour_price_list?.forEach((priceItem) => {
+        let pricePerPerson = 0;
+
+        if (tour.price_by_passenger) {
+          // If price is by passenger, use price_per_person directly
+          pricePerPerson = parseFloat(priceItem.price_per_person) || 0;
+        } else if (tour.price_by_vehicle) {
+          // If price is by vehicle, divide group_price by group_size
+          const groupPrice = parseFloat(priceItem.group_price) || 0;
+          const groupSize = parseInt(tour.group_size) || 1;
+          pricePerPerson = groupPrice / groupSize;
+        }
+
+        // Skip if price is 0
+        if (pricePerPerson === 0) return;
+
+        // Update lowest price for this location_type
+        if (
+          !lowestPrices[locationType] ||
+          pricePerPerson < lowestPrices[locationType].price
+        ) {
+          lowestPrices[locationType] = {
+            price: pricePerPerson,
+            tourName: tour.name,
+            tourId: tour.id,
+            groupSize: tour.group_size,
+            priceBy: tour.price_by_passenger ? "passenger" : "vehicle",
+          };
+        }
+      });
+    });
+
+    return lowestPrices;
+  } catch (error) {
+    console.error("Error calculating lowest prices:", error);
+    return {};
+  }
+}

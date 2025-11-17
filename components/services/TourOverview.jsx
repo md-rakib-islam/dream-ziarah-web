@@ -1,8 +1,9 @@
 // components/TourOverview.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { getLowestPriceByLocationType } from "@/services/tourService";
 
 const TourOverview = ({
   onScrollToMakkah,
@@ -10,6 +11,51 @@ const TourOverview = ({
   onScrollToJeddah,
   onScrollToTaif,
 }) => {
+  const [lowestPrices, setLowestPrices] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch lowest prices on component mount
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        setIsLoading(true);
+        const prices = await getLowestPriceByLocationType();
+        setLowestPrices(prices);
+      } catch (error) {
+        console.error("Error fetching prices:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPrices();
+  }, []);
+
+  // Helper function to get location_type from title
+  const getLocationTypeFromTitle = (title) => {
+    const titleLower = title.toLowerCase();
+
+    if (titleLower.includes("madina")) return "Ziyarat In Madina";
+    if (titleLower.includes("makkah")) return "Ziyarat In Makkah";
+    if (titleLower.includes("jeddah")) return "Ziyarat In Jeddah";
+    if (titleLower.includes("taif")) return "Ziyarat In Taif";
+    if (titleLower.includes("bodor")) return "Ziyarat In Makkah"; // Adjust as needed
+
+    return null;
+  };
+
+  // Helper function to format price badge
+  const getPriceBadge = (title) => {
+    const locationType = getLocationTypeFromTitle(title);
+
+    if (!locationType || !lowestPrices[locationType]) {
+      return "Deals Available"; // Fallback text
+    }
+
+    const price = lowestPrices[locationType].price;
+    return `Deals from $${Math.round(price)}`;
+  };
+
   // Helper function to add dimensions to image URL
   const getImageWithDimensions = (url, width, height) => {
     return `${url}?w=${width}&h=${height}&q=75`;
@@ -23,11 +69,10 @@ const TourOverview = ({
         title: "Madina Ziyarat",
         description:
           "Visit the sacred sites of Madina and experience spiritual enlightenment.",
-        badge: "Deals from £99pp",
         buttonText: "SEARCH NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/c1efcbd4-ebea-4b1a-c025-2f440de7db00/v1",
-        imageDimensions: { width: 605, height: 300 }, // Top Left Card
+        imageDimensions: { width: 605, height: 300 },
         onClick: onScrollToMadina,
       },
       {
@@ -35,11 +80,10 @@ const TourOverview = ({
         title: "Bodor Ziyarat",
         description:
           "Explore the historic battlefield of Bodor and connect with Islamic history.",
-        badge: "Deals from £439pp",
         buttonText: "BOOK NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/2f347b1e-e351-42e1-b6ce-5b62054ffc00/v1",
-        imageDimensions: { width: 605, height: 200 }, // Bottom Left Card
+        imageDimensions: { width: 605, height: 200 },
         onClick: onScrollToMakkah,
       },
       {
@@ -47,11 +91,10 @@ const TourOverview = ({
         title: "Makkah Ziyarat",
         description:
           "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
-        badge: "Deals from £169pp",
         buttonText: "FIND A DEAL",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
-        imageDimensions: { width: 605, height: 605 }, // Right Column
+        imageDimensions: { width: 605, height: 605 },
         onClick: onScrollToMakkah,
       },
     ],
@@ -62,11 +105,10 @@ const TourOverview = ({
         title: "Jeddah Ziyarat",
         description:
           "Discover the coastal beauty and historical landmarks of Jeddah.",
-        badge: "Deals from £299pp",
         buttonText: "DISCOVER NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/6fa1f60e-045e-4c91-d61e-255726666300/v1",
-        imageDimensions: { width: 605, height: 300 }, // Top Left Card
+        imageDimensions: { width: 605, height: 300 },
         onClick: onScrollToJeddah,
       },
       {
@@ -74,11 +116,10 @@ const TourOverview = ({
         title: "Taif Ziyarat",
         description:
           "Experience the cool climate and beautiful gardens of Taif.",
-        badge: "Deals from £199pp",
         buttonText: "EXPLORE NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b58c3bdc-fa72-4eaf-eb56-28ed346a3a00/v1",
-        imageDimensions: { width: 605, height: 200 }, // Bottom Left Card
+        imageDimensions: { width: 605, height: 200 },
         onClick: onScrollToTaif,
       },
       {
@@ -86,50 +127,46 @@ const TourOverview = ({
         title: "Makkah Ziyarat",
         description:
           "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
-        badge: "Deals from £349pp",
         buttonText: "LEARN MORE",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
-        imageDimensions: { width: 605, height: 605 }, // Right Column
+        imageDimensions: { width: 605, height: 605 },
         onClick: onScrollToMakkah,
       },
     ],
     //slide 3
     [
       {
-        id: 1,
+        id: 7,
         title: "Madina Ziyarat",
         description:
           "Visit the sacred sites of Madina and experience spiritual enlightenment.",
-        badge: "Deals from £99pp",
         buttonText: "SEARCH NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/c3d597b0-594e-43d9-3a94-ef90fa3bed00/v1",
-        imageDimensions: { width: 605, height: 300 }, // Top Left Card
+        imageDimensions: { width: 605, height: 300 },
         onClick: onScrollToMadina,
       },
       {
-        id: 5,
+        id: 8,
         title: "Taif Ziyarat",
         description:
           "Experience the cool climate and beautiful gardens of Taif.",
-        badge: "Deals from £199pp",
         buttonText: "EXPLORE NOW",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/b58c3bdc-fa72-4eaf-eb56-28ed346a3a00/v1",
-        imageDimensions: { width: 605, height: 200 }, // Bottom Left Card
+        imageDimensions: { width: 605, height: 200 },
         onClick: onScrollToTaif,
       },
       {
-        id: 3,
+        id: 9,
         title: "Makkah Ziyarat",
         description:
           "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
-        badge: "Deals from £169pp",
         buttonText: "FIND A DEAL",
         imageUrl:
           "https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/50a080e1-2c74-4b90-0794-acc1c6287600/public",
-        imageDimensions: { width: 605, height: 605 }, // Right Column
+        imageDimensions: { width: 605, height: 605 },
         onClick: onScrollToMakkah,
       },
     ],
@@ -172,12 +209,27 @@ const TourOverview = ({
   return (
     <section className="layout-pt-md layout-pb-md tour-overview-section">
       <div className="container">
+            <div className="row justify-center text-center">
+                <div className="col-12">
+                  <div className="sectionTitle -md">
+                    <h2 className="sectionTitle__title md:text-24">
+                      Explore Ziyarat Tours Makkah, Madinah, and Taif
+                    </h2>
+                    <p className=" sectionTitle__text mt-5 sm:mt-0 md:text-13">
+                      Check ziyarat in Makkah and Madinah, holy sites in Saudi
+                      Arabia, like the Prophet’s Mosque. Enjoy guided transport
+                      to the Jeddah gateway and the Taif ziyarat places. Book
+                      your spiritual pilgrimage spot today!
+                    </p>
+                  </div>
+                </div>
+              </div>
         {/* Desktop Slider */}
         <div className="desktop-slider">
           <Slider {...desktopSliderSettings}>
             {toursData.map((tours, slideIndex) => (
               <div key={slideIndex}>
-                <div className="row g-3">
+                <div className="row g-3 y-gap-40 pt-40 sm:pt-20">
                   {/* Left Column - Two smaller cards */}
                   <div className="col-lg-6">
                     <div className="row g-3">
@@ -196,9 +248,11 @@ const TourOverview = ({
                           >
                             {/* Content Section */}
                             <div className="tour-card-content">
-                              {/* Badge Section - Overlapping */}
+                              {/* Badge Section - Dynamic Price */}
                               <div className="tour-card-badge">
-                                {tours[0].badge}
+                                {isLoading
+                                  ? "Loading..."
+                                  : getPriceBadge(tours[0].title)}
                               </div>
 
                               <h3 className="tour-title">{tours[0].title}</h3>
@@ -234,9 +288,11 @@ const TourOverview = ({
                           >
                             {/* Content Section */}
                             <div className="tour-card-content">
-                              {/* Badge Section - Overlapping */}
+                              {/* Badge Section - Dynamic Price */}
                               <div className="tour-card-badge">
-                                {tours[1].badge}
+                                {isLoading
+                                  ? "Loading..."
+                                  : getPriceBadge(tours[1].title)}
                               </div>
 
                               <h3 className="tour-title">{tours[1].title}</h3>
@@ -274,9 +330,11 @@ const TourOverview = ({
                       >
                         {/* Content Section */}
                         <div className="tour-card-content">
-                          {/* Badge Section - Overlapping */}
+                          {/* Badge Section - Dynamic Price */}
                           <div className="tour-card-badge">
-                            {tours[2].badge}
+                            {isLoading
+                              ? "Loading..."
+                              : getPriceBadge(tours[2].title)}
                           </div>
 
                           <h3 className="tour-title">{tours[2].title}</h3>
@@ -305,7 +363,7 @@ const TourOverview = ({
         {/* Mobile Slider */}
         <div className="mobile-slider">
           <Slider {...mobileSliderSettings}>
-            {allTours.map((tour, index) => (
+            {allTours.map((tour) => (
               <div key={tour.id}>
                 <div className="tour-card tour-card-mobile">
                   <div
@@ -320,8 +378,10 @@ const TourOverview = ({
                   >
                     {/* Content Section */}
                     <div className="tour-card-content">
-                      {/* Badge Section - Overlapping */}
-                      <div className="tour-card-badge">{tour.badge}</div>
+                      {/* Badge Section - Dynamic Price */}
+                      <div className="tour-card-badge">
+                        {isLoading ? "Loading..." : getPriceBadge(tour.title)}
+                      </div>
 
                       <h3 className="tour-title">{tour.title}</h3>
                       <p className="tour-description">{tour.description}</p>
@@ -342,6 +402,7 @@ const TourOverview = ({
       </div>
 
       <style jsx>{`
+        /* ... keep all your existing styles ... */
         .tour-overview-section {
           display: block;
         }

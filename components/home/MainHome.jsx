@@ -21,14 +21,14 @@ const TourOverview = dynamic(
 );
 
 // Lazy load below-the-fold components for better performance
-const TopDestinations = dynamic(
-  () => import("@/components/destinations/TopDestinations"),
-  {
-    loading: () => (
-      <div className="loading-skeleton">Loading destinations...</div>
-    ),
-  }
-);
+// const TopDestinations = dynamic(
+//   () => import("@/components/destinations/TopDestinations"),
+//   {
+//     loading: () => (
+//       <div className="loading-skeleton">Loading destinations...</div>
+//     ),
+//   }
+// );
 const WhyChoose = dynamic(() => import("@/components/home/home-3/WhyChoose"));
 const Tours = dynamic(() => import("@/components/tours/Tours"), {
   loading: () => <div className="loading-skeleton">Loading tours...</div>,
@@ -349,7 +349,7 @@ const MainHome = () => {
               </section>
               {/* End Why choose Section */}
 
-              <section className="layout-pt-md layout-pb-md dome-pattern-bg">
+              {/* <section className="layout-pt-md layout-pb-md dome-pattern-bg">
                 <div className="container">
                   <div className="row justify-center text-center">
                     <div className="col-12">
@@ -366,15 +366,15 @@ const MainHome = () => {
                       </div>
                     </div>
                   </div>
-                  {/* End .row */}
+ 
 
                   <div className="row y-gap-40 pt-40 sm:pt-20">
                     <TopDestinations />
                   </div>
-                  {/* End .row */}
+            
                 </div>
-                {/* End .container */}
-              </section>
+         
+              </section> */}
 
               <section className="layout-pt-md layout-pb-md tawaf-pattern-bg">
                 <div className="container">
@@ -601,7 +601,7 @@ const MainHome = () => {
           {/* End Why choose Section */}
 
           {/* Always show Top Destinations section on desktop */}
-          <section className="layout-pt-md layout-pb-md dome-pattern-bg">
+          {/* <section className="layout-pt-md layout-pb-md dome-pattern-bg">
             <div className="container">
               <div className="row justify-center text-center">
                 <div className="col-12">
@@ -618,15 +618,15 @@ const MainHome = () => {
                   </div>
                 </div>
               </div>
-              {/* End .row */}
+
 
               <div className="row y-gap-40 pt-40 sm:pt-20">
                 <TopDestinations />
               </div>
-              {/* End .row */}
+
             </div>
-            {/* End .container */}
-          </section>
+       
+          </section> */}
           {/* End Top Destinations Section */}
           {/* Review section */}
           <section className="layout-pt-md layout-pb-md tawaf-pattern-bg">

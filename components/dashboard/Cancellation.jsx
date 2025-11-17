@@ -323,9 +323,9 @@ export default function CancellationModal({ order, onClose }) {
 
               {/* Tour Item Display */}
               <div className="mb-4">
-                <label className="form-label">
+                {/* <label className="form-label">
                   Choose the item(s) you want to cancel
-                </label>
+                </label> */}
                 <div className="card bg-light border">
                   <div className="card-body py-3">
                     <div className="d-flex align-items-center flex-wrap flex-md-nowrap">
@@ -333,7 +333,13 @@ export default function CancellationModal({ order, onClose }) {
                         <i className="icon-map-pin text-success"></i>
                       </div>
                       <div className="flex-grow-1">
-                        <div className="fw-semibold tour-booking-name">
+                        <div
+                          className="fw-semibold"
+                          style={{
+                            whiteSpace: "normal",
+                            wordBreak: "break-word",
+                          }}
+                        >
                           {order.tourName}
                         </div>
                         <small className="text-muted">
