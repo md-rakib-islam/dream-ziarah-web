@@ -54,16 +54,22 @@ const index = ({
     }));
   }
 
-  // Auto-play slider
+  // Desktop slider images (fixed from public folder)
+  const desktopSliderImages = [
+    { src: "/img/slider/sl1.jpeg", alt: "slide-0" },
+    { src: "/img/slider/sl2.jpeg", alt: "slide-1" },
+  ];
+
+  // Auto-play slider (for desktop view)
   useEffect(() => {
-    if (sliderImageItems.length > 0) {
+    if (desktopSliderImages.length > 0) {
       const interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % sliderImageItems.length);
+        setCurrentSlide((prev) => (prev + 1) % desktopSliderImages.length);
       }, 5000);
 
       return () => clearInterval(interval);
     }
-  }, [sliderImageItems.length]);
+  }, []);
 
   return isLoading ? (
     <CoverSkeleton />
@@ -156,96 +162,77 @@ const index = ({
         </div>
       </section>
 
-      {/* Desktop View - Hidden on mobile (< 576px) */}
-      <section className="masthead -type-6 mb-40 d-none d-sm-block">
-        {/* Slider Container */}
-        <div className="masthead__bg">
-          {/* Slider Images */}
-          <div style={{ position: "relative", width: "100%", height: "100%" }}>
-            {sliderImageItems.map((item, index) => (
-              <div
-                key={index}
-                style={{
-                  position: index === 0 ? "relative" : "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: currentSlide === index ? 1 : 0,
-                  transition: "opacity 1s ease-in-out",
-                  zIndex: currentSlide === index ? 1 : 0,
-                }}
-              >
-                <Image
-                  src={item?.cloudflare_image_url}
-                  width={1920}
-                  height={600}
-                  alt={`slide-${index}`}
-                  priority={index === 0}
-                  onLoad={() => index === 0 && onDataAvailable(true)}
-                />
-              </div>
-            ))}
-
-            {/* Dark Overlay */}
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                backgroundColor: "rgba(2, 6, 20, 0.3)",
-                zIndex: 2,
-                pointerEvents: "none",
-              }}
-            />
-          </div>
-        </div>
-
+     {/* Desktop View - Hidden on mobile (< 576px) */}
+<section className="masthead -type-6 mb-40 d-none d-sm-block">
+  {/* Slider Container */}
+  <div className="masthead__bg">
+    {/* Slider Images */}
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      {desktopSliderImages.map((item, index) => (
         <div
-          className="container"
-          style={{ position: "relative", top: "70px" }}
+          key={index}
+          style={{
+            position: index === 0 ? "relative" : "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: currentSlide === index ? 1 : 0,
+            transition: "opacity 1s ease-in-out",
+            zIndex: currentSlide === index ? 1 : 0,
+          }}
         >
-          <div className="row justify-center">
-            <div className="col-xl-9 d-lg-flex flex-column justify-content-center align-items-center">
-              <div className="text-center">
-                <h1
-                  className="text-45 lg:text-40 md:text-30 text-white"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
-                  }}
-                >
-                  Book Your Ziyarat <br />
-                  in Makkah and Umrah tour Packages
-                </h1>
-                <p
-                  className="text-white mt-5"
-                  data-aos-delay="100"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
-                  }}
-                >
-                  Find Makkah ziyarat tour and umrah packages with guided
-                  ziyarat tours in Saudi Arabia. Visit Haram Sharif and the
-                  Prophet's Mosque with English guides. Get cheap hajj deals and
-                  ziyarat places in Makkah list now, spots fill fast!
-                </p>
-              </div>
-            </div>
-          </div>
+          <Image
+            src={item.src}
+            width={1920}
+            height={600}
+            alt={item.alt}
+            priority={index === 0}
+            onLoad={() => index === 0 && onDataAvailable(true)}
+            quality={100}
+          />
         </div>
+      ))}
 
-        {/* Search Box */}
-        <div className="container">
-          <div
-            className="mainSearch-wrap bg-white shadow-1"
-            data-aos-delay="200"
-          >
-            <MainFilterSearchBox />
-          </div>
-        </div>
-      </section>
+      {/* Dark Overlay */}
+      {/* <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(2, 6, 20, 0.3)",
+          zIndex: 2,
+          pointerEvents: "none",
+        }}
+      /> */}
+    </div>
+  </div>
+
+  {/* Keep container for spacing but remove text */}
+  <div
+    className="container"
+    style={{ position: "relative", top: "70px" }}
+  >
+    <div className="row justify-center">
+      <div className="col-xl-9 d-lg-flex flex-column justify-content-center align-items-center">
+        {/* Empty div to maintain spacing - adjust height as needed */}
+        <div style={{ height: "200px" }} />
+      </div>
+    </div>
+  </div>
+
+  {/* Search Box */}
+  <div className="container">
+    <div
+      className="mainSearch-wrap bg-white shadow-1"
+      data-aos-delay="200"
+    >
+      <MainFilterSearchBox />
+    </div>
+  </div>
+</section>
     </>
   );
 };

@@ -16,7 +16,7 @@ const CheckoutPage = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    countryCode: "+880",
+    countryCode: "+44",
     phone: "",
     email: "",
     acceptOffers: false,
