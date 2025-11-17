@@ -1,5 +1,4 @@
 "use client";
-import { useGetSliderImagesQuery } from "@/features/image/imageApi";
 import useWindowSize from "@/hooks/useWindowSize";
 import dynamic from "next/dynamic";
 import { useState, useCallback, useMemo, useRef } from "react";
@@ -46,8 +45,12 @@ const TestimonialSection = dynamic(() =>
   import("@/components/Testimonial/TestimonialSection")
 );
 
-const MainHome = () => {
-  const { isSuccess, isLoading, data } = useGetSliderImagesQuery();
+const MainHome = ({ initialSliderData = [], initialTabsData = [] }) => {
+  // Use server-side data directly - no client-side fetching on initial render
+  const isSuccess = initialSliderData && initialSliderData.length > 0;
+  const isLoading = false; // Data already loaded on server
+  const data = initialSliderData;
+
   const { data: faqDescription } = useFaqDescription();
 
   const [, setDataAvailable] = useState(false);
@@ -103,10 +106,11 @@ const MainHome = () => {
       <div className="header-margin"></div>
       <Hero3
         onDataAvailable={handleDataAvailability}
-        onMobileDataAvailable={handleMobileDataAvailability}
+        onMobileDataAvailability={handleMobileDataAvailability}
         isSuccess={isSuccess}
         isLoading={isLoading}
         data={data}
+        initialTabsData={initialTabsData}
       />
       {/* End Hero 3 */}
 

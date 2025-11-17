@@ -12,8 +12,12 @@ const index = ({
   isLoading,
   data,
   onMobileDataAvailable,
+  initialTabsData = [],
 }) => {
-  const { tabs, currentTab } = useSelector((state) => state.hero) || {};
+  // Use server-side tabs data if provided, otherwise fallback to Redux
+  const reduxTabs = useSelector((state) => state.hero?.tabs);
+  const tabs = initialTabsData.length > 0 ? initialTabsData : reduxTabs;
+  const { currentTab } = useSelector((state) => state.hero) || {};
   const dispatch = useDispatch();
   const [navbar, setNavbar] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -126,20 +130,36 @@ const index = ({
 
             <div className="w-100">
               <div
-                className="row justify-center m-0"
+                className=" justify-center m-0"
                 style={{
-                  backgroundImage:
-                    "url(https://imagedelivery.net/dIKhvGtesTiRSxhQ2oKWkA/a59cfc16-7fde-4a50-7103-e6622f883600/public)",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  opacity: 0.89,
+                  position: "relative",
                   height: "120px",
                   width: "100%",
-                  backgroundPosition: "center",
-                  backgroundAttachment: "local",
+                  overflow: "hidden",
                 }}
               >
-                <div className="col-xl-9 d-lg-flex flex-column justify-content-center align-items-center mt-10">
+                <Image
+                  src={
+                    currentTab == "Makkah"
+                      ? "/img/slider/sl1.webp"
+                      : currentTab == "Madina"
+                      ? "/img/slider/sl3.webp"
+                      : currentTab == "Jeddah"
+                      ? "/img/slider/sl4.webp"
+                      : "/img/slider/sl5.webp"
+                  }
+                  fill
+                  alt={`${currentTab} Ziyarat`}
+                  priority
+                  sizes="100vw"
+                  quality={75}
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    opacity: 0.89,
+                  }}
+                />
+                {/* <div className="col-xl-9 d-lg-flex flex-column justify-content-center align-items-center mt-10">
                   <div className="text-center">
                     <h1
                       className="text-20 lg:text-20 md:text-14  text-white"
@@ -161,7 +181,7 @@ const index = ({
                       ziyarat tours in Saudi Arabia.
                     </p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -195,7 +215,13 @@ const index = ({
                   alt={item.alt}
                   priority={index === 0}
                   onLoad={() => index === 0 && onDataAvailable(true)}
-                  quality={100}
+                  quality={75}
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    objectFit: "cover",
+                  }}
                 />
               </div>
             ))}

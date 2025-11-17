@@ -68,11 +68,19 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
 
-        {/* Google Fonts */}
+        {/* Google Fonts - Optimized loading */}
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet"
+          media="print"
+          onLoad="this.media='all'; this.onload=null;"
         />
+        <noscript>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+            rel="stylesheet"
+          />
+        </noscript>
 
         {/* Analytics Scripts */}
         <AnalyticsScripts />

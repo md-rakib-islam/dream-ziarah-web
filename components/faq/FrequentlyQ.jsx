@@ -1,7 +1,6 @@
 import React from "react";
 
 const FrequentlyQ = ({ faqDescription }) => {
-  console.log("FAQ Description:", faqDescription);
   // Parse the HTML string to extract FAQ items
   const parseFAQData = (htmlString) => {
     if (!htmlString) return [];

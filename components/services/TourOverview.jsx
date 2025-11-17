@@ -1,5 +1,7 @@
 // components/TourOverview.jsx
+"use client";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -102,7 +104,7 @@ const TourOverview = ({
         id: 1,
         title: "Madina Ziyarat",
         description:
-          "Visit the sacred sites of Madina and experience spiritual enlightenment.",
+          "Explore Madina’s sacred sites, including Masjid Quba, Al-Qiblatayn Mosque, and Uhud Battlefield.",
         buttonText: "SEARCH NOW",
         imageUrl: getLocalImagePath("Madina Ziyarat"),
         imageDimensions: { width: 605, height: 300 },
@@ -110,9 +112,9 @@ const TourOverview = ({
       },
       {
         id: 2,
-        title: "Bodor Ziyarat",
+        title: "Badr Ziyarat",
         description:
-          "Explore the historic battlefield of Bodor and connect with Islamic history.",
+          "Discover the battlefield of Badr and its significance in Islamic history.",
         buttonText: "BOOK NOW",
         imageUrl: getLocalImagePath("Bodor Ziyarat"),
         imageDimensions: { width: 605, height: 200 },
@@ -122,7 +124,7 @@ const TourOverview = ({
         id: 3,
         title: "Makkah Ziyarat",
         description:
-          "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
+          "Visit Makkah’s historic sites, including Masjid Nimrah, Jannatul Mualla, and Jabal al-Hira.",
         buttonText: "FIND A DEAL",
         imageUrl: getLocalImagePath("Makkah Ziyarat"),
         imageDimensions: { width: 605, height: 605 },
@@ -135,7 +137,7 @@ const TourOverview = ({
         id: 4,
         title: "Jeddah Ziyarat",
         description:
-          "Discover the coastal beauty and historical landmarks of Jeddah.",
+          "See Jeddah’s heritage, including Al-Balad, Quran Gate, King Fahd Fountain, and the Red Sea.",
         buttonText: "DISCOVER NOW",
         imageUrl: getLocalImagePath("Jeddah Ziyarat"),
         imageDimensions: { width: 605, height: 300 },
@@ -145,7 +147,7 @@ const TourOverview = ({
         id: 5,
         title: "Taif Ziyarat",
         description:
-          "Experience the cool climate and beautiful gardens of Taif.",
+          "Enjoy Taif’s gardens, Al Rudaf Park, Shubra Palace, and scenic mountain views.",
         buttonText: "EXPLORE NOW",
         imageUrl: getLocalImagePath("Taif Ziyarat"),
         imageDimensions: { width: 605, height: 200 },
@@ -155,7 +157,7 @@ const TourOverview = ({
         id: 6,
         title: "Makkah Ziyarat",
         description:
-          "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
+          "Visit Makkah’s historic sites, including Masjid Nimrah, Jannatul Mualla, and Jabal al-Hira.",
         buttonText: "LEARN MORE",
         imageUrl: getLocalImagePath("Makkah Ziyarat"),
         imageDimensions: { width: 605, height: 605 },
@@ -168,7 +170,7 @@ const TourOverview = ({
         id: 7,
         title: "Madina Ziyarat",
         description:
-          "Visit the sacred sites of Madina and experience spiritual enlightenment.",
+          "Explore Madina’s sacred sites, including Masjid Quba, Al-Qiblatayn Mosque, and Uhud Battlefield.",
         buttonText: "SEARCH NOW",
         imageUrl: "/img/touroverview/Madinah.webp", // Use second Madinah image for variety
         imageDimensions: { width: 605, height: 300 },
@@ -178,7 +180,7 @@ const TourOverview = ({
         id: 8,
         title: "Taif Ziyarat",
         description:
-          "Experience the cool climate and beautiful gardens of Taif.",
+          "Enjoy Taif’s gardens, Al Rudaf Park, Shubra Palace, and scenic mountain views.",
         buttonText: "EXPLORE NOW",
         imageUrl: getLocalImagePath("Taif Ziyarat"),
         imageDimensions: { width: 605, height: 200 },
@@ -188,7 +190,7 @@ const TourOverview = ({
         id: 9,
         title: "Makkah Ziyarat",
         description:
-          "Reserve the Makkah ziyarat tour at Haram Sharif. Choose packages",
+          "Visit Makkah’s historic sites, including Masjid Nimrah, Jannatul Mualla, and Jabal al-Hira.",
         buttonText: "FIND A DEAL",
         imageUrl: getLocalImagePath("Makkah Ziyarat"),
         imageDimensions: { width: 605, height: 605 },
@@ -261,16 +263,16 @@ const TourOverview = ({
                       {/* Top Left Card */}
                       <div className="col-12">
                         <div className="tour-card">
-                          <div
-                            className="tour-card-bg tour-card-bg-top"
-                            style={{
-                              backgroundImage: `url(${getImageWithDimensions(
-                                tours[0].imageUrl,
-                                tours[0].imageDimensions.width,
-                                tours[0].imageDimensions.height
-                              )})`,
-                            }}
-                          >
+                          <div className="tour-card-bg tour-card-bg-top">
+                            <Image
+                              src={tours[0].imageUrl}
+                              alt={tours[0].title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                              priority={slideIndex === 0}
+                              className="tour-card-image"
+                              quality={75}
+                            />
                             {/* Content Section */}
                             <div className="tour-card-content">
                               {/* Badge Section - Dynamic Price */}
@@ -301,16 +303,16 @@ const TourOverview = ({
                       {/* Bottom Left Card */}
                       <div className="col-12">
                         <div className="tour-card tour-card-bottomleft">
-                          <div
-                            className="tour-card-bg"
-                            style={{
-                              backgroundImage: `url(${getImageWithDimensions(
-                                tours[1].imageUrl,
-                                tours[1].imageDimensions.width,
-                                tours[1].imageDimensions.height
-                              )})`,
-                            }}
-                          >
+                          <div className="tour-card-bg">
+                            <Image
+                              src={tours[1].imageUrl}
+                              alt={tours[1].title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                              loading={slideIndex === 0 ? "eager" : "lazy"}
+                              className="tour-card-image"
+                              quality={75}
+                            />
                             {/* Content Section */}
                             <div className="tour-card-content">
                               {/* Badge Section - Dynamic Price */}
@@ -343,16 +345,16 @@ const TourOverview = ({
                   {/* Right Column - One bigger card */}
                   <div className="col-lg-6">
                     <div className="tour-card tour-card-large">
-                      <div
-                        className="tour-card-bg tour-card-bg-large"
-                        style={{
-                          backgroundImage: `url(${getImageWithDimensions(
-                            tours[2].imageUrl,
-                            tours[2].imageDimensions.width,
-                            tours[2].imageDimensions.height
-                          )})`,
-                        }}
-                      >
+                      <div className="tour-card-bg tour-card-bg-large">
+                        <Image
+                          src={tours[2].imageUrl}
+                          alt={tours[2].title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          priority={slideIndex === 0}
+                          className="tour-card-image"
+                          quality={75}
+                        />
                         {/* Content Section */}
                         <div className="tour-card-content">
                           {/* Badge Section - Dynamic Price */}
@@ -388,19 +390,19 @@ const TourOverview = ({
         {/* Mobile Slider */}
         <div className="mobile-slider">
           <Slider {...mobileSliderSettings}>
-            {allTours.map((tour) => (
+            {allTours.map((tour, index) => (
               <div key={tour.id}>
                 <div className="tour-card tour-card-mobile">
-                  <div
-                    className="tour-card-bg"
-                    style={{
-                      backgroundImage: `url(${getImageWithDimensions(
-                        tour.imageUrl,
-                        800,
-                        600
-                      )})`,
-                    }}
-                  >
+                  <div className="tour-card-bg">
+                    <Image
+                      src={tour.imageUrl}
+                      alt={tour.title}
+                      fill
+                      sizes="100vw"
+                      priority={index < 3}
+                      className="tour-card-image"
+                      quality={75}
+                    />
                     {/* Content Section */}
                     <div className="tour-card-content">
                       {/* Badge Section - Dynamic Price */}
@@ -432,6 +434,12 @@ const TourOverview = ({
           display: block;
         }
 
+        /* Next.js Image optimization */
+        :global(.tour-card-image) {
+          object-fit: cover;
+          object-position: center;
+        }
+
         .desktop-slider {
           display: block;
         }
@@ -457,14 +465,12 @@ const TourOverview = ({
         .tour-card-bg {
           width: 100%;
           height: 100%;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
           position: relative;
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
           padding: 20px;
+          overflow: hidden;
         }
         .tour-card-bg-top {
           justify-content: flex-start;

@@ -48,6 +48,20 @@ const useMenus = () => {
             : [],
       };
     }
+    // Handle Tours route
+    if (item.name === "City Tours") {
+      return {
+        ...item,
+        routePath: "/city-tours",
+        children:
+          item?.children?.length > 0
+            ? item.children.map((subItem) => ({
+                ...subItem,
+                routePath: `/city-tours/${subItem.name.toLowerCase()}`,
+              }))
+            : [],
+      };
+    }
 
     // Handle all other routes
     return {

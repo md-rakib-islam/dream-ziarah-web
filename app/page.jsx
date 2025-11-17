@@ -1,5 +1,6 @@
 import MainHome from "@/components/home/MainHome";
 import { getAlternates } from "@/utils/canonical";
+import { getSliderImages, getHeroTabs } from "@/lib/serverApi";
 
 export const metadata = {
   title: "Ziyarat Tours in Makkah & Madinah with Umrah and Hajj Packages",
@@ -24,9 +25,21 @@ export const metadata = {
 export const revalidate = 300;
 
 /**
- * Homepage - Server Component
- * Hero3 component handles its own loading state, no need for Suspense
+ * Homepage - Server Component with Server-Side Rendering
+ * Fetches data on the server for better performance and SEO
  */
-export default function Home() {
-  return <MainHome />;
+export default async function Home() {
+  // Fetch data on server
+  const [sliderResult, tabsResult] = await Promise.all([
+    getSliderImages(),
+    getHeroTabs(),
+  ]);
+
+  // Pass server data to client component
+  return (
+    <MainHome
+      initialSliderData={sliderResult.data}
+      initialTabsData={tabsResult.data}
+    />
+  );
 }

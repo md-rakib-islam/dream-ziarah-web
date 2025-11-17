@@ -624,11 +624,12 @@ const CheckoutPage = () => {
 
                   <div className="row g-3 mb-4">
                     <div className="col-md-6">
-                      <label className="form-label">
+                      <label htmlFor="firstName" className="form-label">
                         First name <span className="text-danger">*</span>
                       </label>
                       <input
                         type="text"
+                        id="firstName"
                         className="form-control shadow-sm"
                         name="firstName"
                         value={formData.firstName}
@@ -636,22 +637,28 @@ const CheckoutPage = () => {
                         onBlur={handleInputBlur}
                         placeholder="First name"
                         style={getInputStyling("firstName")}
+                        aria-required="true"
+                        aria-invalid={errors.firstName && touched.firstName ? "true" : "false"}
+                        aria-describedby={errors.firstName && touched.firstName ? "firstName-error" : undefined}
                       />
                       {errors.firstName && touched.firstName && (
                         <div
+                          id="firstName-error"
                           className="text-danger mt-1"
                           style={{ fontSize: "12px" }}
+                          role="alert"
                         >
                           {errors.firstName}
                         </div>
                       )}
                     </div>
                     <div className="col-md-6">
-                      <label className="form-label">
+                      <label htmlFor="lastName" className="form-label">
                         Last name <span className="text-danger">*</span>
                       </label>
                       <input
                         type="text"
+                        id="lastName"
                         className="form-control shadow-sm"
                         name="lastName"
                         value={formData.lastName}
@@ -659,11 +666,16 @@ const CheckoutPage = () => {
                         onBlur={handleInputBlur}
                         placeholder="Last name"
                         style={getInputStyling("lastName")}
+                        aria-required="true"
+                        aria-invalid={errors.lastName && touched.lastName ? "true" : "false"}
+                        aria-describedby={errors.lastName && touched.lastName ? "lastName-error" : undefined}
                       />
                       {errors.lastName && touched.lastName && (
                         <div
+                          id="lastName-error"
                           className="text-danger mt-1"
                           style={{ fontSize: "12px" }}
+                          role="alert"
                         >
                           {errors.lastName}
                         </div>
@@ -671,7 +683,7 @@ const CheckoutPage = () => {
                     </div>
 
                     <div className="col-12">
-                      <label className="form-label">
+                      <label htmlFor="phone" className="form-label">
                         Phone <span className="text-danger">*</span>
                         <small className="text-muted ms-2">
                           ({phoneLength} digits required)
@@ -684,6 +696,7 @@ const CheckoutPage = () => {
                         />
                         <input
                           type="tel"
+                          id="phone"
                           className="form-control"
                           name="phone"
                           value={formData.phone}
@@ -696,12 +709,17 @@ const CheckoutPage = () => {
                             borderTopLeftRadius: 0,
                             borderBottomLeftRadius: 0,
                           }}
+                          aria-required="true"
+                          aria-invalid={errors.phone && touched.phone ? "true" : "false"}
+                          aria-describedby={errors.phone && touched.phone ? "phone-error" : undefined}
                         />
                       </div>
                       {errors.phone && touched.phone && (
                         <div
+                          id="phone-error"
                           className="text-danger mt-1"
                           style={{ fontSize: "12px" }}
+                          role="alert"
                         >
                           {errors.phone}
                         </div>
@@ -709,7 +727,7 @@ const CheckoutPage = () => {
                     </div>
 
                     <div className="col-12">
-                      <label className="form-label">
+                      <label htmlFor="email" className="form-label">
                         Email <span className="text-danger">*</span>
                         <small className="text-muted ms-2">
                           We'll send your tickets here
@@ -717,6 +735,7 @@ const CheckoutPage = () => {
                       </label>
                       <input
                         type="email"
+                        id="email"
                         className="form-control"
                         name="email"
                         value={formData.email}
@@ -724,11 +743,16 @@ const CheckoutPage = () => {
                         onBlur={handleInputBlur}
                         placeholder="Email"
                         style={getInputStyling("email")}
+                        aria-required="true"
+                        aria-invalid={errors.email && touched.email ? "true" : "false"}
+                        aria-describedby={errors.email && touched.email ? "email-error" : undefined}
                       />
                       {errors.email && touched.email && (
                         <div
+                          id="email-error"
                           className="text-danger mt-1"
                           style={{ fontSize: "12px" }}
+                          role="alert"
                         >
                           {errors.email}
                         </div>
