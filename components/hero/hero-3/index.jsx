@@ -56,8 +56,11 @@ const index = ({
 
   // Desktop slider images (fixed from public folder)
   const desktopSliderImages = [
-    { src: "/img/slider/sl1.jpeg", alt: "slide-0" },
-    { src: "/img/slider/sl2.jpeg", alt: "slide-1" },
+    { src: "/img/slider/sl1.webp", alt: "slide-0" },
+    { src: "/img/slider/sl2.webp", alt: "slide-1" },
+    { src: "/img/slider/sl3.webp", alt: "slide-2" },
+    // { src: "/img/slider/sl4.webp", alt: "slide-3" },
+    // { src: "/img/slider/sl5.webp", alt: "slide-4" },
   ];
 
   // Auto-play slider (for desktop view)
@@ -85,7 +88,10 @@ const index = ({
               }`}
               style={{ paddingRight: 0, marginRight: 0 }}
             >
-              <div className="tabs -bookmark-2 js-tabs w-100" style={{ paddingRight: 0, marginRight: 0 }}>
+              <div
+                className="tabs -bookmark-2 js-tabs w-100"
+                style={{ paddingRight: 0, marginRight: 0 }}
+              >
                 <div
                   className="tabs__controls d-flex items-center justify-center js-tabs-controls"
                   style={{
@@ -162,40 +168,40 @@ const index = ({
         </div>
       </section>
 
-     {/* Desktop View - Hidden on mobile (< 576px) */}
-<section className="masthead -type-6 mb-40 d-none d-sm-block">
-  {/* Slider Container */}
-  <div className="masthead__bg">
-    {/* Slider Images */}
-    <div style={{ position: "relative", width: "100%", height: "100%" }}>
-      {desktopSliderImages.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            position: index === 0 ? "relative" : "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            opacity: currentSlide === index ? 1 : 0,
-            transition: "opacity 1s ease-in-out",
-            zIndex: currentSlide === index ? 1 : 0,
-          }}
-        >
-          <Image
-            src={item.src}
-            width={1920}
-            height={600}
-            alt={item.alt}
-            priority={index === 0}
-            onLoad={() => index === 0 && onDataAvailable(true)}
-            quality={100}
-          />
-        </div>
-      ))}
+      {/* Desktop View - Hidden on mobile (< 576px) */}
+      <section className="masthead -type-6 mb-40 d-none d-sm-block">
+        {/* Slider Container */}
+        <div className="masthead__bg">
+          {/* Slider Images */}
+          <div style={{ position: "relative", width: "100%", height: "100%" }}>
+            {desktopSliderImages.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  position: index === 0 ? "relative" : "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: currentSlide === index ? 1 : 0,
+                  transition: "opacity 1s ease-in-out",
+                  zIndex: currentSlide === index ? 1 : 0,
+                }}
+              >
+                <Image
+                  src={item.src}
+                  width={1920}
+                  height={600}
+                  alt={item.alt}
+                  priority={index === 0}
+                  onLoad={() => index === 0 && onDataAvailable(true)}
+                  quality={100}
+                />
+              </div>
+            ))}
 
-      {/* Dark Overlay */}
-      {/* <div
+            {/* Dark Overlay */}
+            {/* <div
         style={{
           position: "absolute",
           top: 0,
@@ -207,32 +213,32 @@ const index = ({
           pointerEvents: "none",
         }}
       /> */}
-    </div>
-  </div>
+          </div>
+        </div>
 
-  {/* Keep container for spacing but remove text */}
-  <div
-    className="container"
-    style={{ position: "relative", top: "70px" }}
-  >
-    <div className="row justify-center">
-      <div className="col-xl-9 d-lg-flex flex-column justify-content-center align-items-center">
-        {/* Empty div to maintain spacing - adjust height as needed */}
-        <div style={{ height: "200px" }} />
-      </div>
-    </div>
-  </div>
+        {/* Keep container for spacing but remove text */}
+        <div
+          className="container"
+          style={{ position: "relative", top: "70px" }}
+        >
+          <div className="row justify-center">
+            <div className="col-xl-9 d-lg-flex flex-column justify-content-center align-items-center">
+              {/* Empty div to maintain spacing - adjust height as needed */}
+              <div style={{ height: "200px" }} />
+            </div>
+          </div>
+        </div>
 
-  {/* Search Box */}
-  <div className="container">
-    <div
-      className="mainSearch-wrap bg-white shadow-1"
-      data-aos-delay="200"
-    >
-      <MainFilterSearchBox />
-    </div>
-  </div>
-</section>
+        {/* Search Box */}
+        <div className="container">
+          <div
+            className="mainSearch-wrap bg-white shadow-1"
+            data-aos-delay="200"
+          >
+            <MainFilterSearchBox />
+          </div>
+        </div>
+      </section>
     </>
   );
 };

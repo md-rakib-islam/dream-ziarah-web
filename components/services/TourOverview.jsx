@@ -59,25 +59,25 @@ const TourOverview = ({
   // Helper function to get local image path based on title
   const getLocalImagePath = (title) => {
     const titleLower = title.toLowerCase();
-    
+
     if (titleLower.includes("madina")) {
       // Use first Madinah image for first occurrence, second for others
-      return "/img/touroverview/Madinah 605x300px.jpg";
+      return "/img/touroverview/Madina.webp";
     }
     if (titleLower.includes("bodor") || titleLower.includes("badr")) {
-      return "/img/touroverview/Badr 605 x 200 px.jpg";
+      return "/img/touroverview/Badr.webp";
     }
     if (titleLower.includes("makkah")) {
-      return "/img/touroverview/Makkah 605px X 605px.jpg";
+      return "/img/touroverview/Makkah.webp";
     }
     if (titleLower.includes("jeddah")) {
-      return "/img/touroverview/Jeddah 605 x 300 px .jpg";
+      return "/img/touroverview/Jeddah.webp";
     }
     if (titleLower.includes("taif")) {
-      return "/img/touroverview/Taif 605 x 200 px.jpg";
+      return "/img/touroverview/Taif.webp";
     }
-    
-    return "/img/touroverview/Makkah 605px X 605px.jpg"; // Default fallback
+
+    return "/img/touroverview/Makkah.webp"; // Default fallback
   };
 
   // Helper function to add dimensions to image URL and encode spaces for CSS usage
@@ -86,8 +86,9 @@ const TourOverview = ({
     if (url.startsWith("/")) {
       // Replace spaces with %20 for CSS URL compatibility
       // Split the path, encode each part, then rejoin
-      const parts = url.split("/").filter(part => part !== "");
-      const encodedPath = "/" + parts.map(part => encodeURIComponent(part)).join("/");
+      const parts = url.split("/").filter((part) => part !== "");
+      const encodedPath =
+        "/" + parts.map((part) => encodeURIComponent(part)).join("/");
       return encodedPath;
     }
     // Fallback for external URLs (if any remain)
@@ -169,7 +170,7 @@ const TourOverview = ({
         description:
           "Visit the sacred sites of Madina and experience spiritual enlightenment.",
         buttonText: "SEARCH NOW",
-        imageUrl: "/img/touroverview/Madinah 605x300px2.jpg", // Use second Madinah image for variety
+        imageUrl: "/img/touroverview/Madinah.webp", // Use second Madinah image for variety
         imageDimensions: { width: 605, height: 300 },
         onClick: onScrollToMadina,
       },
@@ -233,21 +234,21 @@ const TourOverview = ({
   return (
     <section className="layout-pt-md layout-pb-md tour-overview-section">
       <div className="container">
-            <div className="row justify-center text-center">
-                <div className="col-12">
-                  <div className="sectionTitle -md">
-                    <h2 className="sectionTitle__title md:text-24">
-                      Explore Ziyarat Tours Makkah, Madinah, and Taif
-                    </h2>
-                    <p className=" sectionTitle__text mt-5 sm:mt-0 md:text-13">
-                      Check ziyarat in Makkah and Madinah, holy sites in Saudi
-                      Arabia, like the Prophet’s Mosque. Enjoy guided transport
-                      to the Jeddah gateway and the Taif ziyarat places. Book
-                      your spiritual pilgrimage spot today!
-                    </p>
-                  </div>
-                </div>
-              </div>
+        <div className="row justify-center text-center">
+          <div className="col-12">
+            <div className="sectionTitle -md">
+              <h2 className="sectionTitle__title md:text-24">
+                Explore Ziyarat Tours Makkah, Madinah, and Taif
+              </h2>
+              <p className=" sectionTitle__text mt-5 sm:mt-0 md:text-13">
+                Check ziyarat in Makkah and Madinah, holy sites in Saudi Arabia,
+                like the Prophet’s Mosque. Enjoy guided transport to the Jeddah
+                gateway and the Taif ziyarat places. Book your spiritual
+                pilgrimage spot today!
+              </p>
+            </div>
+          </div>
+        </div>
         {/* Desktop Slider */}
         <div className="desktop-slider">
           <Slider {...desktopSliderSettings}>
