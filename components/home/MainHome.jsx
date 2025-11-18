@@ -433,7 +433,7 @@ const MainHome = ({ initialSliderData = [], initialTabsData = [] }) => {
       ) : null}
 
       {/* Regular Desktop Sections for other tabs */}
-      {isMobile && (
+      {!isMobile && (
         <>
           {/* Always show Hajj/Umrah section on desktop */}
           {/* <section className="layout-pt-md layout-pb-md islamic-pattern-bg">
